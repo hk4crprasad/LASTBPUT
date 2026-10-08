@@ -51,3 +51,8 @@ from sqlalchemy.exc import SQLAlchemyError
 async def database_error(request,exc):
     logging.getLogger('greenops').error('database_error type=%s request=%s',type(exc).__name__,getattr(request.state,'request_id',None))
     return JSONResponse(status_code=503,content={'error':{'code':'database_unavailable','message':'Database operation unavailable; retry or inspect the request ID','request_id':getattr(request.state,'request_id',None)}})
+
+@app.exception_handler(Exception)
+async def unexpected_error(request,exc):
+    logging.getLogger('greenops').error('operation_error type=%s request=%s',type(exc).__name__,getattr(request.state,'request_id',None))
+    return JSONResponse(status_code=500,content={'error':{'code':'operation_failed','message':'Operation failed; inspect the request ID and dependency status','request_id':getattr(request.state,'request_id',None)}})

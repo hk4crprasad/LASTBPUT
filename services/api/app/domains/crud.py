@@ -42,6 +42,7 @@ def validate(db,scope,table,body):
 
 def create_record(db,scope,table,body:RecordInput,key=None):
     data=validate(db,scope,table,body)
+    key=f'user:{scope.principal.user_id}:{table}:{key}' if key else None
     if key:
         old=db.scalar(select(TABLES[table]).where(TABLES[table].world_id==scope.world.id,TABLES[table].idempotency_key==key))
         if old:return serialize(old)
@@ -73,7 +74,7 @@ def create_record(db,scope,table,body:RecordInput,key=None):
     if table=='parking_events':
         area=get(db,scope,'parking_areas',body.parent_id,True)
         cls=TABLES['parking_snapshots']
-        state=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==area.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc()))
+        state=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==area.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc(),cls.created_at.desc(),cls.id).limit(1))
         occupancy=state.data['occupancy'] if state else 0;queue=state.data.get('queue',0) if state else 0
         capacity=area.data['capacity'];n=data['count']
         if data['direction']=='arrival':

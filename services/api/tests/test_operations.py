@@ -44,7 +44,10 @@ def test_expired_worker_lease_recovers_without_duplicate_effect():
 def test_monitor_cooldown_and_autonomy_require_server_flag(monkeypatch):
     p=demo_principal()
     with transaction(p.user_id,p.organization_id) as db:
+        fixture=db.begin_nested()
         w=db.scalar(select(World).where(World.code=='extended_v1'));s=resolve_scope(db,p,w.id)
+        # Exercise a fresh cooldown window without persisting changes to the demo clock.
+        w.as_of+=timedelta(days=2)
         policy=create_record(db,s,'agent_policies',RecordInput(name='Test monitor',data={'monitor_enabled':True,'autonomous_task_creation':False,'categories':['waste'],'daily_brief':True,'max_tasks_per_day':0}))
         first=investigate_triggers(db,p);second=investigate_triggers(db,p)
         assert first['queued_runs'] and not second['queued_runs']
@@ -54,6 +57,7 @@ def test_monitor_cooldown_and_autonomy_require_server_flag(monkeypatch):
         for rid in first['queued_runs']:
             run=get(db,s,'agent_runs',rid);run.status='cancelled'
         policy_row=get(db,s,'agent_policies',policy['id']);policy_row.event_at=s.world.as_of+timedelta(days=1)
+        fixture.rollback()
 
 def test_numeric_dates_rounding_and_failed_write_grounding():
     result={'data':{'value':1699.4154,'cutoff':'2025-06-29T23:00:00Z','coverage_pct':100},'evidence':[]}
@@ -74,3 +78,15 @@ def test_http_sse_resume_and_cancellation():
     cursor=cancel.json()['data']['events'][-1]['id']
     resumed=c.get('/api/v1/agent-runs/'+rid+'/events',params={'world_id':w},headers={'Last-Event-ID':str(cursor)})
     assert resumed.status_code==200 and 'event:' not in resumed.text
+
+def test_provider_retry_budget_is_bounded(monkeypatch):
+    from test_ai import new_run,FixtureProvider
+    p,w,r=new_run()
+    monkeypatch.setattr(settings(),'job_max_retries',1)
+    monkeypatch.setattr('app.ai.orchestrator.OpenAICompatible',lambda:FixtureProvider([TimeoutError('Provider unavailable fixture')]))
+    with transaction(p.user_id,p.organization_id) as db:
+        s=resolve_scope(db,p,w);job=enqueue(db,s,'agent',{'run_id':r},'bounded-provider-'+str(uuid4()))
+    result=execute.run(job['job_id']);assert result['status']=='failed'
+    assert execute.run(job['job_id'])['status']=='already_finished_or_unavailable'
+    with transaction(p.user_id,p.organization_id) as db:
+        j=get(db,resolve_scope(db,p,w),'jobs',job['job_id']);assert j.data['attempts']==1 and 'retry budget' in j.data['error']

@@ -9,6 +9,7 @@ from app.core.settings import settings
 def enqueue(db,scope,kind,payload,key=None):
     allowed={'simulation','infer','import','report','agent','train'}
     if kind not in allowed:raise ValueError('Unsupported job kind')
+    payload={**payload,'_context':{'as_of':scope.world.as_of.isoformat(),'snapshot_version':scope.world.version,'world_config':scope.world.config}}
     if kind=='simulation':
         from app.simulation.service import capture_baseline
         payload={**payload,'baseline':capture_baseline(db,scope).model_dump(mode='json')}

@@ -36,7 +36,7 @@ def assets_state(db,scope):
     assets=query(db,scope,'assets',100);cls=TABLES['asset_telemetry']
     telemetry=[]
     for a in assets:
-        latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==a.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc()))
+        latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==a.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc(),cls.created_at.desc(),cls.id).limit(1))
         if latest:telemetry.append(serialize(latest))
     return {'assets':[serialize(a) for a in assets],'dependencies':[serialize(a) for a in query(db,scope,'asset_dependencies')],
             'telemetry':telemetry,'maintenance_orders':[serialize(a) for a in query(db,scope,'maintenance_orders')],
@@ -47,14 +47,14 @@ def reserves_state(db,scope):
     for table,parent in [('tank_states','tanks'),('power_states','power_sources')]:
         cls=TABLES[table]
         for item in query(db,scope,parent,30):
-            latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==item.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc()))
+            latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.parent_id==item.id,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc(),cls.created_at.desc(),cls.id).limit(1))
             if latest:states.append({'configuration':serialize(item),'state':serialize(latest)})
     return {'reserves':states,'assumptions':scope.world.config,'limitations':['Potable, process and protected fire reserves are separate. No water quality certification inferred.']}
 
 def environment_state(db,scope):
     cls=TABLES['environment_readings'];zones=query(db,scope,'zones',50);readings=[]
     for z in zones:
-        latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.zone_code==z.zone_code,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc()))
+        latest=db.scalar(select(cls).where(cls.world_id==scope.world.id,cls.zone_code==z.zone_code,cls.event_at<=scope.world.as_of).order_by(cls.event_at.desc(),cls.created_at.desc(),cls.id).limit(1))
         if latest:readings.append(serialize(latest))
     policies=[serialize(p) for p in query(db,scope,'policy_versions',100) if p.category=='environment']
     return {'readings':readings,'policies':policies,'window':'Latest hourly state per zone','limitations':['Internal demonstration thresholds; not clinical exposure standards.']}

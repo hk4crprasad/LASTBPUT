@@ -9,6 +9,7 @@ from app.core.settings import settings
 from app.ai.orchestrator import start_run
 
 def authorize_autonomy(db,scope,run,body):
+    db.execute(text('SELECT pg_advisory_xact_lock(hashtextextended(:key,0))'),{'key':str(scope.world.id)+':autonomous-task-budget'})
     if not settings().agent_autonomous_writes_enabled:raise HTTPException(403,'Server autonomous writes disabled')
     policies=query(db,scope,'agent_policies',1)
     if not policies or str(policies[0].id)!=run.data.get('policy',{}).get('id'):raise HTTPException(409,'Agent policy version changed; fresh investigation required')

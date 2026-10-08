@@ -1,0 +1,48 @@
+{"at": "2025-01-01T00:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}]}
+{"at": "2025-01-01T01:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}]}
+{"at": "2025-01-01T02:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}]}
+{"at": "2025-01-01T03:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T04:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T05:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T06:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "stuck_sensor", "zone_code": 10}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T07:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "stuck_sensor", "zone_code": 10}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T08:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "stuck_sensor", "zone_code": 10}, {"kind": "parking_surge", "zone_code": 9}]}
+{"at": "2025-01-01T09:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "stuck_sensor", "zone_code": 10}]}
+{"at": "2025-01-01T10:00:00+00:00", "faults": [{"kind": "bin_capacity_pressure", "zone_code": 1}, {"kind": "water_leak", "zone_code": 9}]}
+{"at": "2025-01-01T11:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "delayed_waste_pickup", "zone_code": 9}]}
+{"at": "2025-01-01T12:00:00+00:00", "faults": [{"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "water_leak", "zone_code": 9}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T13:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T14:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T15:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T16:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "missing_sensor", "zone_code": 0}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T17:00:00+00:00", "faults": [{"kind": "water_leak", "zone_code": 9}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "missing_sensor", "zone_code": 0}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T18:00:00+00:00", "faults": [{"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "missing_sensor", "zone_code": 0}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T19:00:00+00:00", "faults": [{"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "missing_sensor", "zone_code": 0}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T20:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "missing_sensor", "zone_code": 0}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T21:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}, {"kind": "heat_load_surge", "zone_code": 0}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "pump_outage", "zone_code": 8}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T22:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "pump_outage", "zone_code": 8}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-01T23:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "pump_outage", "zone_code": 8}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-02T00:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}, {"kind": "delayed_waste_pickup", "zone_code": 9}, {"kind": "pump_outage", "zone_code": 8}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "excessive_energy", "zone_code": 4}]}
+{"at": "2025-01-02T01:00:00+00:00", "faults": [{"kind": "pump_outage", "zone_code": 8}, {"kind": "grid_outage", "zone_code": 10}, {"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T02:00:00+00:00", "faults": [{"kind": "pump_outage", "zone_code": 8}, {"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T03:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T04:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T05:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T06:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T07:00:00+00:00", "faults": [{"kind": "asset_telemetry_fault", "zone_code": 4}]}
+{"at": "2025-01-02T08:00:00+00:00", "faults": []}
+{"at": "2025-01-02T09:00:00+00:00", "faults": []}
+{"at": "2025-01-02T10:00:00+00:00", "faults": []}
+{"at": "2025-01-02T11:00:00+00:00", "faults": []}
+{"at": "2025-01-02T12:00:00+00:00", "faults": []}
+{"at": "2025-01-02T13:00:00+00:00", "faults": []}
+{"at": "2025-01-02T14:00:00+00:00", "faults": []}
+{"at": "2025-01-02T15:00:00+00:00", "faults": []}
+{"at": "2025-01-02T16:00:00+00:00", "faults": []}
+{"at": "2025-01-02T17:00:00+00:00", "faults": []}
+{"at": "2025-01-02T18:00:00+00:00", "faults": []}
+{"at": "2025-01-02T19:00:00+00:00", "faults": []}
+{"at": "2025-01-02T20:00:00+00:00", "faults": []}
+{"at": "2025-01-02T21:00:00+00:00", "faults": []}
+{"at": "2025-01-02T22:00:00+00:00", "faults": []}
+{"at": "2025-01-02T23:00:00+00:00", "faults": []}

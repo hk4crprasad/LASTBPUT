@@ -42,6 +42,9 @@ def execute(self,job_id):
             with transaction(p.user_id,p.organization_id) as db:
                 db.execute(text("SELECT set_config('statement_timeout','0',true)"))
                 scope=resolve_scope(db,p,identity['world_id'])
+                if kind in {'simulation','infer','report'} and payload.get('_context'):
+                    from app.ai.orchestrator import pinned_scope
+                    scope=pinned_scope(scope,payload['_context'])
                 if kind=='simulation':
                     from app.simulation.service import save_simulation
                     from app.simulation.engine import Scenario,Baseline
@@ -63,11 +66,13 @@ def execute(self,job_id):
         with transaction(p.user_id,p.organization_id) as db:
             scope=resolve_scope(db,p,identity['world_id']);job=get(db,scope,'jobs',job_id,True)
             if job.status!='cancelled':
-                job.status='waiting_provider' if kind=='agent' and result.get('status') in {'configuration_required','waiting_provider'} else ('failed' if kind=='agent' and result.get('status')=='failed' else 'completed')
+                job.status='waiting_provider' if kind=='agent' and result.get('status') in {'configuration_required','waiting_provider'} else ('failed' if kind=='agent' and result.get('status') in {'failed','grounding_failed'} else 'completed')
+                if job.status=='waiting_provider' and attempts>=settings().job_max_retries:
+                    job.status='failed';job.data={**job.data,'error':'Provider retry budget exhausted; explicitly retry the original snapshot or start a fresh run'}
                 job.data={**job.data,'result':result,'completed_at':now().isoformat(),'next_retry_at':(now()+timedelta(minutes=5)).isoformat()}
             cls=TABLES['outbox_events']
             for event in db.scalars(select(cls).where(cls.parent_id==job.id)):event.status='delivered'
-        return {'status':'completed','job_id':job_id}
+        return {'status':job.status,'job_id':job_id}
     except Exception as exc:
         retryable=type(exc).__name__ in {'APIConnectionError','APITimeoutError','RateLimitError','OperationalError','ConnectionError'}
         with transaction(p.user_id,p.organization_id) as db:

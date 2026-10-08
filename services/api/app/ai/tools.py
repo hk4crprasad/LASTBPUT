@@ -3,7 +3,7 @@ import json
 from datetime import datetime,timedelta
 from uuid import UUID,uuid4
 from pydantic import BaseModel,ConfigDict,Field
-from sqlalchemy import select,text
+from sqlalchemy import select,text,func
 from fastapi import HTTPException
 from app.core.models import TABLES,Metric,now
 from app.core.records import insert,get,query,serialize,jsonable
@@ -78,8 +78,15 @@ def read_data(db,scope,name):
     if name=='get_environment_state':return state.environment_state(db,scope)
     if name=='get_parking_and_safety':return state.parking_safety(db,scope)
     if name=='get_sustainability_summary':return metrics.sustainability(db,scope)
-    if name=='get_actions':return {'items':[serialize(r) for r in query(db,scope,'actions')],
-                                  'evidence':[serialize(r) for r in query(db,scope,'action_evidence')]}
+    if name=='get_actions':
+        cls=TABLES['actions']
+        counts=dict(db.execute(select(cls.status,func.count()).where(cls.world_id==scope.world.id,cls.event_at<=scope.world.as_of).group_by(cls.status)).all())
+        open_rows=list(db.scalars(select(cls).where(cls.world_id==scope.world.id,cls.event_at<=scope.world.as_of,cls.status!='closed').order_by(cls.event_at.desc(),cls.id).limit(20)))
+        open_count=sum(v for k,v in counts.items() if k!='closed')
+        return {'items':[serialize(r) for r in open_rows],'open_count':open_count,'status_counts':counts,
+                'truncated':open_count>len(open_rows),'limit':20,
+                'evidence':[serialize(r) for r in query(db,scope,'action_evidence',20)],
+                'eligible_owners':[dict(r) for r in db.execute(text('SELECT * FROM scoped_owners(:org,:fac)'),{'org':scope.principal.organization_id,'fac':scope.world.facility_id}).mappings()]}
     if name=='get_forecasts':
         runs=query(db,scope,'forecast_runs',1)
         cls=TABLES['forecast_points']
@@ -91,18 +98,24 @@ def envelope(scope,name,data):
     evidence=[]
     def ids(value):
         if isinstance(value,dict):
-            if value.get('id'):
+            if value.get('id') and ('data' in value or name in {'run_what_if','compare_scenarios'}):
                 evidence.append({'record_id':value['id'],'url':f"/api/v1/evidence/{value['id']}?world_id={scope.world.id}"})
             for item in value.values():ids(item)
         elif isinstance(value,list):
             for item in value:ids(item)
     ids(data)
+    def compact(value):
+        if isinstance(value,list):return [compact(v) for v in value]
+        if isinstance(value,dict):
+            omitted={'organization_id','facility_id','world_id','created_at','updated_at','idempotency_key'} if value.get('id') and 'data' in value else set()
+            return {k:compact(v) for k,v in value.items() if k not in omitted}
+        return value
     return {'tool_result_id':str(uuid4()),'tool':name,'scope':{'organization_id':str(scope.principal.organization_id),'facility_id':str(scope.world.facility_id),
              'zone_codes':scope.zone_codes},'world':scope.world.code,'world_id':str(scope.world.id),'snapshot_version':scope.world.version,
             'as_of':scope.world.as_of.isoformat(),'as_of_local':scope.world.as_of.astimezone(__import__('zoneinfo').ZoneInfo('Asia/Kolkata')).isoformat(),'retrieved_at':now().isoformat(),'source_type':'synthetic_operational_evidence',
             'units':{'energy':'kWh per hourly interval','water':'L per hourly interval','waste':'kg','power':'kW','reserves':'L'},
             'coverage':data.get('coverage') if isinstance(data,dict) else None,'evidence':evidence[:100],
-            'limitations':data.get('limitations',[]) if isinstance(data,dict) else [],'data':jsonable(data)}
+            'limitations':data.get('limitations',[]) if isinstance(data,dict) else [],'data':compact(jsonable(data))}
 
 def execute_tool(db,scope,name,arguments,run_record,allowed_names):
     if name not in allowed_names or name not in TOOLS:raise HTTPException(403,'Unknown or unauthorized tool')

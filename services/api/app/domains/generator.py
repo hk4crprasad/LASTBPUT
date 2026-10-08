@@ -24,12 +24,16 @@ def generate_rows(config,truth_sink=None):
     if not 1<=days<=365 or not 4<=zone_count<=12:raise ValueError('Use 1–365 days and 4–12 zones')
     rng=np.random.default_rng(seed);start=datetime.fromisoformat(str(config.get('start','2025-01-01T00:00:00Z')).replace('Z','+00:00'))
     zones=DEFAULT_ZONES[:zone_count]+[(f'SERVICE_{i}',0,5+i*.1) for i in range(len(DEFAULT_ZONES),zone_count)]
+    demand_scale=float(config.get('demand_scale',1));weather_offset=float(config.get('weather_offset_c',0));fault_scale=float(config.get('fault_scale',1))
+    if not .5<=demand_scale<=2 or not -10<=weather_offset<=10 or not .2<=fault_scale<=3:raise ValueError('Generator profile outside supported ranges')
+    sensor_hours=config.get('sensor_error_hours',[3,18])
+    if not 1<=sensor_hours[0]<sensor_hours[1]<=48:raise ValueError('Invalid intervention duration range')
     rows=[];states=[]
     # Private sampled interventions remain ephemeral; offline campaign may write them only to research/evaluation.
     intervals=[]
     for kind in FAULT_CATALOGUE:
         for _ in range(max(1,days//30)):
-            begin=int(rng.integers(0,max(1,days*24-24)));length=int(rng.integers(3,18))
+            begin=int(rng.integers(0,max(1,days*24-24)));length=int(rng.integers(*sensor_hours))
             intervals.append((kind,begin,begin+length,int(rng.integers(0,zone_count))))
     reserve=30000.;process=12000.;battery=120.;fuel=180.;parking=40;queue=0
     stock={z:0. for z,_,_ in zones};ages={z:0 for z,_,_ in zones}
@@ -38,7 +42,7 @@ def generate_rows(config,truth_sink=None):
         active={(kind,zone) for kind,a,b,zone in intervals if a<=i<b}
         grid=not any(k=='grid_outage' for k,z in active)
         pump=grid and not any(k=='pump_outage' for k,z in active)
-        temp=29+5*math.sin(i/24*math.tau/365)+4*math.sin((hour-8)*math.tau/24)+rng.normal(0,.7)
+        temp=29+weather_offset+5*math.sin(i/24*math.tau/365)+4*math.sin((hour-8)*math.tau/24)+rng.normal(0,.7)
         if any(k=='heat_load_surge' for k,z in active):temp+=4
         context=[];water_demand=0.;energy_total=0.;waste_total=0.
         for code,(zone,beds,base) in enumerate(zones):
@@ -48,8 +52,9 @@ def generate_rows(config,truth_sink=None):
             cleaning=int(hour in [6,14,20])
             energy=max(0,base+.11*occupancy+.15*opd+.55*max(temp-25,0)+1.7*cleaning+rng.normal(0,.3))
             water=max(0,22+2.3*occupancy+2.5*opd+85*cleaning+rng.normal(0,5))
-            if ('excessive_energy',code) in active:energy+=8
-            if ('water_leak',code) in active:water+=150
+            energy*=demand_scale;water*=demand_scale
+            if ('excessive_energy',code) in active:energy+=8*fault_scale
+            if ('water_leak',code) in active:water+=150*fault_scale
             generated=max(0,.014*occupancy+.025*opd+.04+rng.normal(0,.02))
             if ('bin_capacity_pressure',code) in active:generated*=2
             pickup=hour in [7,19] and not any(k=='delayed_waste_pickup' for k,z in active)

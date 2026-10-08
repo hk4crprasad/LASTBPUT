@@ -74,14 +74,14 @@ def infer(db,scope):
                 bundle,sha=trusted_bundle(model_id)
                 reason=None
                 point={'metric':metric,'lead_hours':lead,'issue_time':issue.isoformat(),'target_time':(issue+timedelta(hours=lead)).isoformat(),
-                       'model_id':model_id,'model_sha256':sha,'model_status':'experimental_synthetic_only','feature_version':'starter-v1',
+                       'model_id':model_id,'model_sha256':sha,'model_status':statuses.get(model_id,'experimental_synthetic_only'),'feature_version':'starter-v1',
                        'unit':unit,'interval_method':'90% validation residual; coverage not guaranteed under shift','source_type':'forecast'}
                 baseline=g[g.observed_at==issue-timedelta(hours=168-lead)][target]
                 b=None if baseline.empty or pd.isna(baseline.iloc[0]) else float(baseline.iloc[0])
                 if issue<scope.world.as_of:
                     reason='Latest source observation precedes the selected virtual clock';b=None
                 elif statuses.get(model_id) in {'disabled','rejected'}:reason='Model disabled by administrator; seasonal baseline used'
-                elif int(current.zone_code)>3 or scope.world.code=='extended_v1':reason='Extended-world feature distribution has not been evaluated with supplied models'
+                elif int(current.zone_code)>3 or scope.world.code not in {'base_v1','stress_v1'}:reason='Extended-world feature distribution has not been evaluated with supplied models'
                 elif f.empty:reason='Missing current/lags or insufficient contiguous history'
                 elif len(g)!=len(pd.date_range(g.observed_at.min(),g.observed_at.max(),freq='h')):reason='History has missing intervals'
                 if reason:
@@ -95,7 +95,7 @@ def infer(db,scope):
                 result.append({'id':str(row.id),'zone':zone,**point})
     # Persist the generic detector separately, never treat outlier score as proven fault.
     af=anomaly_features(data)
-    if not af.empty:
+    if not af.empty and statuses.get('anomaly') not in {'disabled','rejected'}:
         detector,sha=trusted_bundle('anomaly')
         last=af.sort_values('observed_at').groupby('zone_id').tail(1)
         scores=detector['model'].decision_function(last[detector['feature_columns']])

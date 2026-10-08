@@ -27,5 +27,6 @@ dev = ["pytest", "pytest-asyncio", "ruff"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+cache_dir = "/tmp/greenops-pytest-cache"
 [tool.ruff]
 line-length = 110

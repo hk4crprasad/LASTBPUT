@@ -596,7 +596,8 @@ export interface paths {
         /** List Waste Batches */
         get: operations["list_waste_batches_api_v1_waste_batches_get"];
         put?: never;
-        post?: never;
+        /** Create Waste Batches */
+        post: operations["create_waste_batches_api_v1_waste_batches_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -613,7 +614,8 @@ export interface paths {
         /** List Pickups */
         get: operations["list_pickups_api_v1_waste_pickups_get"];
         put?: never;
-        post?: never;
+        /** Create Pickups */
+        post: operations["create_pickups_api_v1_waste_pickups_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -630,7 +632,8 @@ export interface paths {
         /** List Waste Bins */
         get: operations["list_waste_bins_api_v1_waste_bins_get"];
         put?: never;
-        post?: never;
+        /** Create Waste Bins */
+        post: operations["create_waste_bins_api_v1_waste_bins_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -647,7 +650,8 @@ export interface paths {
         /** List Assets */
         get: operations["list_assets_api_v1_assets_get"];
         put?: never;
-        post?: never;
+        /** Create Assets */
+        post: operations["create_assets_api_v1_assets_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -664,7 +668,8 @@ export interface paths {
         /** List Tanks */
         get: operations["list_tanks_api_v1_tanks_get"];
         put?: never;
-        post?: never;
+        /** Create Tanks */
+        post: operations["create_tanks_api_v1_tanks_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -681,7 +686,8 @@ export interface paths {
         /** List Environment Readings */
         get: operations["list_environment_readings_api_v1_environment_get"];
         put?: never;
-        post?: never;
+        /** Create Environment Readings */
+        post: operations["create_environment_readings_api_v1_environment_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -698,7 +704,8 @@ export interface paths {
         /** List Parking Areas */
         get: operations["list_parking_areas_api_v1_parking_get"];
         put?: never;
-        post?: never;
+        /** Create Parking Areas */
+        post: operations["create_parking_areas_api_v1_parking_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -715,7 +722,8 @@ export interface paths {
         /** List Safety Incidents */
         get: operations["list_safety_incidents_api_v1_safety_incidents_get"];
         put?: never;
-        post?: never;
+        /** Create Safety Incidents */
+        post: operations["create_safety_incidents_api_v1_safety_incidents_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -732,7 +740,8 @@ export interface paths {
         /** List Maintenance Orders */
         get: operations["list_maintenance_orders_api_v1_maintenance_orders_get"];
         put?: never;
-        post?: never;
+        /** Create Maintenance Orders */
+        post: operations["create_maintenance_orders_api_v1_maintenance_orders_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -749,7 +758,8 @@ export interface paths {
         /** List Zones */
         get: operations["list_zones_api_v1_zones_get"];
         put?: never;
-        post?: never;
+        /** Create Zones */
+        post: operations["create_zones_api_v1_zones_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -766,7 +776,8 @@ export interface paths {
         /** List Zone Capacities */
         get: operations["list_zone_capacities_api_v1_capacities_get"];
         put?: never;
-        post?: never;
+        /** Create Zone Capacities */
+        post: operations["create_zone_capacities_api_v1_capacities_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -783,7 +794,8 @@ export interface paths {
         /** List Operating Schedules */
         get: operations["list_operating_schedules_api_v1_schedules_get"];
         put?: never;
-        post?: never;
+        /** Create Operating Schedules */
+        post: operations["create_operating_schedules_api_v1_schedules_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -869,7 +881,8 @@ export interface paths {
         /** List Policy Versions */
         get: operations["list_policy_versions_api_v1_policies_get"];
         put?: never;
-        post?: never;
+        /** Create Policy Versions */
+        post: operations["create_policy_versions_api_v1_policies_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -886,7 +899,8 @@ export interface paths {
         /** List Tariff Versions */
         get: operations["list_tariff_versions_api_v1_tariffs_get"];
         put?: never;
-        post?: never;
+        /** Create Tariff Versions */
+        post: operations["create_tariff_versions_api_v1_tariffs_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -903,7 +917,8 @@ export interface paths {
         /** List Emission Factor Versions */
         get: operations["list_emission_factor_versions_api_v1_emission_factors_get"];
         put?: never;
-        post?: never;
+        /** Create Emission Factor Versions */
+        post: operations["create_emission_factor_versions_api_v1_emission_factors_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -920,7 +935,8 @@ export interface paths {
         /** List Documents */
         get: operations["list_documents_api_v1_documents_get"];
         put?: never;
-        post?: never;
+        /** Create Documents */
+        post: operations["create_documents_api_v1_documents_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2274,6 +2290,344 @@ export interface paths {
         head?: never;
         /** Model Status */
         patch: operations["model_status_api_v1_models__record_id__status_patch"];
+        trace?: never;
+    };
+    "/api/v1/waste/batches/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Waste Batches */
+        get: operations["get_waste_batches_api_v1_waste_batches__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Waste Batches */
+        delete: operations["archive_waste_batches_api_v1_waste_batches__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Waste Batches */
+        patch: operations["update_waste_batches_api_v1_waste_batches__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/waste/pickups/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Pickups */
+        get: operations["get_pickups_api_v1_waste_pickups__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Pickups */
+        delete: operations["archive_pickups_api_v1_waste_pickups__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Pickups */
+        patch: operations["update_pickups_api_v1_waste_pickups__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/waste/bins/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Waste Bins */
+        get: operations["get_waste_bins_api_v1_waste_bins__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Waste Bins */
+        delete: operations["archive_waste_bins_api_v1_waste_bins__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Waste Bins */
+        patch: operations["update_waste_bins_api_v1_waste_bins__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/assets/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Assets */
+        get: operations["get_assets_api_v1_assets__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Assets */
+        delete: operations["archive_assets_api_v1_assets__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Assets */
+        patch: operations["update_assets_api_v1_assets__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/tanks/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Tanks */
+        get: operations["get_tanks_api_v1_tanks__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Tanks */
+        delete: operations["archive_tanks_api_v1_tanks__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Tanks */
+        patch: operations["update_tanks_api_v1_tanks__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/environment/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Environment Readings */
+        get: operations["get_environment_readings_api_v1_environment__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Environment Readings */
+        delete: operations["archive_environment_readings_api_v1_environment__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Environment Readings */
+        patch: operations["update_environment_readings_api_v1_environment__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/parking/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Parking Areas */
+        get: operations["get_parking_areas_api_v1_parking__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Parking Areas */
+        delete: operations["archive_parking_areas_api_v1_parking__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Parking Areas */
+        patch: operations["update_parking_areas_api_v1_parking__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/safety-incidents/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Safety Incidents */
+        get: operations["get_safety_incidents_api_v1_safety_incidents__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Safety Incidents */
+        delete: operations["archive_safety_incidents_api_v1_safety_incidents__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Safety Incidents */
+        patch: operations["update_safety_incidents_api_v1_safety_incidents__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/maintenance-orders/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Maintenance Orders */
+        get: operations["get_maintenance_orders_api_v1_maintenance_orders__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Maintenance Orders */
+        delete: operations["archive_maintenance_orders_api_v1_maintenance_orders__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Maintenance Orders */
+        patch: operations["update_maintenance_orders_api_v1_maintenance_orders__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/zones/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Zones */
+        get: operations["get_zones_api_v1_zones__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Zones */
+        delete: operations["archive_zones_api_v1_zones__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Zones */
+        patch: operations["update_zones_api_v1_zones__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/capacities/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Zone Capacities */
+        get: operations["get_zone_capacities_api_v1_capacities__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Zone Capacities */
+        delete: operations["archive_zone_capacities_api_v1_capacities__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Zone Capacities */
+        patch: operations["update_zone_capacities_api_v1_capacities__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/schedules/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Operating Schedules */
+        get: operations["get_operating_schedules_api_v1_schedules__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Operating Schedules */
+        delete: operations["archive_operating_schedules_api_v1_schedules__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Operating Schedules */
+        patch: operations["update_operating_schedules_api_v1_schedules__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/policies/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Policy Versions */
+        get: operations["get_policy_versions_api_v1_policies__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Policy Versions */
+        delete: operations["archive_policy_versions_api_v1_policies__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Policy Versions */
+        patch: operations["update_policy_versions_api_v1_policies__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/tariffs/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Tariff Versions */
+        get: operations["get_tariff_versions_api_v1_tariffs__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Tariff Versions */
+        delete: operations["archive_tariff_versions_api_v1_tariffs__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Tariff Versions */
+        patch: operations["update_tariff_versions_api_v1_tariffs__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/emission-factors/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Emission Factor Versions */
+        get: operations["get_emission_factor_versions_api_v1_emission_factors__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Emission Factor Versions */
+        delete: operations["archive_emission_factor_versions_api_v1_emission_factors__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Emission Factor Versions */
+        patch: operations["update_emission_factor_versions_api_v1_emission_factors__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/documents/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Documents */
+        get: operations["get_documents_api_v1_documents__record_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Documents */
+        delete: operations["archive_documents_api_v1_documents__record_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Documents */
+        patch: operations["update_documents_api_v1_documents__record_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/imports/{record_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Import Get */
+        get: operations["import_get_api_v1_imports__record_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{record_id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Retry Job */
+        post: operations["retry_job_api_v1_jobs__record_id__retry_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
 }
@@ -3703,6 +4057,41 @@ export interface operations {
             };
         };
     };
+    create_waste_batches_api_v1_waste_batches_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_pickups_api_v1_waste_pickups_get: {
         parameters: {
             query: {
@@ -3719,6 +4108,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_pickups_api_v1_waste_pickups_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -3771,6 +4195,41 @@ export interface operations {
             };
         };
     };
+    create_waste_bins_api_v1_waste_bins_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_assets_api_v1_assets_get: {
         parameters: {
             query: {
@@ -3787,6 +4246,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_assets_api_v1_assets_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -3839,6 +4333,41 @@ export interface operations {
             };
         };
     };
+    create_tanks_api_v1_tanks_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_environment_readings_api_v1_environment_get: {
         parameters: {
             query: {
@@ -3855,6 +4384,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_environment_readings_api_v1_environment_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -3907,6 +4471,41 @@ export interface operations {
             };
         };
     };
+    create_parking_areas_api_v1_parking_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_safety_incidents_api_v1_safety_incidents_get: {
         parameters: {
             query: {
@@ -3923,6 +4522,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_safety_incidents_api_v1_safety_incidents_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -3975,6 +4609,41 @@ export interface operations {
             };
         };
     };
+    create_maintenance_orders_api_v1_maintenance_orders_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_zones_api_v1_zones_get: {
         parameters: {
             query: {
@@ -3991,6 +4660,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_zones_api_v1_zones_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4043,6 +4747,41 @@ export interface operations {
             };
         };
     };
+    create_zone_capacities_api_v1_capacities_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_operating_schedules_api_v1_schedules_get: {
         parameters: {
             query: {
@@ -4059,6 +4798,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_operating_schedules_api_v1_schedules_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4278,6 +5052,41 @@ export interface operations {
             };
         };
     };
+    create_policy_versions_api_v1_policies_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_tariff_versions_api_v1_tariffs_get: {
         parameters: {
             query: {
@@ -4294,6 +5103,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_tariff_versions_api_v1_tariffs_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4346,6 +5190,41 @@ export interface operations {
             };
         };
     };
+    create_emission_factor_versions_api_v1_emission_factors_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_documents_api_v1_documents_get: {
         parameters: {
             query: {
@@ -4362,6 +5241,41 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_documents_api_v1_documents_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7250,6 +8164,1736 @@ export interface operations {
                 "application/json": components["schemas"]["ModelStatusInput"];
             };
         };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_waste_batches_api_v1_waste_batches__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_waste_batches_api_v1_waste_batches__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_waste_batches_api_v1_waste_batches__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_pickups_api_v1_waste_pickups__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_pickups_api_v1_waste_pickups__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_pickups_api_v1_waste_pickups__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_waste_bins_api_v1_waste_bins__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_waste_bins_api_v1_waste_bins__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_waste_bins_api_v1_waste_bins__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_assets_api_v1_assets__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_assets_api_v1_assets__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_assets_api_v1_assets__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_tanks_api_v1_tanks__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_tanks_api_v1_tanks__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_tanks_api_v1_tanks__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_environment_readings_api_v1_environment__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_environment_readings_api_v1_environment__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_environment_readings_api_v1_environment__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_parking_areas_api_v1_parking__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_parking_areas_api_v1_parking__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_parking_areas_api_v1_parking__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_safety_incidents_api_v1_safety_incidents__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_safety_incidents_api_v1_safety_incidents__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_safety_incidents_api_v1_safety_incidents__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_maintenance_orders_api_v1_maintenance_orders__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_maintenance_orders_api_v1_maintenance_orders__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_maintenance_orders_api_v1_maintenance_orders__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_zones_api_v1_zones__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_zones_api_v1_zones__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_zones_api_v1_zones__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_zone_capacities_api_v1_capacities__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_zone_capacities_api_v1_capacities__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_zone_capacities_api_v1_capacities__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_operating_schedules_api_v1_schedules__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_operating_schedules_api_v1_schedules__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_operating_schedules_api_v1_schedules__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_policy_versions_api_v1_policies__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_policy_versions_api_v1_policies__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_policy_versions_api_v1_policies__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_tariff_versions_api_v1_tariffs__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_tariff_versions_api_v1_tariffs__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_tariff_versions_api_v1_tariffs__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_emission_factor_versions_api_v1_emission_factors__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_emission_factor_versions_api_v1_emission_factors__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_emission_factor_versions_api_v1_emission_factors__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_documents_api_v1_documents__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_documents_api_v1_documents__record_id__delete: {
+        parameters: {
+            query: {
+                world_id: string;
+                expected_version: number;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_documents_api_v1_documents__record_id__patch: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    import_get_api_v1_imports__record_id__get: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    retry_job_api_v1_jobs__record_id__retry_post: {
+        parameters: {
+            query: {
+                world_id: string;
+            };
+            header?: never;
+            path: {
+                record_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {

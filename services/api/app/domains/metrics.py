@@ -65,13 +65,19 @@ def overview(db,scope,start=None,end=None):
     start,end=window(scope,start,end)
     values=totals(db,scope,start,end)
     latest=latest_context(db,scope)
+    from app.domains.state import reserves_state,waste_state,assets_state
+    sustainability_data=sustainability(db,scope,start,end)
+    waste=waste_state(db,scope);assets=assets_state(db,scope)
     return {'world_id':str(scope.world.id),'world':scope.world.code,'as_of':scope.world.as_of.isoformat(),
             'timezone':'Asia/Kolkata','window_hours':(end-start).total_seconds()/3600,'start':start.isoformat(),'end':end.isoformat(),'source_type':'synthetic',
             'metrics':values,'bed_capacity':sum(r['data']['bed_capacity'] for r in latest) if latest else None,
             'occupied_beds':sum(r['data']['occupied_beds'] for r in latest) if latest else None,'zones':latest,
+            'active_alert_count':db.scalar(select(func.count()).select_from(TABLES['alerts']).where(TABLES['alerts'].world_id==scope.world.id,TABLES['alerts'].status=='open',TABLES['alerts'].event_at<=scope.world.as_of)),
             'active_alerts':[serialize(v) for v in query(db,scope,'alerts',20,status='open')],
             'actions':[serialize(v) for v in query(db,scope,'actions',20)],
-            'reserves':[serialize(v) for v in query(db,scope,'tank_states',10)],
+            'reserves':reserves_state(db,scope)['reserves'],'waste_deadlines':waste['categories'],
+            'intensities':sustainability_data['intensities'],'occupied_bed_days':sustainability_data['occupied_bed_days'],
+            'critical_assets':[a for a in assets['assets'] if a['data'].get('critical')],'critical_asset_telemetry':[r for r in assets['telemetry'] if r['data'].get('mode') in {'offline','degraded'}],
             'stale_zone_codes':[r['zone_code'] for r in latest if (scope.world.as_of-datetime.fromisoformat(r['event_at'])).total_seconds()>3600],
             'coverage':{m:v['coverage'] for m,v in values.items()},'boundary':'Sum of disjoint zone intervals; imported aggregate waste is separate from the extended-world batch ledger',
             'limitations':['Synthetic demonstration; no clinical workflows or validated real-hospital accuracy']}

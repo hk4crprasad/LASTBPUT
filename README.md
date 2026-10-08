@@ -25,6 +25,8 @@ docker compose exec api python -m app.cli smoke-test
 
 Open **http://localhost:3000**. API documentation: **http://localhost:8000/docs**. Readiness: **http://localhost:8000/api/v1/health/ready**. Ports bind to loopback. PostgreSQL, Redis and object storage remain on the private Compose network.
 
+If the Docker socket is unavailable and rootless Podman is installed, replace `docker compose` in these commands with `./scripts/compose.sh`. The wrapper starts a local Podman API socket and uses the same Compose configuration. It was checked on this workspace.
+
 Retrieve generated credentials locally; they are deliberately excluded from version control:
 
 ```bash

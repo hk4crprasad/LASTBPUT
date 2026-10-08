@@ -34,7 +34,7 @@ for key in ['csv_file_id','html_file_id','pdf_file_id']:
  print(json.dumps({'artifact':key,'bytes':len(r.content),'sha256':hashlib.sha256(r.content).hexdigest()}))
 if args.llm:
  conversation=request('POST','/conversations',{'name':'HTTP demo investigation'})
- run=request('POST','/conversations/'+conversation['id']+'/messages',{'content':'Investigate water reserve readiness using tools, run a six-hour outage scenario and draft an inspection proposal for WARD_A.','mode':'investigate'})
+ run=request('POST','/conversations/'+conversation['id']+'/messages',{'content':'Investigate recorded waste deadline risk using get_waste_state and alert evidence, run a relevant six-hour scenario and draft an inspection proposal for WARD_A.','mode':'investigate'})
  deadline=time.monotonic()+150
  while time.monotonic()<deadline:
   r=request('GET','/agent-runs/'+run['id'])

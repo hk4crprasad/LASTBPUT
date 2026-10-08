@@ -28,7 +28,7 @@ def query(db,scope,table,limit=100,offset=0,status=None,cutoff=True):
         q = q.where(cls.event_at<=scope.world.as_of)
     if status:
         q = q.where(cls.status==status)
-    return db.scalars(q.order_by(cls.event_at.desc(),cls.id).limit(limit).offset(offset)).all()
+    return db.scalars(q.order_by(cls.event_at.desc(),cls.created_at.desc(),cls.id).limit(limit).offset(offset)).all()
 
 def get(db,scope,table,record_id,lock=False):
     cls = TABLES[table]

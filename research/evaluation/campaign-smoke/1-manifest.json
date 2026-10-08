@@ -1,0 +1,19 @@
+{
+  "configuration": {
+    "demand_scale": 0.854,
+    "weather_offset_c": 1.0,
+    "fault_scale": 0.712,
+    "sensor_error_hours": [
+      3,
+      17
+    ],
+    "seed": 18920,
+    "days": 2,
+    "zones": 12,
+    "start": "2025-01-01T00:00:00Z"
+  },
+  "archetype": "regional_general",
+  "source_type": "synthetic_campaign",
+  "rows": 576,
+  "sha256": "76bb2dc93427bcc9c69477708465d7f07397343271b25d5348d696791d134bfb"
+}

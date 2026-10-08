@@ -411,3 +411,47 @@ def model_status(record_id:UUID,world_id:UUID,body:ModelStatusInput,ctx=Depends(
     row.data={**row.data,'status_reason':body.reason,'status_actor':str(p.user_id)}
     audit(db,scope,'model_status','model_versions',row.id,before,serialize(row))
     return serialize(row)
+
+# Public domain aliases and generic ledger endpoints share the exact same services.
+def domain_create(table):
+    def handler(world_id:UUID,body:RecordInput,request:Request,ctx=Depends(request_db)):
+        from app.domains.crud import create_record
+        return create_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,body,request.headers.get('Idempotency-Key'))
+    return handler
+def domain_update(table):
+    def handler(record_id:UUID,world_id:UUID,body:RecordInput,ctx=Depends(request_db)):
+        from app.domains.crud import update_record
+        return update_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,body)
+    return handler
+def domain_archive(table):
+    def handler(record_id:UUID,world_id:UUID,expected_version:int,ctx=Depends(request_db)):
+        from app.domains.crud import archive_record
+        return archive_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,expected_version)
+    return handler
+def domain_get(table):
+    def handler(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+        return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id))
+    return handler
+for alias,table in ALIASES.items():
+    if table in CONTRACTS:
+        router.add_api_route('/'+alias,domain_create(table),methods=['POST'],status_code=201,name='create_'+table)
+        router.add_api_route('/'+alias+'/{record_id}',domain_update(table),methods=['PATCH'],name='update_'+table)
+        router.add_api_route('/'+alias+'/{record_id}',domain_archive(table),methods=['DELETE'],name='archive_'+table)
+        router.add_api_route('/'+alias+'/{record_id}',domain_get(table),methods=['GET'],name='get_'+table)
+@router.get('/imports/{record_id}')
+def import_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+    return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),'import_jobs',record_id))
+
+@router.post('/jobs/{record_id}/retry')
+def retry_job(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+    db,p=ctx;scope=resolve_scope(db,p,world_id);job=get(db,scope,'jobs',record_id,True)
+    if job.owner_id!=p.user_id and p.role not in ADMIN:raise HTTPException(403,'Job owner or administrator required')
+    if job.status not in {'failed','waiting_provider','retry_pending'}:raise HTTPException(409,'Only a failed/deferred job may be explicitly retried')
+    domain={'simulation':'simulation','report':'reports','infer':'models','import':'imports','agent':'chat','train':'models'}[job.category];scope.require(domain)
+    if job.category=='agent':
+        run=get(db,scope,'agent_runs',job.data['payload']['run_id'],True)
+        if run.status=='cancelled':raise HTTPException(409,'Cancelled runs require a new request')
+        run.status='queued';run.data={**run.data,'error':None,'lease_until':None}
+    before=serialize(job);job.status='queued';job.data={**job.data,'attempts':0,'error':None,'lease_until':None}
+    audit(db,scope,'explicit_retry','jobs',job.id,before,serialize(job))
+    return serialize(job)

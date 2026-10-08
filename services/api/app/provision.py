@@ -31,7 +31,7 @@ def main():
     data=Input.model_validate_json(Path(args.input).read_text());url=os.environ.get('MIGRATION_DATABASE_URL')
     if not url:raise SystemExit('Dedicated MIGRATION_DATABASE_URL is required; application credentials cannot provision identities')
     output={}
-    with Session(create_engine(url,hide_parameters=True)) as db,db.begin():
+    with Session(create_engine(url,hide_parameters=True),expire_on_commit=False) as db,db.begin():
         org=db.get(Organization,data.organization_id) if data.organization_id else db.scalar(select(Organization).where(Organization.name==data.organization_name))
         if not org:org=Organization(id=data.organization_id or uuid4(),name=data.organization_name);db.add(org);db.flush()
         sites={}

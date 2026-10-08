@@ -1,0 +1,26 @@
+flowchart LR
+    Users["Users<br/>Admins, supervisors, technicians,<br/>waste and sustainability officers, auditors"]
+    Dashboard["Dashboard<br/>Next.js and TypeScript<br/>18 operational and management pages"]
+    FastAPI["FastAPI backend<br/>Login, role and zone permissions<br/>Domain APIs, CRUD and audit"]
+    AI["AI services<br/>Experimental ML forecasts<br/>Grounded chatbot and scoped agents"]
+    Analysis["Deterministic analysis<br/>What-if simulations<br/>Risk rules, cost and carbon estimates"]
+    Outputs["Outputs shown in dashboard<br/>Metrics, forecasts and evidence<br/>Scenario results, reviewed actions and reports"]
+    DB[("PostgreSQL / Supabase<br/>World-scoped data and FORCE RLS")]
+    Queue["Celery and Redis<br/>Durable asynchronous jobs"]
+    Blob["Private Azure Blob Storage<br/>Reports and evidence files"]
+    Users --> Dashboard --> FastAPI
+    FastAPI --> AI --> Outputs
+    FastAPI --> Analysis --> Outputs
+    FastAPI --> Outputs
+    FastAPI <--> DB
+    FastAPI --> Queue
+    Queue --> AI
+    Queue --> Analysis
+    FastAPI <--> Blob
+    Outputs --> Dashboard
+    classDef app fill:#e8f3ed,stroke:#176448,color:#153c2e
+    classDef intelligence fill:#eeeafa,stroke:#67539a,color:#352856
+    classDef infrastructure fill:#f1f3f4,stroke:#687979,color:#263c3c
+    class Users,Dashboard,FastAPI,Outputs app
+    class AI,Analysis intelligence
+    class DB,Queue,Blob infrastructure

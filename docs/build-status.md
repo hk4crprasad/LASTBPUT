@@ -27,3 +27,12 @@ No public deployment occurred. Production TLS Compose parsed with an explicit ex
 Measured warm maxima on AMD Ryzen 5 5600H / 12 logical CPUs / about 15 GiB RAM: overview 0.439 s (<2 s), bounded metric queries 0.015 s (<3 s), 72-hour engine 0.0185 s (<5 s). Dataset: 51,840 source rows and 362,880 normalized observations. Queue dispatch time is measured by demo job completion separately.
 
 [Verification files](verification/README.md), [restart/fresh setup](../README.md), [runbook](runbook.md), [demo](demo.md), [references](references.md), [overview screenshot](screenshots/overview.png), [chat screenshot](screenshots/chat.png). All M0–M10 exits have passed; no required check remains blocked.
+
+
+## Cloud and jury-demo verification
+
+The follow-up configuration uses Supabase PostgreSQL 17.11 through a restricted runtime role and private Azure Blob Storage under the `hospital-greenops/` prefix. Alembic revision 0006 allows read-only access to the static catalogs when the hosting service enables RLS automatically. The actual cloud seed retained 51,840 sources and 362,880 observations across separate base, stress and extended worlds. Azure upload/download/checksum and cross-world denial passed. The original local database/restore/performance results above describe the earlier local PostgreSQL 18 and MinIO environment.
+
+Seven allowlisted demo buttons authenticate against the real accounts. Passwords remain server-side; production refuses demo login. Account switching clears cached operating scope. The supplied provider deployment passed the actual text, tool-result, streaming and parallel-read capability check again.
+
+The cloud backend suite passed **41 tests in 1,325.92 seconds**. An initial concurrent run had one 3-second SQL statement timeout; the affected test passed alone, and the full isolated rerun passed after setting the configurable cloud budget to 10 seconds. This is a cloud timeout budget, not a claim that cloud performance matches local warm timings. [Final backend output](verification/cloud-backend-tests.txt), [initial failure](verification/cloud-backend-initial.txt), [isolated rerun](verification/cloud-injection-rerun-tests.txt), [cloud setup](cloud-services.md).

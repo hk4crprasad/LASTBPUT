@@ -4,6 +4,41 @@ A working, local operations and sustainability application for a fictional hospi
 
 The implementation contract is [Hospital_GreenOps_Codex_Build_Plan.md](Hospital_GreenOps_Codex_Build_Plan.md). Verification and limitations are recorded in [docs/build-status.md](docs/build-status.md).
 
+## How the system works
+
+```mermaid
+flowchart LR
+    Users["Users<br/>Admins, supervisors, technicians,<br/>waste and sustainability officers, auditors"]
+    Dashboard["Dashboard<br/>Next.js and TypeScript<br/>18 operational and management pages"]
+    FastAPI["FastAPI backend<br/>Login, role and zone permissions<br/>Domain APIs, CRUD and audit"]
+    AI["AI services<br/>Experimental ML forecasts<br/>Grounded chatbot and scoped agents"]
+    Analysis["Deterministic analysis<br/>What-if simulations<br/>Risk rules, cost and carbon estimates"]
+    Outputs["Outputs shown in dashboard<br/>Metrics, forecasts and evidence<br/>Scenario results, reviewed actions and reports"]
+    DB[("PostgreSQL / Supabase<br/>World-scoped data and FORCE RLS")]
+    Queue["Celery and Redis<br/>Durable asynchronous jobs"]
+    Blob["Private Azure Blob Storage<br/>Reports and evidence files"]
+    Users --> Dashboard --> FastAPI
+    FastAPI --> AI --> Outputs
+    FastAPI --> Analysis --> Outputs
+    FastAPI --> Outputs
+    FastAPI <--> DB
+    FastAPI --> Queue
+    Queue --> AI
+    Queue --> Analysis
+    FastAPI <--> Blob
+    Outputs --> Dashboard
+    classDef app fill:#e8f3ed,stroke:#176448,color:#153c2e
+    classDef intelligence fill:#eeeafa,stroke:#67539a,color:#352856
+    classDef infrastructure fill:#f1f3f4,stroke:#687979,color:#263c3c
+    class Users,Dashboard,FastAPI,Outputs app
+    class AI,Analysis intelligence
+    class DB,Queue,Blob infrastructure
+```
+
+All operating data is synthetic. AI reads permission-scoped evidence; action writes require current permissions and policy checks. Reports and simulations run deterministically without an LLM. [Complete workflow with detailed Mermaid diagrams and jury walkthrough](docs/workflow.md).
+
+[Editable Mermaid](docs/diagrams/greenops-workflow.mmd) · [SVG diagram](docs/diagrams/greenops-workflow.svg) · [PNG diagram](docs/diagrams/greenops-workflow.png)
+
 ## Start
 
 This workspace is initialized and running at localhost:3000. Restart the existing installation with `./scripts/compose.sh up -d`; generated login credentials are in `.local/demo-credentials.json`. The commands below initialize a fresh installation.

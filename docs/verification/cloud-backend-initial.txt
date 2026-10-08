@@ -1,0 +1,7 @@
+Initial cloud run under concurrent page capture.
+E           psycopg.errors.QueryCanceled: canceling statement due to statement timeout
+.venv/lib/python3.12/site-packages/psycopg/cursor.py:117: QueryCanceled
+E           sqlalchemy.exc.OperationalError: (psycopg.errors.QueryCanceled) canceling statement due to statement timeout
+1 failed, 40 passed in 1208.50s (0:20:08)
+
+The affected test passed in isolation. After configuring a 10-second cloud statement budget and separating backend/page verification, the full rerun passed 41 tests. See cloud-backend-tests.txt.

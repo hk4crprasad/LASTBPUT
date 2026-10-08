@@ -72,12 +72,23 @@ def main():
         page.set_default_timeout(30000)
         errors = []; responses = []
         page.on('pageerror', lambda error: errors.append(str(error)))
+        def console_error(message):
+            if message.type != 'error':
+                return
+            # The login screen deliberately probes the current anonymous session.
+            anonymous_auth_probe = (urlparse(message.location.get('url', '')).path in
+                                    {'/api/v1/me', '/api/v1/worlds', '/api/v1/organizations', '/api/v1/facilities'}
+                                    and '401' in message.text)
+            if not anonymous_auth_probe:
+                errors.append('console: ' + message.text)
+        page.on('console', console_error)
         page.on('response', lambda response: responses.append({'url': response.url.split('?')[0], 'status': response.status})
                 if '/api/v1/' in response.url else None)
         try:
             page.goto(args.url, wait_until='networkidle')
             expect(page.get_by_role('heading', name='Choose a demo role')).to_be_visible()
             expect(page.locator('.demo-role')).to_have_count(7)
+            assert not errors, 'Login JavaScript/console error: ' + '; '.join(errors)
             page.screenshot(path=str(output / 'login.png'))
             page.screenshot(path=str(output / 'login-full.png'), full_page=True)
             results.append({'page': 'login', 'title': 'Demo sign-in', 'passed': True, 'screenshot': 'login.png', 'full_screenshot': 'login-full.png'})

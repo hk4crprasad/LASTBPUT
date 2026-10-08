@@ -1,0 +1,13 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test --timeout=180000
+
+
+Running 7 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/demo-login.spec.ts:3:5 › jury can enter every real demo role and sign out to switch (1.7m)
+  ✓  2 [chromium] › e2e/demo-login.spec.ts:21:5 › demo picker fits mobile without horizontal overflow (3.5s)
+  ✓  3 [chromium] › e2e/product.spec.ts:8:5 › login, world isolation, explorer and all domain pages (54.8s)
+  ✓  4 [chromium] › e2e/product.spec.ts:9:5 › waste and maintenance create persisted records (36.2s)
+  ✓  5 [chromium] › e2e/product.spec.ts:10:5 › scenario job, comparison and report downloads (2.9m)
+

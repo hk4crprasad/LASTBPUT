@@ -1,0 +1,60 @@
+flowchart LR
+    Identity["Authenticated real user<br/>Organization membership and explicit facility/zone grants"]
+    subgraph Org["Organization admin"]
+        OA["Scope<br/>Own organization and granted facilities<br/>Selected world and virtual cutoff"]
+        OW["Writes<br/>Facility, policies, imports, models<br/>All permitted operating domains and actions"]
+        OR["Review<br/>Approve proposals and eligible owners<br/>Independently verify and close actions"]
+        OA --> OW --> OR
+    end
+    subgraph Hospital["Hospital admin"]
+        HA["Scope<br/>Granted hospital facility<br/>All granted zones in selected world"]
+        HW["Writes<br/>Facility configuration, policies and model serving<br/>Imports, operating ledgers and actions"]
+        HR["Review<br/>Approve proposals and eligible owners<br/>Independently verify and close actions"]
+        HA --> HW --> HR
+    end
+    subgraph Operations["Operations supervisor"]
+        SA["Scope<br/>Granted facility and zones<br/>Facility-wide grant in the demo"]
+        SW["Writes<br/>Assets and maintenance · waste<br/>Environment · parking · safety<br/>Actions, simulations and reports"]
+        SR["Review<br/>Manage assigned work and transitions<br/>Independent action verification/closure<br/>No proposal approval or admin configuration"]
+        SA --> SW --> SR
+    end
+    subgraph Technician["Maintenance technician"]
+        TA["Scope<br/>Only granted zones<br/>Demo grant: WARD_A"]
+        TW["Writes<br/>Create assets within zone grant<br/>Maintenance orders assigned to self<br/>Maintenance actions assigned to self"]
+        TR["Limits<br/>Owner-limited asset/order/action updates<br/>No what-if execution or report generation<br/>No independent verification or admin writes"]
+        TA --> TW --> TR
+    end
+    subgraph Waste["Waste officer"]
+        WA["Scope<br/>Granted facility and zones<br/>Facility-wide grant in the demo"]
+        WW["Writes<br/>Waste bins, batches and pickups<br/>Waste-category actions<br/>What-if simulations"]
+        WR["Limits<br/>Own action progression<br/>No report generation, admin configuration<br/>or independent verification/closure"]
+        WA --> WW --> WR
+    end
+    subgraph Sustainability["Sustainability officer"]
+        CA["Scope<br/>Granted facility and zones<br/>Facility-wide grant in the demo"]
+        CW["Writes<br/>Versioned tariffs and emission factors<br/>Sustainability-category actions<br/>What-if simulations and reports"]
+        CR["Limits<br/>Own action progression<br/>No facility/policy/model/import administration<br/>or independent verification/closure"]
+        CA --> CW --> CR
+    end
+    subgraph Auditor["Auditor"]
+        AA["Scope<br/>Granted facility and zones<br/>Facility-wide grant in the demo"]
+        AW["Allowed<br/>Read operating evidence and saved results<br/>Generate reports and download authorized files<br/>Ask-mode grounded chatbot"]
+        AR["Limits<br/>No operating CRUD, action writes or proposals<br/>No new what-if execution or investigation mode"]
+        AA --> AW --> AR
+    end
+    Identity --> OA & HA & SA & TA & WA & CA & AA
+    OR & HR & SR & TR & WR & CR & AR --> Gateway["Shared FastAPI authorization boundary<br/>Role does not bypass organization/facility/zone grants<br/>CSRF, allowed Origin, contracts and current versions"]
+    Gateway --> Read["Read scope<br/>Authorized operating domains in granted facility/zones<br/>World cutoff and evidence links remain scoped"]
+    Gateway --> Write["Write scope<br/>Only permitted domain + category + zone + owner<br/>Audit and evidence required by workflow"]
+    Gateway --> Chat["Agent scope equals initiating user scope<br/>Owner-private conversations, runs, tools and jobs<br/>Administrators can inspect authorized users' runs"]
+    Read & Write & Chat --> RLS[("Restricted PostgreSQL runtime role<br/>FORCE RLS plus relational constraints<br/>Transaction-local user and organization identity")]
+    RLS --> World["Independent base, stress or extended world<br/>No cross-world data substitution"]
+    World --> Output["Scope-correct dashboard, tools and exports<br/>Denied operations return an explicit error"]
+    classDef admin fill:#e8f3ed,stroke:#176448,color:#153c2e
+    classDef operational fill:#eaf0fa,stroke:#3c6794,color:#203c5b
+    classDef constrained fill:#fff3df,stroke:#a87926,color:#59401b
+    classDef boundary fill:#eeeafa,stroke:#67539a,color:#352856
+    class OA,OW,OR,HA,HW,HR admin
+    class SA,SW,SR,WA,WW,WR,CA,CW,CR operational
+    class TA,TW,TR,AA,AW,AR constrained
+    class Identity,Gateway,Read,Write,Chat,RLS,World,Output boundary

@@ -8,6 +8,7 @@ export type Principal={id:string;name:string;role:string;organization_id:string;
 export function csrf(){return decodeURIComponent(document.cookie.split('; ').find(c=>c.startsWith('greenops_csrf='))?.split('=')[1]||'')}
 export async function api<T=any>(path:string,options:RequestInit={}) :Promise<T>{
  const response=await fetch('/api/v1'+path,{credentials:'include',...options,headers:{'Content-Type':'application/json','X-CSRF-Token':csrf(),...options.headers}});
+ if(!response.headers.get('content-type')?.includes('application/json'))throw new Error(`API returned an unexpected response (${response.status}). Refresh or inspect the server logs.`);
  const body=await response.json();if(!response.ok)throw new Error(body.error?.message||`Request failed (${response.status})`);return body;
 }
 export function scoped(path:string,world:string,query:Record<string,string|number>={}){const params=new URLSearchParams({world_id:world});for(const [k,v]of Object.entries(query))params.set(k,String(v));return path+'?'+params.toString()}

@@ -2,6 +2,8 @@
 
 These diagrams describe the implemented product. Hospital data is explicitly synthetic and limited to operations and sustainability. Virtual event time determines operating state; system time controls authentication, auditing, leases and scheduling.
 
+For separate diagrams of the full technology stack and all seven role scopes, see [Technology stack and user scopes](techstack-and-scopes.md).
+
 ## 1. Users → Dashboard → FastAPI → AI services → Outputs
 
 ```mermaid
@@ -62,7 +64,7 @@ flowchart TD
     Sim --> Results["Saved results, balances, violations and sensitivity"]
     Results --> Proposal["Reviewable action proposal"]
     Tools --> Proposal
-    Proposal --> Review["Authorized reviewer accepts or rejects"]
+    Proposal --> Review["Administrator reviews and optionally approves"]
     Review --> Action["Assigned software action and evidence-based lifecycle"]
     Tools --> Policy["Explicit write permission and current policy checks"]
     Policy --> Action
@@ -243,8 +245,8 @@ Scheduled monitoring adds observable triggers → enabled versioned policy → c
 flowchart LR
     Evidence["Observable alert or investigation evidence"] --> Proposal["Saved proposal with rationale and scenario references"]
     Proposal --> Reviewer{"Authorized reviewer decision"}
-    Reviewer -->|Reject| Rejected["Rejected proposal with recorded decision"]
-    Reviewer -->|Accept and choose permitted owner| Open["Open assigned action"]
+    Reviewer -->|Leave unapproved| Pending["Proposal remains proposed; no action created"]
+    Reviewer -->|Approve and choose permitted owner| Open["Open assigned action"]
     Manual["Permitted manual action creation"] --> Open
     Autonomous["Narrow server and facility policy permits creation"] --> Open
     Open --> Lifecycle["Versioned transitions and audit evidence"]

@@ -1,0 +1,92 @@
+flowchart TB
+    User["Hospital operations and sustainability users"]
+    subgraph Frontend["1 · Dashboard — Next.js / TypeScript"]
+        Login["Real account login<br/>Seven demo-role buttons in demo mode"]
+        ScopePicker["Organization, facility and world selector<br/>Virtual clock and date-range filters"]
+        OperationsUI["Operational pages<br/>Overview · Facility · Energy · Water · Waste<br/>Environment · Assets · Parking · Safety · Sustainability"]
+        IntelligenceUI["Intelligence pages<br/>Simulations · Actions · Reports · Chat · Agent activity"]
+        AdminUI["Management pages<br/>Import quality · Model evaluation · Policy and settings"]
+        Proxy["Same-origin /api/v1 proxy<br/>Session cookies and CSRF headers<br/>Server responses and SSE progress"]
+        Login --> ScopePicker
+        ScopePicker --> OperationsUI & IntelligenceUI & AdminUI
+        OperationsUI & IntelligenceUI & AdminUI --> Proxy
+    end
+    User --> Login
+    subgraph Backend["2 · API — FastAPI / Python"]
+        Auth["Authentication<br/>Argon2 passwords · hashed opaque sessions<br/>Allowed Origin and CSRF checks"]
+        Scope["Authorization<br/>Organization + facility + world + zone<br/>Role + owner + optimistic version"]
+        Contracts["Typed input contracts<br/>Allowlisted fields, interval units and timestamps"]
+        CRUD["Domain CRUD services<br/>Facility configuration · assets and maintenance<br/>Waste workflow · environment · parking · safety"]
+        Reads["Operating reads and calculations<br/>Coverage · aggregates · reserves · intensity<br/>Versioned illustrative cost and carbon factors"]
+        Actions["Actions and proposals<br/>Eligible owner · permitted transitions<br/>Independent verification and evidence audit"]
+        Jobs["Durable request acceptance<br/>Commit job and PostgreSQL outbox"]
+        Files["Authenticated file API<br/>Recheck scope and content SHA256"]
+        Events["Persisted agent event stream<br/>Ordered SSE replay and cancellation"]
+        Auth --> Scope --> Contracts
+        Contracts --> CRUD & Reads & Actions & Jobs & Files
+    end
+    Proxy --> Auth
+    subgraph Data["3 · Persistence and isolation"]
+        DB[("PostgreSQL / Supabase<br/>Alembic migrations · restricted runtime role<br/>FORCE RLS and composite scope constraints")]
+        Worlds["Independent worlds<br/>base_v1 · stress_v1 · extended_v1<br/>Separate clocks and operating ledgers"]
+        Audit["Persisted evidence<br/>Source lineage · quality · versions<br/>Actions · tool results · jobs · usage · audit"]
+        Blob["Private Azure Blob Storage<br/>hospital-greenops/ scoped prefix<br/>CSV · HTML · PDF · uploaded evidence"]
+        Alternative["Local alternative<br/>S3-compatible MinIO adapter"]
+        DB --> Worlds & Audit
+        Blob -. "provider alternative" .- Alternative
+    end
+    CRUD & Reads & Actions & Jobs & Events --> DB
+    Files --> DB & Blob
+    subgraph Workers["4 · Asynchronous work — Celery / Redis"]
+        Scheduler["Celery scheduler<br/>Dispatch, retries and opt-in monitoring"]
+        Dispatch["Read committed outbox<br/>Recover expired leases and prevent duplicate effects"]
+        Redis["Redis broker"]
+        Worker["Celery worker<br/>Restore initiating user's scoped identity<br/>Claim lease and enforce retry budget"]
+        Scheduler --> Dispatch --> Redis --> Worker
+    end
+    DB --> Dispatch
+    subgraph Intelligence["5 · AI services and deterministic analysis"]
+        ML["Trusted ML inference<br/>Six experimental forecasts and generic detector<br/>Original feature contracts and checksum trust"]
+        Rules["Deterministic risk rules<br/>Resources · waste deadlines · environment<br/>Asset modes · protected access routes"]
+        Simulator["Deterministic what-if engine<br/>Frozen baseline · 15-minute steps · 1-72 hours<br/>Balances, violations and low/central/high sensitivity"]
+        Agent["Chatbot and investigation agent<br/>Frozen authorized snapshots<br/>19 typed scoped tools and grounded final answers"]
+        Policy["Monitoring and permitted task writes<br/>Server flag + versioned facility policy<br/>Cooldown, incident, owner, duplicate and daily-budget checks"]
+        Adapter["Server-side OpenAI-compatible adapter<br/>Streaming and parallel read calls<br/>Sequential authorized mutations"]
+        Provider["Configured Azure deployment<br/>Actual provider calls and usage<br/>Keys remain server-side"]
+        Reports["Deterministic report renderer<br/>Scoped frozen facts, factors and limitations<br/>Actual CSV, HTML and PDF bytes"]
+        Agent --> Adapter --> Provider
+        Agent --> Reads & Simulator & Actions
+        Policy --> Agent
+        ML --> Rules
+    end
+    Worker --> ML & Rules & Simulator & Agent & Reports
+    DB --> ML & Rules & Simulator & Agent & Reports
+    Scheduler --> Policy
+    Agent --> Events
+    ML & Rules & Simulator & Agent & Reports --> DB
+    Reports --> Blob
+    subgraph Offline["6 · Offline research and model preparation"]
+        Starter["Supplied synthetic starter<br/>Preserved original observations and ML foundation"]
+        Private["Private labels and hidden event configuration<br/>Offline evaluation only"]
+        Public["Sanitized public allowlist<br/>Checksums, canonical fields and permitted features"]
+        Training["Explicit offline training and evaluation<br/>Chronological splits, purge and baseline comparisons"]
+        Artifacts["Trusted model artifacts and evaluation manifests"]
+        Generator["Clearly identified additional synthetic generator<br/>Missing operational domains in extended_v1"]
+        Starter --> Private & Public
+        Starter --> Training --> Artifacts
+        Public --> Generator
+    end
+    Public --> DB
+    Generator --> Worlds
+    Artifacts --> ML
+    Output["7 · Outputs in the dashboard<br/>Observed metrics and coverage · experimental predictions<br/>Evidence-backed answers · simulation results<br/>Reviewed software actions · downloadable reports<br/>Explicit limitations, failures and configuration states"]
+    DB & Events & Files --> Output
+    Output --> OperationsUI & IntelligenceUI & AdminUI
+    classDef ui fill:#e8f3ed,stroke:#176448,color:#153c2e
+    classDef api fill:#eaf0fa,stroke:#3c6794,color:#203c5b
+    classDef ai fill:#eeeafa,stroke:#67539a,color:#352856
+    classDef data fill:#f1f3f4,stroke:#687979,color:#263c3c
+    class Login,ScopePicker,OperationsUI,IntelligenceUI,AdminUI,Proxy,Output ui
+    class Auth,Scope,Contracts,CRUD,Reads,Actions,Jobs,Files,Events api
+    class ML,Rules,Simulator,Agent,Policy,Adapter,Provider,Reports ai
+    class DB,Worlds,Audit,Blob,Alternative,Scheduler,Dispatch,Redis,Worker,Starter,Private,Public,Training,Artifacts,Generator data

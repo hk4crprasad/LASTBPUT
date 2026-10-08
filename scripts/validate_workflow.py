@@ -3,7 +3,7 @@ import json,re
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 blocks=[]
-for file in ['README.md','docs/workflow.md']:
+for file in ['README.md','docs/workflow.md','docs/techstack-and-scopes.md']:
     for i,code in enumerate(re.findall(r'```mermaid\n(.*?)\n```',Path(file).read_text(),re.S),1):blocks.append((file,i,code))
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True)
@@ -13,10 +13,12 @@ with sync_playwright() as p:
     page.evaluate("mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'default',fontFamily:'Arial',flowchart:{useMaxWidth:true}})")
     for n,(file,i,code) in enumerate(blocks):
         svg=page.evaluate('async ({id,code}) => (await mermaid.render(id,code)).svg',{'id':f'flow{n}','code':code})
-        if n==0:
-            Path('docs/diagrams/greenops-workflow.svg').write_text(svg+'\n')
+        export_name = 'greenops-workflow' if n == 0 else ({1:'technology-stack',2:'user-scopes'}.get(i) if file == 'docs/techstack-and-scopes.md' else None)
+        if export_name:
+            Path(f'docs/diagrams/{export_name}.mmd').write_text(code+'\n')
+            Path(f'docs/diagrams/{export_name}.svg').write_text(svg+'\n')
             page.locator('#diagram').evaluate('(element,svg)=>element.innerHTML=svg',svg)
-            page.locator('#diagram svg').screenshot(path='docs/diagrams/greenops-workflow.png')
+            page.locator('#diagram svg').screenshot(path=f'docs/diagrams/{export_name}.png')
         print('PASS',file,'diagram',i,flush=True)
     browser.close()
 print('PASS all',len(blocks),'Mermaid diagrams rendered')

@@ -1,0 +1,51 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test --grep chat live|import duplicate --timeout=180000
+
+
+Running 2 tests using 1 worker
+
+  ✘  1 [chromium] › e2e/product.spec.ts:11:5 › chat live run and cancellation control (1.6m)
+  ✓  2 [chromium] › e2e/product.spec.ts:12:5 › import duplicate job and independent action closure (2.2m)
+
+
+  1) [chromium] › e2e/product.spec.ts:11:5 › chat live run and cancellation control ────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/run completed/).first()
+    Expected: visible
+    Timeout: 90000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText(/run completed/).first() with timeout 90000ms
+      - waiting for getByText(/run completed/).first()
+
+
+       9 | test('waste and maintenance create persisted records',async({page})=>{await login(page);await page.goto('/assets');await page.getByRole('button',{name:'Add asset',exact:true}).click();const d=page.getByRole('dialog');await d.getByLabel('Name *',{exact:true}).fill('Browser fixture pump '+tag);await d.getByRole('combobox',{name:'Zone',exact:true}).selectOption('WARD_A');await d.getByRole('combobox',{name:'Kind *',exact:true}).selectOption('pump');await d.getByRole('button',{name:'Save record'}).click();await expect(d).not.toBeVisible();await expect(page.getByText('Browser fixture pump '+tag,{exact:true})).toBeVisible();await page.getByRole('button',{name:'Add maintenance order',exact:true}).click();const m=page.getByRole('dialog');await m.getByLabel('Name *',{exact:true}).fill('Browser fixture inspection '+tag);await m.getByRole('combobox',{name:'Zone',exact:true}).selectOption('WARD_A');await m.getByRole('combobox',{name:'Owner',exact:true}).selectOption(creds.operations_supervisor.user_id);await m.getByRole('combobox',{name:'Asset Id *',exact:true}).selectOption({label:'Browser fixture pump '+tag+' • WARD_A'});await m.getByRole('combobox',{name:'Inspection Type *',exact:true}).selectOption('inspection');await m.getByRole('button',{name:'Save record'}).click();await expect(m).not.toBeVisible();await expect(page.getByText('Browser fixture inspection '+tag,{exact:true})).toBeVisible();await page.goto('/waste');await page.getByRole('button',{name:'Add waste batch',exact:true}).click();const w=page.getByRole('dialog');await w.getByLabel('Name *',{exact:true}).fill('Browser fixture waste batch '+tag);await w.getByRole('combobox',{name:'Zone',exact:true}).selectOption('WARD_A');await w.getByRole('combobox',{name:'Category *',exact:true}).selectOption('red');await w.getByRole('combobox',{name:'Bin Id *',exact:true}).selectOption({label:'WARD_A red • WARD_A'});await w.getByLabel('Generated Kg *',{exact:true}).fill('1.5');await w.getByRole('button',{name:'Save record'}).click();await expect(w).not.toBeVisible();await expect(page.getByText('Browser fixture waste batch '+tag,{exact:true})).toBeVisible()});
+      10 | test('scenario job, comparison and report downloads',async({page})=>{await login(page);await page.goto('/simulations');await page.getByLabel('Scenario name').fill('Browser outage scenario '+tag);await page.getByLabel('Horizon hours').fill('6');await page.getByRole('button',{name:'Run simulation',exact:true}).click();await expect(page.getByRole('heading',{name:'Browser outage scenario '+tag,exact:true})).toBeVisible({timeout:90000});await page.getByLabel('Scenario name').fill('Browser alternate scenario '+tag);await page.getByRole('button',{name:'Run simulation',exact:true}).click();await expect(page.getByRole('heading',{name:'Browser alternate scenario '+tag,exact:true})).toBeVisible({timeout:90000});await page.getByLabel('Browser outage scenario '+tag,{exact:true}).check();await page.getByLabel('Browser alternate scenario '+tag,{exact:true}).check();await page.getByRole('button',{name:'Compare selected'}).click();await expect(page.getByText('baseline_run_id',{exact:false})).toBeVisible();await page.goto('/reports');await page.getByRole('button',{name:'Generate report'}).click();await expect(page.locator('.jobbox').getByText('report: completed',{exact:true})).toBeVisible({timeout:90000});await expect(page.getByRole('link',{name:'Download CSV'}).first()).toBeVisible({timeout:90000});for(const format of ['CSV','PDF','printable HTML']){const link=page.getByRole('link',{name:'Download '+format,exact:true}).first();const href=await link.getAttribute('href');expect(href).toBeTruthy();const download=await page.request.get(href!);expect(download.status()).toBe(200);const bytes=await download.body();expect(bytes.length).toBeGreaterThan(20);if(format==='PDF')expect(bytes.subarray(0,5).toString()).toBe('%PDF-');if(format==='CSV')expect(bytes.toString()).toContain('metric,value,unit,valid_rows,rows,start_utc,end_utc,source_type');if(format==='printable HTML')expect(bytes.toString()).toContain('<html')}});
+    > 11 | test('chat live run and cancellation control',async({page})=>{await login(page);const me=await page.request.get('/api/v1/me');const capabilities=(await me.json()).llm;test.skip(!capabilities.enabled||!capabilities.configured,'Live provider configuration is required; run check-llm explicitly.');await page.goto('/chat');await page.getByLabel('Message',{exact:true}).fill('Read current water reserves using your tools; show assumptions.');await page.getByRole('button',{name:'Send message'}).click();await expect(page.getByText('Tool activity & evidence',{exact:true})).toBeVisible();await expect(page.getByText(/run completed/).first()).toBeVisible({timeout:90000});await expect(page.locator('.message.assistant')).toBeVisible();await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:(process.env.E2E_SCREENSHOT_DIR||'../../docs/screenshots')+'/chat.png',fullPage:true})});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ^
+      12 | test('import duplicate job and independent action closure',async({page})=>{
+      13 |  await login(page,'operations_supervisor');await page.goto('/actions');await page.getByRole('button',{name:'Create action',exact:true}).click();const d=page.getByRole('dialog');const title='Browser accountable inspection '+Date.now();await d.getByLabel('Action title *',{exact:true}).fill(title);await d.getByRole('combobox',{name:'Zone *',exact:true}).selectOption('WARD_A');await d.getByRole('combobox',{name:'Owner *',exact:true}).selectOption(creds.operations_supervisor.user_id);await d.getByRole('button',{name:'Create action',exact:true}).click();await expect(d).not.toBeVisible();
+      14 |  for(const state of ['acknowledged','in progress','resolved']){const card=page.locator('.action-card').filter({has:page.getByRole('heading',{name:title,exact:true})});await card.getByRole('button',{name:state,exact:true}).click();await d.getByLabel('Reason *',{exact:true}).fill('Browser recorded inspection progression');await d.getByRole('button',{name:'Record transition'}).click();await expect(d).not.toBeVisible()}
+        at /app/e2e/product.spec.ts:11:638
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/product-chat-live-run-and-cancellation-control-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/product-chat-live-run-and-cancellation-control-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/product-chat-live-run-and-cancellation-control-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/product-chat-live-run-and-cancellation-control-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/product.spec.ts:11:5 › chat live run and cancellation control ─────────────────
+  1 passed (3.9m)

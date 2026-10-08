@@ -11,4 +11,6 @@ PASS docs/workflow.md diagram 9
 PASS docs/workflow.md diagram 10
 PASS docs/workflow.md diagram 11
 PASS docs/workflow.md diagram 12
-PASS all 13 Mermaid diagrams rendered
+PASS docs/techstack-and-scopes.md diagram 1
+PASS docs/techstack-and-scopes.md diagram 2
+PASS all 15 Mermaid diagrams rendered

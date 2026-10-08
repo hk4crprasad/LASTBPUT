@@ -25,14 +25,14 @@ def auth_login(body:LoginInput,response:Response):
     return {'user':{'id':str(p.user_id),'organization_id':str(p.organization_id),'name':p.name,'role':p.role},'csrf_token':csrf}
 
 @router.post('/auth/logout')
-def logout(request:Request,response:Response,ctx=Depends(request_db)):
+def logout(request:Request,response:Response,ctx=Depends(request_db,scope="function")):
     db,p=ctx
     db.execute(delete(LoginSession).where(LoginSession.token_hash==digest(request.cookies.get('greenops_session',''))))
     response.delete_cookie('greenops_session');response.delete_cookie('greenops_csrf')
     return {'status':'logged_out'}
 
 @router.get('/me')
-def me(ctx=Depends(request_db)):
+def me(ctx=Depends(request_db,scope="function")):
     db,p=ctx
     return {'id':str(p.user_id),'organization_id':str(p.organization_id),'name':p.name,'email':p.email,'role':p.role,
             'grants':[serialize(g) for g in db.scalars(select(Grant))],
@@ -40,29 +40,29 @@ def me(ctx=Depends(request_db)):
                    'tools':settings().llm_supports_tools,'monitor_writes':settings().agent_autonomous_writes_enabled}}
 
 @router.get('/organizations')
-def organizations(ctx=Depends(request_db)):
+def organizations(ctx=Depends(request_db,scope="function")):
     return {'items':[serialize(v) for v in ctx[0].scalars(select(Organization))]}
 
 @router.get('/facilities')
-def facilities(ctx=Depends(request_db)):
+def facilities(ctx=Depends(request_db,scope="function")):
     return {'items':[serialize(v) for v in ctx[0].scalars(select(Facility))]}
 
 @router.get('/worlds')
-def worlds(ctx=Depends(request_db)):
+def worlds(ctx=Depends(request_db,scope="function")):
     return {'items':[serialize(v) for v in ctx[0].scalars(select(World).order_by(World.code))]}
 
 @router.get('/metric-catalog')
-def metrics(ctx=Depends(request_db)):
+def metrics(ctx=Depends(request_db,scope="function")):
     return {'items':[serialize(v) for v in ctx[0].scalars(select(Metric))]}
 
 @router.get('/quality-events')
-def quality(world_id:UUID,limit:int=100,offset:int=0,ctx=Depends(request_db)):
+def quality(world_id:UUID,limit:int=100,offset:int=0,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     if not 1<=limit<=500 or offset<0:raise HTTPException(422,'Invalid pagination')
     return {'items':[serialize(v) for v in query(db,scope,'quality_events',limit,offset)],'limit':limit,'offset':offset}
 
 @router.get('/demo/clock')
-def clock(world_id:UUID,ctx=Depends(request_db)):
+def clock(world_id:UUID,ctx=Depends(request_db,scope="function")):
     return serialize(resolve_scope(ctx[0],ctx[1],world_id).world)
 class ClockInput(Strict):
     operation:str=Field(pattern='^(pause|advance|reset|replay)$')
@@ -70,7 +70,7 @@ class ClockInput(Strict):
 
 @router.post('/demo/clock')
 @router.post('/demo/replay')
-def clock_update(world_id:UUID,body:ClockInput,ctx=Depends(request_db)):
+def clock_update(world_id:UUID,body:ClockInput,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('facility')
     if settings().app_mode!='demo':raise HTTPException(403,'Demo clock unavailable outside demo')
     before=serialize(scope.world)
@@ -83,7 +83,7 @@ def clock_update(world_id:UUID,body:ClockInput,ctx=Depends(request_db)):
     return serialize(scope.world)
 
 @router.get('/evidence/{record_id}')
-def evidence(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def evidence(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     for table in ['source_events']+sorted(set(TABLES)-{'audit_events','outbox_events','stored_files'}):
         obj=db.scalar(select(TABLES[table]).where(TABLES[table].world_id==world_id,TABLES[table].id==record_id))
@@ -93,17 +93,17 @@ def evidence(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
     raise HTTPException(404,'Evidence unavailable')
 
 @router.get('/overview')
-def overview_route(world_id:UUID,start:datetime|None=None,end:datetime|None=None,ctx=Depends(request_db)):
+def overview_route(world_id:UUID,start:datetime|None=None,end:datetime|None=None,ctx=Depends(request_db,scope="function")):
     from app.domains.metrics import overview
     return overview(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),start,end)
 
 @router.get('/metrics/series')
-def series_route(world_id:UUID,metric:str,start:datetime|None=None,end:datetime|None=None,bucket:str='hour',zone_ids:str='',limit:int=200,offset:int=0,ctx=Depends(request_db)):
+def series_route(world_id:UUID,metric:str,start:datetime|None=None,end:datetime|None=None,bucket:str='hour',zone_ids:str='',limit:int=200,offset:int=0,ctx=Depends(request_db,scope="function")):
     from app.domains.metrics import series
     return series(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),metric,start,end,bucket,[z for z in zone_ids.split(',') if z],limit,offset)
 
 @router.get('/metrics/comparison')
-def comparison_route(world_id:UUID,metric:str,hours:int=24,ctx=Depends(request_db)):
+def comparison_route(world_id:UUID,metric:str,hours:int=24,ctx=Depends(request_db,scope="function")):
     from app.domains.metrics import series
     if not 1<=hours<=168:raise HTTPException(422,'hours must be 1–168')
     db,p=ctx;scope=resolve_scope(db,p,world_id);end=scope.world.as_of
@@ -111,28 +111,28 @@ def comparison_route(world_id:UUID,metric:str,hours:int=24,ctx=Depends(request_d
             'previous':series(db,scope,metric,end-timedelta(hours=hours*2),end-timedelta(hours=hours),'hour',limit=500)}
 
 @router.get('/operational-snapshots')
-def context_route(world_id:UUID,ctx=Depends(request_db)):
+def context_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.metrics import context
     return context(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 
 @router.get('/sustainability')
-def sustainability_route(world_id:UUID,start:datetime|None=None,end:datetime|None=None,ctx=Depends(request_db)):
+def sustainability_route(world_id:UUID,start:datetime|None=None,end:datetime|None=None,ctx=Depends(request_db,scope="function")):
     from app.domains.metrics import sustainability
     return sustainability(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),start,end)
 
 @router.get('/models')
-def model_route(world_id:UUID,ctx=Depends(request_db)):
+def model_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.analytics.service import models
     return models(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 @router.get('/models/{model_id}/evaluation')
-def evaluation_route(model_id:str,world_id:UUID,ctx=Depends(request_db)):
+def evaluation_route(model_id:str,world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.analytics.service import models
     items=models(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))['items']
     item=next((x for x in items if x['model_id']==model_id),None)
     if not item:raise HTTPException(404,'Unknown model')
     return item
 @router.get('/forecasts')
-def forecasts_route(world_id:UUID,ctx=Depends(request_db)):
+def forecasts_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     runs=query(db,scope,'forecast_runs',1)
     if not runs:return {'items':[],'status':'unavailable','reason':'Run explicit inference job'}
@@ -140,7 +140,7 @@ def forecasts_route(world_id:UUID,ctx=Depends(request_db)):
     return {'items':[serialize(r) for r in db.scalars(select(cls).where(cls.world_id==world_id,cls.parent_id==runs[0].id))],
             'run':serialize(runs[0]),'limitations':['Three hourly target points at 1, 6, 24 hours, not a daily trajectory or total.']}
 @router.get('/alerts/{record_id}/evidence')
-def alert_evidence_route(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def alert_evidence_route(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.core.records import get
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     alert=get(db,scope,'alerts',record_id)
@@ -152,53 +152,53 @@ from app.simulation.engine import Scenario
 class CompareInput(Strict):
     run_ids:list[UUID]=Field(min_length=2,max_length=5)
 @router.post('/actions',status_code=201)
-def action_create(world_id:UUID,body:ActionInput,request:Request,ctx=Depends(request_db)):
+def action_create(world_id:UUID,body:ActionInput,request:Request,ctx=Depends(request_db,scope="function")):
     from app.domains.actions import create
     key=request.headers.get('Idempotency-Key')
     if not key or len(key)>150:raise HTTPException(422,'Idempotency-Key (1–150 characters) required')
     return create(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),body,'user:'+str(ctx[1].user_id)+':'+key)
 @router.post('/actions/{record_id}/transition')
-def action_transition(record_id:UUID,world_id:UUID,body:Transition,ctx=Depends(request_db)):
+def action_transition(record_id:UUID,world_id:UUID,body:Transition,ctx=Depends(request_db,scope="function")):
     from app.domains.actions import transition
     return transition(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),record_id,body)
 @router.post('/simulations',status_code=202)
-def simulation_create(world_id:UUID,body:Scenario,request:Request,ctx=Depends(request_db)):
+def simulation_create(world_id:UUID,body:Scenario,request:Request,ctx=Depends(request_db,scope="function")):
     from app.jobs.service import enqueue
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('simulation')
     return enqueue(db,scope,'simulation',{'scenario':body.model_dump(mode='json')},request.headers.get('Idempotency-Key'))
 @router.post('/simulations/compare')
-def simulation_compare(world_id:UUID,body:CompareInput,ctx=Depends(request_db)):
+def simulation_compare(world_id:UUID,body:CompareInput,ctx=Depends(request_db,scope="function")):
     from app.simulation.service import compare
     try:return compare(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),body.run_ids)
     except ValueError as e:raise HTTPException(422,str(e))
 @router.get('/simulations/{record_id}')
-def simulation_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def simulation_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.core.records import get
     return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),'simulation_runs',record_id))
 @router.get('/owners')
-def owners(world_id:UUID,ctx=Depends(request_db)):
+def owners(world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     return {'items':[dict(r) for r in db.execute(text('SELECT * FROM scoped_owners(:org,:fac)'),{'org':p.organization_id,'fac':scope.world.facility_id}).mappings()]}
 
 @router.get('/waste/state')
-def waste_state_route(world_id:UUID,ctx=Depends(request_db)):
+def waste_state_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.state import waste_state
     return waste_state(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 @router.get('/assets/state')
-def assets_state_route(world_id:UUID,ctx=Depends(request_db)):
+def assets_state_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.state import assets_state
     return assets_state(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 @router.get('/reserves')
-def reserve_state_route(world_id:UUID,ctx=Depends(request_db)):
+def reserve_state_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.state import reserves_state
     return reserves_state(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 @router.get('/environment/state')
-def environment_state_route(world_id:UUID,ctx=Depends(request_db)):
+def environment_state_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.state import environment_state
     return environment_state(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 @router.get('/parking/state')
 @router.get('/safety/state')
-def parking_state_route(world_id:UUID,ctx=Depends(request_db)):
+def parking_state_route(world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.domains.state import parking_safety
     return parking_safety(ctx[0],resolve_scope(ctx[0],ctx[1],world_id))
 
@@ -213,7 +213,7 @@ ALIASES={'waste/batches':'waste_batches','waste/pickups':'pickups','waste/bins':
          'agent-runs':'agent_runs','reports':'report_runs','jobs':'jobs','conversations':'conversations'}
 
 def list_table(table):
-    def handler(world_id:UUID,limit:int=100,offset:int=0,status:str|None=None,ctx=Depends(request_db)):
+    def handler(world_id:UUID,limit:int=100,offset:int=0,status:str|None=None,ctx=Depends(request_db,scope="function")):
         if not 1<=limit<=500 or offset<0:raise HTTPException(422,'Pagination out of bounds')
         db,p=ctx;scope=resolve_scope(db,p,world_id)
         rows=query(db,scope,table,limit+1,offset,status)
@@ -227,43 +227,43 @@ for table in sorted(READ_TABLES):
     router.add_api_route('/records/'+table,list_table(table),methods=['GET'],name='ledger_'+table)
 
 @router.get('/contracts')
-def contracts_route(ctx=Depends(request_db)):
+def contracts_route(ctx=Depends(request_db,scope="function")):
     return {'items':{table:{'schema':contract.model_json_schema(),'permission_domain':domain} for table,(contract,domain) in CONTRACTS.items()}}
 @router.post('/records/{table}',status_code=201)
-def record_create(table:str,world_id:UUID,body:RecordInput,request:Request,ctx=Depends(request_db)):
+def record_create(table:str,world_id:UUID,body:RecordInput,request:Request,ctx=Depends(request_db,scope="function")):
     from app.domains.crud import create_record
     return create_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,body,request.headers.get('Idempotency-Key'))
 @router.patch('/records/{table}/{record_id}')
-def record_patch(table:str,record_id:UUID,world_id:UUID,body:RecordInput,ctx=Depends(request_db)):
+def record_patch(table:str,record_id:UUID,world_id:UUID,body:RecordInput,ctx=Depends(request_db,scope="function")):
     from app.domains.crud import update_record
     return update_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,body)
 @router.delete('/records/{table}/{record_id}')
-def record_delete(table:str,record_id:UUID,world_id:UUID,expected_version:int,ctx=Depends(request_db)):
+def record_delete(table:str,record_id:UUID,world_id:UUID,expected_version:int,ctx=Depends(request_db,scope="function")):
     from app.domains.crud import archive_record
     return archive_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,expected_version)
 @router.get('/records/{table}/{record_id}')
-def record_get(table:str,record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def record_get(table:str,record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     if table not in READ_TABLES:raise HTTPException(404,'Unknown ledger')
     return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id))
 @router.get('/facilities/{facility_id}/buildings')
-def building_list(facility_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def building_list(facility_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     scope=resolve_scope(ctx[0],ctx[1],world_id)
     if scope.world.facility_id!=facility_id:raise HTTPException(404,'Facility outside world')
     return {'items':[serialize(v) for v in query(ctx[0],scope,'buildings')]}
 
 @router.get('/jobs/{record_id}')
-def job_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def job_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id);row=get(db,scope,'jobs',record_id)
     if row.owner_id!=p.user_id and p.role not in ADMIN:raise HTTPException(403,'Run owner required')
     return serialize(row)
 @router.post('/imports',status_code=202)
-def import_create(world_id:UUID,request:Request,ctx=Depends(request_db)):
+def import_create(world_id:UUID,request:Request,ctx=Depends(request_db,scope="function")):
     from app.jobs.service import enqueue
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('imports')
     if scope.world.code not in {'base_v1','stress_v1'}:raise HTTPException(422,'Starter import only into its own base/stress world')
     return enqueue(db,scope,'import',{},request.headers.get('Idempotency-Key'))
 @router.post('/forecasts',status_code=202)
-def inference_create(world_id:UUID,request:Request,ctx=Depends(request_db)):
+def inference_create(world_id:UUID,request:Request,ctx=Depends(request_db,scope="function")):
     from app.jobs.service import enqueue
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('models')
     return enqueue(db,scope,'infer',{},request.headers.get('Idempotency-Key'))
@@ -271,7 +271,7 @@ def inference_create(world_id:UUID,request:Request,ctx=Depends(request_db)):
 class ConversationInput(Strict):
     name:str=Field(default='Operations conversation',min_length=1,max_length=150)
 @router.post('/conversations',status_code=201)
-def conversation_create(world_id:UUID,body:ConversationInput,ctx=Depends(request_db)):
+def conversation_create(world_id:UUID,body:ConversationInput,ctx=Depends(request_db,scope="function")):
     from app.core.records import insert
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     return serialize(insert(db,scope,'conversations',{},name=body.name,owner_id=p.user_id,zone_code=scope.zone_codes[0] if scope.zone_codes else None))
@@ -279,19 +279,19 @@ class MessageInput(Strict):
     content:str=Field(min_length=1,max_length=6000)
     mode:str=Field(default='ask',pattern='^(ask|investigate)$')
 @router.get('/conversations/{record_id}/messages')
-def conversation_messages(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def conversation_messages(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id);convo=get(db,scope,'conversations',record_id)
     if convo.owner_id!=p.user_id:raise HTTPException(403,'Conversation owner required')
     cls=TABLES['messages']
     return {'items':[serialize(v) for v in db.scalars(select(cls).where(cls.world_id==world_id,cls.parent_id==record_id).order_by(cls.created_at).limit(200))]}
 @router.post('/conversations/{record_id}/messages',status_code=202)
-def conversation_message(record_id:UUID,world_id:UUID,body:MessageInput,request:Request,ctx=Depends(request_db)):
+def conversation_message(record_id:UUID,world_id:UUID,body:MessageInput,request:Request,ctx=Depends(request_db,scope="function")):
     from app.ai.orchestrator import start_run
     db,p=ctx;scope=resolve_scope(db,p,world_id)
     key=request.headers.get('Idempotency-Key')
     return start_run(db,scope,record_id,body.content,body.mode,key=f'user:{p.user_id}:{key}' if key else None)
 @router.post('/agent-runs',status_code=202)
-def agent_create(world_id:UUID,body:MessageInput,ctx=Depends(request_db)):
+def agent_create(world_id:UUID,body:MessageInput,ctx=Depends(request_db,scope="function")):
     from app.ai.orchestrator import start_run
     from app.core.records import insert
     db,p=ctx;scope=resolve_scope(db,p,world_id)
@@ -303,10 +303,10 @@ def owned_run(db,p,world_id,record_id):
     if run.owner_id!=p.user_id and p.role not in ADMIN:raise HTTPException(403,'Run owner required')
     return scope,run
 @router.get('/agent-runs/{record_id}')
-def agent_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def agent_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     return serialize(owned_run(ctx[0],ctx[1],world_id,record_id)[1])
 @router.post('/agent-runs/{record_id}/cancel')
-def agent_cancel(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def agent_cancel(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.ai.orchestrator import event
     db,p=ctx;scope,run=owned_run(db,p,world_id,record_id)
     if run.status in {'completed','cancelled'}:return serialize(run)
@@ -315,7 +315,7 @@ def agent_cancel(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
     for job in db.scalars(select(cls).where(cls.world_id==world_id,cls.data['payload']['run_id'].as_string()==str(record_id))):job.status='cancelled'
     return serialize(run)
 @router.get('/agent-runs/{record_id}/events')
-def run_events(record_id:UUID,world_id:UUID,request:Request,after:int=0,ctx=Depends(request_db)):
+def run_events(record_id:UUID,world_id:UUID,request:Request,after:int=0,ctx=Depends(request_db,scope="function")):
     from fastapi.responses import StreamingResponse
     import asyncio,json,time
     from app.core.db import transaction
@@ -342,15 +342,15 @@ class ReportInput(Strict):
     name:str=Field(default='Operations daily brief',max_length=200)
     hours:int=Field(default=24,ge=1,le=720)
 @router.post('/reports',status_code=202)
-def report_create(world_id:UUID,body:ReportInput,request:Request,ctx=Depends(request_db)):
+def report_create(world_id:UUID,body:ReportInput,request:Request,ctx=Depends(request_db,scope="function")):
     from app.jobs.service import enqueue
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('reports')
     return enqueue(db,scope,'report',body.model_dump(),request.headers.get('Idempotency-Key'))
 @router.get('/reports/{record_id}')
-def report_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def report_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),'report_runs',record_id))
 @router.get('/files/{record_id}/download')
-def download(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def download(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     from app.core.storage import read
     db,p=ctx;scope=resolve_scope(db,p,world_id);row,body=read(db,scope,record_id)
     filename=row.data['filename'].replace('"','').replace('\n','').replace('\r','')
@@ -358,7 +358,7 @@ def download(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
                        'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'",'X-Content-Type-Options':'nosniff'})
 from fastapi import UploadFile,File
 @router.post('/files',status_code=201)
-async def upload(world_id:UUID,file:UploadFile=File(),ctx=Depends(request_db)):
+async def upload(world_id:UUID,file:UploadFile=File(),ctx=Depends(request_db,scope="function")):
     from app.core.storage import store,MAX_FILE_BYTES
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('actions')
     body=await file.read(MAX_FILE_BYTES+1)
@@ -366,7 +366,7 @@ async def upload(world_id:UUID,file:UploadFile=File(),ctx=Depends(request_db)):
     except ValueError as e:raise HTTPException(422,str(e))
 
 @router.post('/imports/csv',status_code=202)
-async def csv_import(world_id:UUID,file:UploadFile=File(),ctx=Depends(request_db)):
+async def csv_import(world_id:UUID,file:UploadFile=File(),ctx=Depends(request_db,scope="function")):
     import csv,hashlib,io
     from app.jobs.service import enqueue
     from app.domains.importer import PUBLIC_FIELDS
@@ -387,7 +387,7 @@ class ProposalApproval(Strict):
     expected_version:int=Field(ge=1)
     review_evidence:str=Field(min_length=5,max_length=2000)
 @router.post('/action-proposals/{record_id}/approve')
-def approve_proposal(record_id:UUID,world_id:UUID,body:ProposalApproval,ctx=Depends(request_db)):
+def approve_proposal(record_id:UUID,world_id:UUID,body:ProposalApproval,ctx=Depends(request_db,scope="function")):
     from app.domains.actions import create
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('facility')
     proposal=get(db,scope,'action_proposals',record_id,True)
@@ -403,7 +403,7 @@ class ModelStatusInput(Strict):
     expected_version:int=Field(ge=1)
     reason:str=Field(min_length=5,max_length=1000)
 @router.patch('/models/{record_id}/status')
-def model_status(record_id:UUID,world_id:UUID,body:ModelStatusInput,ctx=Depends(request_db)):
+def model_status(record_id:UUID,world_id:UUID,body:ModelStatusInput,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id);scope.require('models')
     row=get(db,scope,'model_versions',record_id,True)
     if row.version!=body.expected_version:raise HTTPException(409,'Model status changed; refresh')
@@ -414,22 +414,22 @@ def model_status(record_id:UUID,world_id:UUID,body:ModelStatusInput,ctx=Depends(
 
 # Public domain aliases and generic ledger endpoints share the exact same services.
 def domain_create(table):
-    def handler(world_id:UUID,body:RecordInput,request:Request,ctx=Depends(request_db)):
+    def handler(world_id:UUID,body:RecordInput,request:Request,ctx=Depends(request_db,scope="function")):
         from app.domains.crud import create_record
         return create_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,body,request.headers.get('Idempotency-Key'))
     return handler
 def domain_update(table):
-    def handler(record_id:UUID,world_id:UUID,body:RecordInput,ctx=Depends(request_db)):
+    def handler(record_id:UUID,world_id:UUID,body:RecordInput,ctx=Depends(request_db,scope="function")):
         from app.domains.crud import update_record
         return update_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,body)
     return handler
 def domain_archive(table):
-    def handler(record_id:UUID,world_id:UUID,expected_version:int,ctx=Depends(request_db)):
+    def handler(record_id:UUID,world_id:UUID,expected_version:int,ctx=Depends(request_db,scope="function")):
         from app.domains.crud import archive_record
         return archive_record(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id,expected_version)
     return handler
 def domain_get(table):
-    def handler(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+    def handler(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
         return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),table,record_id))
     return handler
 for alias,table in ALIASES.items():
@@ -439,11 +439,11 @@ for alias,table in ALIASES.items():
         router.add_api_route('/'+alias+'/{record_id}',domain_archive(table),methods=['DELETE'],name='archive_'+table)
         router.add_api_route('/'+alias+'/{record_id}',domain_get(table),methods=['GET'],name='get_'+table)
 @router.get('/imports/{record_id}')
-def import_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def import_get(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     return serialize(get(ctx[0],resolve_scope(ctx[0],ctx[1],world_id),'import_jobs',record_id))
 
 @router.post('/jobs/{record_id}/retry')
-def retry_job(record_id:UUID,world_id:UUID,ctx=Depends(request_db)):
+def retry_job(record_id:UUID,world_id:UUID,ctx=Depends(request_db,scope="function")):
     db,p=ctx;scope=resolve_scope(db,p,world_id);job=get(db,scope,'jobs',record_id,True)
     if job.owner_id!=p.user_id and p.role not in ADMIN:raise HTTPException(403,'Job owner or administrator required')
     if job.status not in {'failed','waiting_provider','retry_pending'}:raise HTTPException(409,'Only a failed/deferred job may be explicitly retried')

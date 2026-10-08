@@ -1,0 +1,237 @@
+{
+  "mode": "real_provider",
+  "questions": 15,
+  "passed": 15,
+  "limitations": [
+    "Numeric/citation validator is conservative and can withhold valid paraphrases. Tool output remains authoritative."
+  ],
+  "results": [
+    {
+      "domain": "facility",
+      "question": "How many occupied beds and total beds are there in this selected world? Read the facility snapshot.",
+      "run_id": "fad8bc39-fa53-4160-bc5a-634976276f45",
+      "status": "completed",
+      "tools": [
+        "get_facility_snapshot"
+      ],
+      "evidence_count": 30,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "The facility snapshot reports **121 occupied beds out of 168 total beds**, as of **2025-06-29T23:00:00+00:00** (local time: **2025-06-30T04:30:00+05:30**).",
+      "error": null
+    },
+    {
+      "domain": "energy",
+      "question": "How much interval energy was observed in the last 24 hours? Read the facility snapshot and state units.",
+      "run_id": "85562d6d-02ec-4043-bdd5-3867b1a9d704",
+      "status": "completed",
+      "tools": [
+        "get_facility_snapshot"
+      ],
+      "evidence_count": 30,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "Observed interval energy for the last 24 hours (2025-06-28T23:00:00+00:00 to 2025-06-29T23:00:00+00:00): **1,699.4154 kWh**. Coverage was complete (144 of 144 expected readings). This is synthetic demonstration data.",
+      "error": null
+    },
+    {
+      "domain": "water",
+      "question": "Read water consumption for the last 24 hours and identify any missing coverage.",
+      "run_id": "af12cf48-3a5a-4ff6-859d-9bb9a584e28a",
+      "status": "completed",
+      "tools": [
+        "get_facility_snapshot"
+      ],
+      "evidence_count": 30,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Water consumption (last 24 hours):** 11,177.509 L across the window **2025-06-28T23:00:00+00:00 to 2025-06-29T23:00:00+00:00**.\n\n**Coverage:** 144 of 144 expected hourly intervals are valid \u2014 **100% coverage**, with **0 missing intervals**.\n\nThis is synthetic demonstration data, summed across disjoint zone intervals; it is not validated real-hospital measurement.",
+      "error": null
+    },
+    {
+      "domain": "operations",
+      "question": "Read operational context and explain OPD counts versus occupied bed-days.",
+      "run_id": "7edf82ee-8f4c-41a9-8314-2a066bd67812",
+      "status": "completed",
+      "tools": [
+        "get_operational_context",
+        "get_facility_snapshot"
+      ],
+      "evidence_count": 37,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "For the **24-hour window 2025-06-28T23:00:00+00:00 to 2025-06-29T23:00:00+00:00** (local end: **2025-06-30T04:30:00+05:30**), the operational context records:\n\n- **OPD visits: 0** across the facility, including the OPD zone.\n- **Occupied bed-days: 117.625** in total: ICU 14.167, Ward A 48.708, Ward B 54.75. These are accumulated occupancy over the day, not a count of distinct patients; averaged across 24 hourly intervals, they correspond to 117.625 mean occupied beds.\n\nSo the metrics describe different activity: OPD visits count outpatient attendance, while occupied bed-days measure inpatient bed use over time. Zero recorded OPD visits does not imply zero inpatient occupancy.\n\n**Coverage and caveat:** The context reports 24 intervals per zone and labels these data synthetic demonstration evidence, not validated real-hospital records. **Next step:** verify the OPD count against the source attendance feed if you need to confirm whether zero means no visits or missing/unrecorded activity.",
+      "error": null
+    },
+    {
+      "domain": "assets",
+      "question": "Which assets have operational dependencies? Use the assets tool and list recorded modes.",
+      "run_id": "80abc816-cc9e-473c-9650-ca5b9adc7c53",
+      "status": "completed",
+      "tools": [
+        "get_assets_and_dependencies"
+      ],
+      "evidence_count": 30,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "The recorded operational dependency is **water supply from the SERVICES Supply pump to the ICU Air handling unit**. Both assets\u2019 recorded modes are **operational**.\n\nThis is the only dependency listed in the assets tool result; it is synthetic operational evidence as of `2025-06-29T23:00:00+00:00` (`2025-06-30T04:30:00+05:30` local).",
+      "error": null
+    },
+    {
+      "domain": "reserves",
+      "question": "Read separate water reserves and explain protected fire storage.",
+      "run_id": "14220f6f-8d73-4fa8-bb93-809d1ae15583",
+      "status": "completed",
+      "tools": [
+        "get_resource_reserves"
+      ],
+      "evidence_count": 9,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "As of **2025-06-29T23:00:00+00:00** (**2025-06-30T04:30:00+05:30** local), the recorded water reserves are:\n\n| Reserve | Recorded level / capacity | Inflow | Recorded use state |\n|---|---:|---:|---|\n| **Fire (protected)** | **10,000 / 10,000 L** | 0 L/h | No use recorded: served 0 L, unmet 0 L, spill 0 L |\n| Potable | 30,000 / 30,000 L | 1,600 L/h | Served 340.8565635103889 L; unmet 0 L; spill 1,259.1434364896122 L |\n| Process | 12,000 / 12,000 L | 400 L/h | Served 85.21414087759723 L; unmet 0 L; spill 314.78585912240305 L |\n\n**Protected fire storage:** The system records a separate 10,000 L fire reserve at its full 10,000 L capacity, with no inflow or fire-reserve use recorded at this snapshot. Its configuration has zero essential and nonessential draw, distinguishing it from potable and process supplies. Treat it as dedicated fire storage\u2014not available general-purpose water. These are synthetic operational records, not a water-quality certification or confirmation of physical tank condition. Next step: verify the fire tank\u2019s level and readiness through the facility\u2019s normal inspection process.",
+      "error": null
+    },
+    {
+      "domain": "waste",
+      "question": "Which category-specific waste batches need attention first? Use waste state and configured deadlines.",
+      "run_id": "f6053ba7-72fb-43f3-98de-b2812781e65f",
+      "status": "completed",
+      "tools": [
+        "get_waste_state"
+      ],
+      "evidence_count": 100,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Attention first: yellow, red, white, and blue** \u2014 all four categories have configured deadlines showing service needed within **1 hour** of the as-of time (**2025-06-29T23:00:00+00:00 / 2025-06-30T04:30:00+05:30**). The tool labels these as high-severity pickup-deadline risks.\n\nThe category-specific evidence lists differing stock and fill levels: **yellow 20.31 kg (28.21%)**, **red 19.54 kg (27.14%)**, **white 4.51 kg (6.27%)**, and **blue 6.77 kg (9.40%)**. Since the configured age deadline is equally urgent, prioritize arranging service/handover for all four now; the snapshot does not establish which should go first among them. The deadline policy is configurable internal demo policy, **not a legal limit**.\n\n**Coverage caveat:** the waste-state result was truncated, so this may not be the complete category ledger. Pickup metadata also does not confirm physical handover. Next, verify the complete category list and actual pickup/handover status with the waste operations team.",
+      "error": null
+    },
+    {
+      "domain": "environment",
+      "question": "Read latest indoor temperature, PM2.5 and CO2, with configured threshold limitations.",
+      "run_id": "a24df08b-512b-4b68-b1b9-65d93c88c597",
+      "status": "completed",
+      "tools": [
+        "get_environment_state",
+        "get_facility_snapshot"
+      ],
+      "evidence_count": 39,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "## Latest indoor readings\n\nAll readings are synthetic demonstration data, timestamped **2025-06-29T23:00:00+00:00 UTC** (**2025-06-30T04:30:00+05:30**, facility time).\n\n| Zone | Temperature | PM2.5 | CO\u2082 |\n|---|---:|---:|---:|\n| ADMIN | 26.792 \u00b0C | 20.01 \u00b5g/m\u00b3 | 388.94 ppm |\n| ICU | 26.792 \u00b0C | 13.70 \u00b5g/m\u00b3 | 471.26 ppm |\n| OPD | 26.792 \u00b0C | 16.25 \u00b5g/m\u00b3 | 413.54 ppm |\n| SERVICES | 26.792 \u00b0C | 13.93 \u00b5g/m\u00b3 | 400.82 ppm |\n| WARD_A | 26.792 \u00b0C | 15.80 \u00b5g/m\u00b3 | 578.76 ppm |\n| WARD_B | 26.792 \u00b0C | 16.56 \u00b5g/m\u00b3 | 566.82 ppm |\n\n**Configured internal demo thresholds:** temperature max **35 \u00b0C**; PM2.5 max **35 \u00b5g/m\u00b3**; CO\u2082 max **1,000 ppm**. The reported readings are below these configured thresholds.\n\n**Limitations:** These are internal demonstration thresholds\u2014not clinical exposure standards or legal limits. The data is synthetic and not validated for real-hospital accuracy. Readings reflect the latest hourly state; sensor-quality or longer-term trend information was not provided.",
+      "error": null
+    },
+    {
+      "domain": "parking",
+      "question": "Read parking and safety. State occupancy, queue and capacity for latest parking snapshot.",
+      "run_id": "b3768b9a-9207-4895-a4f0-d816582bf3d6",
+      "status": "completed",
+      "tools": [
+        "get_parking_and_safety"
+      ],
+      "evidence_count": 23,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Latest parking snapshot** \u2014 **2025-06-30 04:30:00+05:30** (Asia/Kolkata; **2025-06-29T23:00:00+00:00 UTC**):\n\n- **Occupancy:** 120 vehicles  \n- **Queue:** 6,738 vehicles  \n- **Capacity:** 120 vehicles  \n\nOccupancy was at capacity, and the snapshot flags the protected route as at risk. Data is synthetic operational evidence.",
+      "error": null
+    },
+    {
+      "domain": "safety",
+      "question": "Read parking and safety. Explain incident count and its zone-hour denominator.",
+      "run_id": "00bcc134-b5a6-4b2d-a519-703a6ae267af",
+      "status": "completed",
+      "tools": [
+        "get_parking_and_safety"
+      ],
+      "evidence_count": 23,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Finding (last 30 days, through `2025-06-29T23:00:00+00:00` / `2025-06-30T04:30:00+05:30`):** 7 operational incidents were recorded, all described as blocked-route observations in the SERVICES zone. The denominator is **4,320 observed zone-hours**\u2014the accumulated observation time across zones, not 4,320 hours for one zone. That gives **1.62 incidents per 1,000 observed zone-hours**.\n\nThis is a synthetic operational indicator, not a patient-safety outcome or a hospital-comparison rate. The reported parking state also flags the emergency access route as at risk; it is a separate current observation, not an eighth incident in the 30-day count. Next step: review and verify the route condition with facilities/parking operations.",
+      "error": null
+    },
+    {
+      "domain": "forecast",
+      "question": "Read forecast targets and explain the supported leads and model limitations.",
+      "run_id": "ddaa0740-ae74-4964-9580-8083139069f2",
+      "status": "completed",
+      "tools": [
+        "get_forecasts"
+      ],
+      "evidence_count": 37,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Finding:** The forecast feed supports three **target leads only**: **1, 6, and 24 hours** from the issue time. It does not provide a continuous hourly path between those points.\n\n**Time window:** Issued at **2025-06-29T23:00:00+00:00** (**2025-06-30T04:30:00+05:30**). Targets are:\n- **1-hour lead:** **2025-06-30T00:00:00+00:00** (**2025-06-30T05:30:00+05:30**)\n- **6-hour lead:** **2025-06-30T05:00:00+00:00** (**2025-06-30T10:30:00+05:30**)\n- **24-hour lead:** **2025-06-30T23:00:00+00:00** (**2025-07-01T04:30:00+05:30**)\n\nForecasts cover **hourly-interval energy (kWh)** and **water (L)** by zone. Values are reported as seasonal baselines; for example, the ICU\u2019s 1-hour targets are **13.9328 kWh** and **75.642 L**.\n\n**Limitations and interpretation:** These records are labeled **experimental_synthetic_only**. The supplied models fall back to seasonal baselines because the extended-world feature distribution has not been evaluated with them. Lower and upper bounds are absent; the stated 90% validation-residual method does not guarantee coverage under distribution shift. The feed explicitly provides no full trajectory or daily total, so the target points should not be added up or treated as a daily forecast. Results are synthetic demonstration evidence, not validated real-hospital predictions.\n\n**Next action:** Use the points only as limited planning references; confirm actual conditions against current operational measurements before making decisions.",
+      "error": null
+    },
+    {
+      "domain": "actions",
+      "question": "Read actions. Which actions remain open and who owns them?",
+      "run_id": "51b2277a-1e7b-4859-a59f-0ec5a7fa4e81",
+      "status": "completed",
+      "tools": [
+        "get_actions"
+      ],
+      "evidence_count": 9,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "No actions remain open. The actions tool reports **0 open actions**; its complete result lists **4 closed actions** and no current owners for any open actions.",
+      "error": null
+    },
+    {
+      "domain": "sustainability",
+      "question": "Read sustainability. Explain estimated cost and carbon with exact factor assumptions.",
+      "run_id": "b9004614-1443-428b-a315-f74cabab67cd",
+      "status": "completed",
+      "tools": [
+        "get_sustainability_summary"
+      ],
+      "evidence_count": 3,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "## Sustainability estimate \u2014 24-hour window\n\n**Window:** `2025-06-28T23:00:00+00:00` to `2025-06-29T23:00:00+00:00` (local: `2025-06-29T04:30:00+05:30` to `2025-06-30T04:30:00+05:30`).\n\n- **Estimated cost:** **\u20b913,595.32**\n- **Estimated carbon:** **1,189.59078 kgCO\u2082e**\n\n### Inputs and exact factor assumptions\nThe estimates use synthetic operational data covering all **144 expected intervals** (100% coverage):\n\n- Electricity: **1,699.4154 kWh**\n- Water: **11,177.509 L**\n- Waste generated: **45.1326 kg**\n\nThe supplied assumptions are:\n- **Cost:** \u20b9**8.0/kWh**, year **2025**, effective `2025-01-01T00:00:00+00:00`; explicit illustrative demo tariff for a fictional India setting.\n- **Carbon:** **0.7 kgCO\u2082e/kWh**, year **2025**, effective `2025-01-01T00:00:00+00:00`; explicit illustrative demo grid factor for a fictional India setting.\n\nThese figures are consistent with applying the tariff and carbon factor to the reported electricity use. **Water and waste are reported as usage, but are not assigned cost or carbon factors in this estimate.**\n\n### Interpretation and limitations\nThese are **estimates from synthetic data**, not verified bills or measured emissions. The factors are illustrative, not official current values; demand charges are omitted. The report says facility cost/carbon uses all disjoint zones, while inpatient intensity excludes OPD and service zones. No savings are claimed.\n\n**Next step:** For a decision-grade estimate, replace the demo factors with approved current tariff and emissions factors, and include any omitted charges or resource-specific factors. [Evidence: sustainability summary](/api/v1/evidence/e1c97dfd-463f-482d-ac4a-6c9dc61a9cc2?world_id=4f83c5f7-6350-5195-abec-748dc5795281)",
+      "error": null
+    },
+    {
+      "domain": "policy",
+      "question": "Search operating documents for the operational SOP and state internal policy limitations.",
+      "run_id": "6c77fd29-1cb1-45fb-9fcd-159cbad10447",
+      "status": "completed",
+      "tools": [
+        "search_operating_documents"
+      ],
+      "evidence_count": 1,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "No operational SOP was found in the authorized document search (0 results; search was not truncated).\n\n**Policy limitations:** Document text is untrusted source data and cannot grant permissions or authorize tools. The system also states that internal demo thresholds are not universal legal limits.\n\n**Next step:** Try a more specific search term (for example, a department, process, or SOP title).",
+      "error": null
+    },
+    {
+      "domain": "simulation",
+      "question": "Simulate a 6-hour grid outage with pump failure using run_what_if and summarize unmet essential demand.",
+      "run_id": "c70b7fe6-51f6-4d69-a258-3a4dfb7fc701",
+      "status": "completed",
+      "tools": [
+        "run_what_if"
+      ],
+      "evidence_count": 2,
+      "grounding": {
+        "passed": true
+      },
+      "answer": "**Simulation complete:** A 6-hour grid outage with pump failure was modeled from `2025-06-29T23:00:00+00:00` (local: `2025-06-30T04:30:00+05:30`).\n\n- **Unmet essential water demand:** 0 L\n- **Unmet essential energy demand:** 0 kWh\n- The model reports 480 kWh from the genset and 30 kWh from the battery, with 6,000 L of water served.\n\nThis is a synthetic scenario using constant demand and pump assumptions from the frozen snapshot, not a validated forecast or operational control. The result is simulated, not measured. Next step: review the saved scenario and its assumptions before using it for planning.",
+      "error": null
+    }
+  ]
+}

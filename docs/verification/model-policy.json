@@ -1,0 +1,6 @@
+{
+  "status": "passed_actual_model_disable_fallback_restore",
+  "model": "energy_kwh_1h",
+  "fallback_points": 4,
+  "restored_status": "experimental_synthetic_only"
+}

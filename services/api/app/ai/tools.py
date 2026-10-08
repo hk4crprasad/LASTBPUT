@@ -74,7 +74,13 @@ def read_data(db,scope,name):
     if name=='get_operational_context':return metrics.context(db,scope)
     if name=='get_assets_and_dependencies':return state.assets_state(db,scope)
     if name=='get_resource_reserves':return state.reserves_state(db,scope)
-    if name=='get_waste_state':return state.waste_state(db,scope)
+    if name=='get_waste_state':
+        data=state.waste_state(db,scope)
+        data['batches']=sorted(data['batches'],key=lambda b:b['age_hours'],reverse=True)[:20]
+        data['pickups']=data['pickups'][:10];data['handovers']=data['handovers'][:10]
+        data['returned_batches']=len(data['batches']);data['truncated']=data['batch_count']>data['returned_batches']
+        data['limitations']+=['Batch detail is limited to the 20 oldest batches; pickups/handovers to 10 each. Category summaries aggregate all positive scoped movement balances, independently of the detail limit.']
+        return data
     if name=='get_environment_state':return state.environment_state(db,scope)
     if name=='get_parking_and_safety':return state.parking_safety(db,scope)
     if name=='get_sustainability_summary':return metrics.sustainability(db,scope)

@@ -6,6 +6,8 @@ The implementation contract is [Hospital_GreenOps_Codex_Build_Plan.md](Hospital_
 
 ## Start
 
+This workspace is initialized and running at localhost:3000. Restart the existing installation with `./scripts/compose.sh up -d`; generated login credentials are in `.local/demo-credentials.json`. The commands below initialize a fresh installation.
+
 Requires Docker with Compose v2 (supporting `!reset`/`!override`), network access for the initial image/dependency build, approximately 12 GB free disk and 8 GB RAM. The initial MinIO build compiles its pinned official source release; browser dependencies are included in the web image.
 
 ```bash

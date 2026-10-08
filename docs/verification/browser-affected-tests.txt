@@ -1,0 +1,11 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test --grep login, world|waste and maintenance
+
+
+Running 2 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/product.spec.ts:8:5 › login, world isolation, explorer and all domain pages (8.1s)
+  ✓  2 [chromium] › e2e/product.spec.ts:9:5 › waste and maintenance create persisted records (3.2s)
+
+  2 passed (12.1s)

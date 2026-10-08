@@ -53,6 +53,11 @@ async def test_tool_loop_scope_matching_ids_and_grounding():
         assert evidence.data['result']['data']['reserves']==response['data']['reserves']
         action_output=envelope(scope,'get_actions',{'eligible_owners':[{'id':str(p.user_id),'name':'Owner'}]})
         assert not action_output['evidence']  # Identity UUIDs are not domain evidence URLs.
+        from app.ai.tools import read_data
+        from app.domains.state import waste_state
+        full=waste_state(db,scope);bounded=read_data(db,scope,'get_waste_state')
+        assert bounded['categories']==full['categories'] and len(bounded['batches'])<=20
+        assert len(json.dumps(envelope(scope,'get_waste_state',bounded)))<60000
 
 @pytest.mark.asyncio
 async def test_unknown_tool_and_scope_injection_rejected():

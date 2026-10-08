@@ -1,0 +1,14 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test
+
+
+Running 5 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/product.spec.ts:8:5 › login, world isolation, explorer and all domain pages (8.2s)
+  ✓  2 [chromium] › e2e/product.spec.ts:9:5 › waste and maintenance create persisted records (4.2s)
+  ✓  3 [chromium] › e2e/product.spec.ts:10:5 › scenario job, comparison and report downloads (37.5s)
+  ✓  4 [chromium] › e2e/product.spec.ts:11:5 › chat live run and cancellation control (20.9s)
+  ✓  5 [chromium] › e2e/product.spec.ts:12:5 › import duplicate job and independent action closure (12.0s)
+
+  5 passed (1.4m)

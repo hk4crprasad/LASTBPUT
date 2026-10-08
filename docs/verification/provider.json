@@ -1,0 +1,75 @@
+{
+  "status": "passed_real_provider",
+  "endpoint": "https://cynerza-2026.services.ai.azure.com/openai/v1",
+  "model": "gpt-6-luna",
+  "checks": [
+    "real_text",
+    "declared_read_tool",
+    "matching_tool_result",
+    "final_response",
+    "streaming_chunks",
+    "parallel_tool_calls_parameter_accepted",
+    "multiple_parallel_read_calls_and_matching_results"
+  ],
+  "parallel_read_calls_verified": true,
+  "token_limit_parameter": "max_completion_tokens",
+  "usage": [
+    {
+      "completion_tokens": 10,
+      "prompt_tokens": 12,
+      "total_tokens": 22,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "text_tokens": null
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": 0,
+        "cached_tokens": 0,
+        "image_tokens": null,
+        "text_tokens": null
+      }
+    },
+    {
+      "completion_tokens": 14,
+      "prompt_tokens": 135,
+      "total_tokens": 149,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "text_tokens": null
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": 0,
+        "cached_tokens": 0,
+        "image_tokens": null,
+        "text_tokens": null
+      }
+    },
+    {
+      "completion_tokens": 39,
+      "prompt_tokens": 191,
+      "total_tokens": 230,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "text_tokens": null
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cache_write_tokens": 0,
+        "cached_tokens": 0,
+        "image_tokens": null,
+        "text_tokens": null
+      }
+    }
+  ]
+}

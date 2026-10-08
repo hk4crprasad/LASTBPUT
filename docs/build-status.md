@@ -1,19 +1,29 @@
 # Hospital GreenOps build evidence
 
-Contract: `Hospital_GreenOps_Codex_Build_Plan.md`. Scope: aggregate operations and sustainability only.
+Contract: `Hospital_GreenOps_Codex_Build_Plan.md`. Validation date: 8 October 2026. Fictional aggregate operations and sustainability only; no patient workflows. The supplied starter directory was used because the ZIP was absent. Original sources/checksums remain in `research/starter`.
 
-| Milestone | Status | Evidence / open checks |
+| Milestone | Status | Implemented behavior and checks |
 |---|---|---|
-| M0 | Validated locally; Compose verification pending | Web production build passed. API readiness passed with real PostgreSQL 18.3, Redis 7.4.8, source-built MinIO under rootless Podman. Lockfiles committed to workspace. |
-| M1 | Passed slice checks | Exact source counts 17,280 / 8,640; null water preserved; repeat import idempotent; forced RLS and zone/pool/CSRF checks passed. 17 invalid stress fill metrics quarantined while raw rows retained. |
-| M2 | API checks passed; UI in progress | SQL/API consumption and units agree. Context and evidence services use world clock. |
-| M3 | Passed slice checks | Exact ML pins, preserved feature contract, checksum trust, chronological purge, no future feature leakage and reload agreement. 9 M1–M3 checks passed in 4.88 s. |
-| M4 | Validation running | Numeric fixtures, balance/priority engine, durable job interface and audited action lifecycle implemented. |
-| M5 | In progress | Independent seeded full-domain world generator and typed domain ledgers/CRUD implemented; generation and balance checks running. |
-| M6 | Pending | Provider and grounded tools |
-| M7 | Pending | Agent reactions |
-| M8 | Pending | Reporting/admin |
-| M9 | Pending | Verification/recovery |
-| M10 | Pending | Handoff |
+| M0 | Passed | Monorepo, Next.js/TypeScript/Python 3.12 lockfiles, Compose, real PostgreSQL 18/Redis/MinIO readiness. Images built and fresh empty volumes booted. Actual verification used rootless Podman through Docker Compose because the native Docker socket denied access. |
+| M1 | Passed | Alembic 0001–0005, restricted runtime role, FORCE RLS, sessions/CSRF, world separation, virtual clock and canonical immutable observations. Exact base 17,280/stress 8,640 source rows; water nulls retained; 17 invalid stress fill metrics quarantined. Checks cover populated cross-tenant denial, facility/zone grants, auditor writes and pooled identity reset. |
+| M2 | Passed | API-backed facility/configuration CRUD, occupancy/OPD context, resource series/comparisons, coverage and evidence. API sums match actual source SQL and interval units. Latest-state SQL queries now retrieve only the selected record. |
+| M3 | Passed | Six trusted forecast bundles and generic detector, original feature/ML pins, checksum trust, lead/fallback semantics, contextual persistence/quality alerts and model disable/restore. Leakage/purge and exact reloaded predictions pass. Actual isolated offline training produced six models, split/artifact manifests, predictions, per-zone errors and contextual detection evidence. No serving artifact silently replaced. |
+| M4 | Passed | Thirteen interventions, 15-minute 1–72 h engine, saved identical-baseline comparison, sensitivity, protected fire, essential priority, unmet demand and balances. Five numerical fixtures and unknown waste-age case pass. Persisted action lifecycle enforces roles, versions, owner, evidence and independent review. |
+| M5 | Passed | All twelve modules have persisted domain APIs/CRUD and screens. Independent extended world: 25,920 zone-hours, six zones/180 days; separate waste ledger, telemetry/dependencies, reserves, environment, parking and incidents. Domain balance/persistence tests pass. Separate two-facility campaign smoke: 1,152 rows; optional 630,720-row campaign not run. |
+| M6 | Passed | Nineteen typed scoped tools, provider adapter, conversation/tool/result/usage persistence, frozen snapshots, numeric/citation guard and SSE replay/cancel. Actual Azure GPT-6 Luna text/read-tool/result/final, streamed chunks and two parallel read calls passed. Fifteen domain questions completed grounded; all 250 distinct authorized evidence URLs returned HTTP 200; actual permitted asset change changed refreshed answer and was restored. Mock malformed arguments, timeout/rate limit, unsupported tools and malicious document tests pass. |
+| M7 | Passed | Investigate/monitor, observable risk triggers, opt-in versioned policies, cooldown, owners, mutation rechecks, advisory-locked daily caps, budgets, cancellation, bounded provider retries and durable recovery implemented. Mock risk → investigation → scenario → proposal and duplicate prevention pass. The live HTTP demo completed waste evidence → saved six-hour scenario → proposal → administrator review → permitted assigned action; an independent action lifecycle reached closed. |
+| M8 | Passed | Reproducible CSV/HTML/PDF in scoped S3, checksum-verified downloads, versioned policy/tariff/factor/document/model administration. Actual artifact tests pass. Production identity provisioning repeated against isolated PostgreSQL: one identity, no invented operating history. |
+| M9 | Passed | Final backend suite: **36 passed in 50.72 s**; original starter: **8 passed**. Full browser suite: **5 passed in 1.4 min**, including live chat; the two affected page/CRUD flows passed again after the bounded waste query change. Fresh-service restore verified 51,840 sources, 362,880 observations, 12 artifact hashes, FORCE RLS and revision 0005. Actual Redis outage returned readiness 503, accepted a durable request and completed it after recovery. Disposable migration cycle 0005 → base → 0005 → 0005 and clean demo reset/production refusal passed. Actual API image excludes research/private labels/hidden facility events. Latest-state SQL limits, cancellation/selective reads and commit-before-success response timing are fixed and tested. Waste totals include every positive scoped balance even when batch detail is limited; a 501-added-batch fixture verifies the limit cannot lower category totals. All performance targets passed. |
+| M10 | Passed | README, architecture, runbook, train/evaluate, seed/generate/infer/check-llm, backup/restore, HTTP demo, generated OpenAPI contracts and production TLS configuration exist. Loaded overview/chat screenshots were inspected. Actual sanitized verification output and SHA256 manifest are in `docs/verification/`; working services run on localhost:3000/8000. |
 
-No real-provider verification or public deployment has occurred.
+The repeat-suite monitor cooldown fixture now isolates its virtual-clock changes. Policies sharing a virtual timestamp select by creation time. The final complete backend rerun passed. The HTTP demo and affected browser flows were rerun on the final images.
+
+The configured Azure deployment uses `max_completion_tokens`, streaming, parallel tool calls and `reasoning_effort=none`; no `temperature` or `max_tokens` is sent. Keys remain server-side in ignored mode-600 environment files. Earlier provider failures were recorded as failures, not substituted responses.
+
+Limitations: experimental synthetic-only ML; energy loses to weekly baseline under shift; generic detector has weak precision/recall; extended-world seasonal fallback; only 1/6/24 h target points; sensitivity is not a confidence interval; internal thresholds and INR 8/kWh / 0.7 kgCO2e/kWh factors are illustrative; simulation deltas are not measured savings. Grounding is conservative and does not prove every natural-language assertion.
+
+No public deployment occurred. Production TLS Compose parsed with an explicit example hostname. Hosting/DNS and real operational validation are outside the local deliverable. No missing provider credential remains.
+
+Measured warm maxima on AMD Ryzen 5 5600H / 12 logical CPUs / about 15 GiB RAM: overview 0.439 s (<2 s), bounded metric queries 0.015 s (<3 s), 72-hour engine 0.0185 s (<5 s). Dataset: 51,840 source rows and 362,880 normalized observations. Queue dispatch time is measured by demo job completion separately.
+
+[Verification files](verification/README.md), [restart/fresh setup](../README.md), [runbook](runbook.md), [demo](demo.md), [references](references.md), [overview screenshot](screenshots/overview.png), [chat screenshot](screenshots/chat.png). All M0–M10 exits have passed; no required check remains blocked.

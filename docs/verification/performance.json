@@ -1,0 +1,101 @@
+{
+  "measurements": [
+    {
+      "world": "base_v1",
+      "endpoint": "/overview",
+      "seconds": [
+        0.06668886899933568,
+        0.06582627500029048,
+        0.0663836080020701,
+        0.06648356500227237,
+        0.06673715900251409
+      ],
+      "median_seconds": 0.06648356500227237,
+      "max_seconds": 0.06673715900251409,
+      "target_seconds": 2,
+      "passed": true
+    },
+    {
+      "world": "base_v1",
+      "endpoint": "/metrics/series",
+      "seconds": [
+        0.013716263998503564,
+        0.01276147799944738,
+        0.014190420999511844,
+        0.013695885998458834,
+        0.014221399000234669
+      ],
+      "median_seconds": 0.013716263998503564,
+      "max_seconds": 0.014221399000234669,
+      "target_seconds": 3,
+      "passed": true
+    },
+    {
+      "world": "extended_v1",
+      "endpoint": "/overview",
+      "seconds": [
+        0.4392660640005488,
+        0.3754863300018769,
+        0.34196463400076027,
+        0.35801873399759643,
+        0.33329652800239273
+      ],
+      "median_seconds": 0.35801873399759643,
+      "max_seconds": 0.4392660640005488,
+      "target_seconds": 2,
+      "passed": true
+    },
+    {
+      "world": "extended_v1",
+      "endpoint": "/metrics/series",
+      "seconds": [
+        0.013668214000063017,
+        0.015050301000883337,
+        0.013230295000539627,
+        0.015062333997775568,
+        0.013083298999845283
+      ],
+      "median_seconds": 0.013668214000063017,
+      "max_seconds": 0.015062333997775568,
+      "target_seconds": 3,
+      "passed": true
+    },
+    {
+      "world": "stress_v1",
+      "endpoint": "/overview",
+      "seconds": [
+        0.037751684001705144,
+        0.03706447799777379,
+        0.03619548099959502,
+        0.035277863000374055,
+        0.03546555499997339
+      ],
+      "median_seconds": 0.03619548099959502,
+      "max_seconds": 0.037751684001705144,
+      "target_seconds": 2,
+      "passed": true
+    },
+    {
+      "world": "stress_v1",
+      "endpoint": "/metrics/series",
+      "seconds": [
+        0.013630472996737808,
+        0.014583166997908847,
+        0.013332475999050075,
+        0.013710183000512188,
+        0.012490359997173073
+      ],
+      "median_seconds": 0.013630472996737808,
+      "max_seconds": 0.014583166997908847,
+      "target_seconds": 3,
+      "passed": true
+    },
+    {
+      "operation": "72_hour_engine_low_central_high_plus_baseline",
+      "seconds": 0.018492495000828058,
+      "target_seconds": 5,
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

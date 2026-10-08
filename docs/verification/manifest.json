@@ -1,0 +1,99 @@
+{
+  "validation_date": "2026-10-08",
+  "stack": "Rootless Podman / Docker Compose; PostgreSQL 18.3, Redis 7.4.8, pinned-source MinIO, Python 3.12, Next.js 16.4",
+  "host": {
+    "cpu": "AMD Ryzen 5 5600H",
+    "logical_cpus": 12,
+    "visible_memory_kib": 15672416,
+    "platform": "Linux-7.2.8-300.vanilla.fc44.x86_64-x86_64-with-glibc2.43"
+  },
+  "tests": {
+    "backend": 36,
+    "browser_full": 5,
+    "browser_affected_after_bounded_ledger_change": 2,
+    "original_starter": 8,
+    "grounded_live_questions": 15,
+    "authorized_evidence_urls": 250
+  },
+  "source_rows": {
+    "base_v1": 17280,
+    "stress_v1": 8640,
+    "extended_v1": 25920
+  },
+  "observations": 362880,
+  "no_public_deployment": true,
+  "files": [
+    {
+      "path": "agent-campaign.json",
+      "sha256": "d539dd015a7f9d35dc5725adcefb55d81ee9c4e63b63f488c19742f22fa83e42"
+    },
+    {
+      "path": "backend-tests.txt",
+      "sha256": "28fb829f479edd3cab9ca643e8f649cf2c58e79b7b8aec315bd42c78f37d1efb"
+    },
+    {
+      "path": "browser-affected-tests.txt",
+      "sha256": "b5ec0b4d300fd11d9bbcd9426ab9487f49f05aa6e04b1897e32abb991c973289"
+    },
+    {
+      "path": "browser-tests.txt",
+      "sha256": "1e35f2e5f2cd321df8d594659e280ec8a83f770d488fae3b02fb87646f0b8036"
+    },
+    {
+      "path": "checksums.json",
+      "sha256": "fadad02e8d71c32023e056fc1df538b84a6d2614decae88ff13982dc7ad28b04"
+    },
+    {
+      "path": "demo-reset.txt",
+      "sha256": "f1e499a6bfbc4dd584d3fbace78afbf67b5b849c5ee7d062d30bd42859d0a2fc"
+    },
+    {
+      "path": "evidence-urls.json",
+      "sha256": "f9983719723c2f1ac2eecd73f0f8ab31cb7939d92d5243e61721b8ed6293eaa3"
+    },
+    {
+      "path": "http-demo.txt",
+      "sha256": "094f83477c749d16840642b733441e8d359c3baf8a9016601b2b3e9e4b377713"
+    },
+    {
+      "path": "input-refresh.json",
+      "sha256": "627301d1d2500c39a926dc63e7a7974dcfe2a7c4264e947c27ee40bfb8c04a3b"
+    },
+    {
+      "path": "migration-cycle.txt",
+      "sha256": "ec170583e6f94ae338768c8c177539fdacd1b45190bc0095076f775f64baaf3a"
+    },
+    {
+      "path": "model-policy.json",
+      "sha256": "3c235eeea6f554a739eb4098040bd10b2118eeea311893eb072758dd7d24cc36"
+    },
+    {
+      "path": "performance.json",
+      "sha256": "8f223c5304170b439e282a234c0153ed8ab7e72d58c46a78a3c30773333380a8"
+    },
+    {
+      "path": "provider.json",
+      "sha256": "949f7f6423a2e85a3a5a52575335f4b03bccd1693b91b34f04f70652f41632f3"
+    },
+    {
+      "path": "provisioning.json",
+      "sha256": "bfd700aa338d1487cdb2a40d40b91516c4d18d908cff4cba987cf50f8d91a145"
+    },
+    {
+      "path": "recovery.txt",
+      "sha256": "f4b4f5999b765a59c3d0fbad45f5a15b684e18495c71349809c9e610f3b0fe9b"
+    },
+    {
+      "path": "redis-recovery.json",
+      "sha256": "75fb06f80a93e61c6501bb4c155dac9ec7b05af8eaa2d076e8f72bfbfd9f5ce5"
+    },
+    {
+      "path": "runtime-boundary.txt",
+      "sha256": "79aadbb37a6c1f3af05d261774e711864c660fd1d530d11d60e4bddded64f294"
+    },
+    {
+      "path": "starter-tests.txt",
+      "sha256": "46f91804a12586dc630b894e4366c611a17f5f638e68f627e0bb295520a5a0c2"
+    }
+  ]
+}

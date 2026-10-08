@@ -1,0 +1,17 @@
+{
+  "status": "passed_real_provider_input_refresh",
+  "asset_id": "5d894039-d14a-4824-ac1e-b2c6bee48342",
+  "before": {
+    "run_id": "58a6e0a0-aaa3-400b-bd2f-803205316b86",
+    "status": "completed",
+    "answer": "The asset register lists **Response commit fixture** with configured mode **operational**. This is the asset\u2019s register setting, not a telemetry reading; no telemetry record for this asset is shown.",
+    "tool_register_mode": "operational"
+  },
+  "after": {
+    "run_id": "ff240357-66d1-4fc7-bffa-0c35e09788e5",
+    "status": "completed",
+    "answer": "The asset register lists **Response commit fixture** with configured mode **offline**. This is the asset\u2019s registered configuration, not a telemetry reading; no telemetry record for this asset is shown.",
+    "tool_register_mode": "offline"
+  },
+  "original_restored": true
+}

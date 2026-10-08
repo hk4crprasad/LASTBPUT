@@ -6,10 +6,13 @@ from app.simulation.engine import waste_deadline
 
 def waste_state(db,scope):
     batches=TABLES['waste_batches'];moves=TABLES['waste_movements']
-    stocks=db.execute(select(moves.parent_id,func.sum(moves.value)).where(moves.world_id==scope.world.id,moves.event_at<=scope.world.as_of).group_by(moves.parent_id).having(func.sum(moves.value)>0)).all()
+    category=batches.data['category'].as_string()
+    stocks=db.execute(select(moves.parent_id,func.sum(moves.value),category,batches.event_at).join(batches,batches.id==moves.parent_id).where(
+        moves.world_id==scope.world.id,batches.world_id==scope.world.id,moves.event_at<=scope.world.as_of).group_by(moves.parent_id,category,batches.event_at).having(func.sum(moves.value)>0).order_by(batches.event_at,moves.parent_id)).all()
+    batch_rows={b.id:b for b in db.scalars(select(batches).where(batches.world_id==scope.world.id,batches.id.in_([r[0] for r in stocks[:500]])))} if stocks else {}
     items=[]
-    for batch_id,kg in stocks[:500]:
-        batch=db.get(batches,batch_id)
+    for batch_id,kg,cat,event_at in stocks[:500]:
+        batch=batch_rows.get(batch_id)
         if not batch:continue
         age=(scope.world.as_of-batch.event_at).total_seconds()/3600
         record=serialize(batch);record.update(current_stock_kg=float(kg),age_hours=age)
@@ -20,14 +23,14 @@ def waste_state(db,scope):
     age_limit=policy.data.get('age_limit_hours',24) if policy else 24
     fill_limit=(policy.data.get('fill_threshold_pct') or 85) if policy else 85
     for cat in ['yellow','red','white','blue']:
-        group=[b for b in items if b['data']['category']==cat]
+        group=[r for r in stocks if r[2]==cat]
         capacity=sum(float(b.data['capacity_kg']) for b in bins if b.data['category']==cat)
-        stock=sum(b['current_stock_kg'] for b in group)
-        age=max([b['age_hours'] for b in group],default=None)
+        stock=sum(float(r[1]) for r in group)
+        age=max([(scope.world.as_of-r[3]).total_seconds()/3600 for r in group],default=None)
         fill=stock/capacity*100 if capacity else None
         categories.append({'category':cat,'stock_kg':stock,'capacity_kg':capacity,'fill_pct':fill,'oldest_age_hours':age,
                            'deadline':waste_deadline(fill or 0,2,age,fill_limit,age_limit) if capacity else None})
-    return {'batches':items,'truncated':len(stocks)>500,'bins':[serialize(b) for b in bins],'categories':categories,
+    return {'batches':items,'batch_count':len(stocks),'truncated':len(stocks)>500,'category_totals_partial':False,'bins':[serialize(b) for b in bins],'categories':categories,
             'pickups':[serialize(p) for p in query(db,scope,'pickups',30)],'handovers':[serialize(p) for p in query(db,scope,'handover_evidence',30)],
             'policy':serialize(policy) if policy else None,'source_type':'synthetic_extended_v1' if bins else 'unavailable',
             'limitations':['Additional category ledger exists only in the independent extended world. Pickup metadata does not prove real physical handover.','Batch stock derives from signed movements at virtual cutoff, not current stored status.']}

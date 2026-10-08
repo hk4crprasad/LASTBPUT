@@ -1,0 +1,3 @@
+{"status": "backed_up", "objects": 12, "directory": ".local/recovery-backup"}
+{"status": "restored", "objects": 12, "directory": ".local/recovery-backup"}
+{"status": "passed_fresh_service_restore", "source_rows": 51840, "observations": 362880, "objects_verified": 12, "forced_rls": true, "revision": "0005"}

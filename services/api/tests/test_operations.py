@@ -90,3 +90,43 @@ def test_provider_retry_budget_is_bounded(monkeypatch):
     assert execute.run(job['job_id'])['status']=='already_finished_or_unavailable'
     with transaction(p.user_id,p.organization_id) as db:
         j=get(db,resolve_scope(db,p,w),'jobs',job['job_id']);assert j.data['attempts']==1 and 'retry budget' in j.data['error']
+
+@pytest.mark.asyncio
+async def test_success_response_is_sent_after_database_commit():
+    import httpx
+    from app.main import app
+    p=demo_principal();credentials=json.loads(Path(settings().demo_credentials_path).read_text())['hospital_admin']
+    with transaction(p.user_id,p.organization_id) as db:
+        world_id=db.scalar(select(World.id).where(World.code=='extended_v1'))
+    observed=[]
+    async def probe(scope,receive,send):
+        async def committed_send(message):
+            if scope['path']=='/api/v1/records/assets' and message['type']=='http.response.body' and message.get('body'):
+                body=json.loads(message['body'])
+                if 'id' in body:
+                    with transaction(p.user_id,p.organization_id) as db:
+                        row=get(db,resolve_scope(db,p,world_id),'assets',body['id'])
+                        observed.append(row.name)
+            await send(message)
+        await app(scope,receive,committed_send)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=probe),base_url='http://testserver') as c:
+        login=await c.post('/api/v1/auth/login',json={'email':credentials['email'],'password':credentials['password']})
+        c.headers['X-CSRF-Token']=login.json()['csrf_token']
+        response=await c.post('/api/v1/records/assets',params={'world_id':str(world_id)},json={'name':'Response commit fixture','zone_code':'WARD_A','data':{'kind':'pump','mode':'operational','critical':False}})
+        assert response.status_code==201 and observed==['Response commit fixture']
+
+def test_waste_totals_include_batches_beyond_detail_limit():
+    from app.domains.state import waste_state
+    p=demo_principal()
+    with transaction(p.user_id,p.organization_id) as db:
+        fixture=db.begin_nested();w=db.scalar(select(World).where(World.code=='extended_v1'));s=resolve_scope(db,p,w.id)
+        before=waste_state(db,s);initial=sum(c['stock_kg'] for c in before['categories'])
+        bins=TABLES['waste_bins'];bin=db.scalar(select(bins).where(bins.world_id==w.id,bins.zone_code=='WARD_A',bins.data['category'].as_string()=='red'))
+        for _ in range(501):
+            b=insert(db,s,'waste_batches',{'category':'red','generated_kg':1,'bin_id':str(bin.id)},name='Detail-limit regression batch',zone_code='WARD_A')
+            insert(db,s,'waste_movements',{'kind':'generation'},parent_id=b.id,name='Recorded generation',zone_code='WARD_A',value=1,unit='kg')
+        result=waste_state(db,s)
+        assert result['truncated'] and len(result['batches'])==500
+        assert result['batch_count']==before['batch_count']+501 and not result['category_totals_partial']
+        assert abs(sum(c['stock_kg'] for c in result['categories'])-initial-501)<1e-8
+        fixture.rollback()

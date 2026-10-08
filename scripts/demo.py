@@ -39,7 +39,14 @@ if args.llm:
  while time.monotonic()<deadline:
   r=request('GET','/agent-runs/'+run['id'])
   if r['status'] not in {'queued','running'}:
-   print(json.dumps({'run_id':r['id'],'status':r['status'],'tools':[t['tool'] for t in r['data'].get('tool_results',[])],'answer':r['data'].get('answer'),'error':r['data'].get('error')}));assert r['status']=='completed';break
+   tools=r['data'].get('tool_results',[])
+   print(json.dumps({'run_id':r['id'],'status':r['status'],'tools':[t['tool'] for t in tools],'answer':r['data'].get('answer'),'error':r['data'].get('error')}));assert r['status']=='completed'
+   assert {'get_waste_state','run_what_if','draft_action_plan'}<={t['tool'] for t in tools if 'error' not in t}
+   proposal_id=next(t['data']['id'] for t in tools if t['tool']=='draft_action_plan' and 'error' not in t)
+   proposal=request('GET','/records/action_proposals/'+proposal_id)
+   approved=request('POST','/action-proposals/'+proposal_id+'/approve',{'expected_version':proposal['version'],'review_evidence':'Synthetic waste deadline evidence and scenario reviewed by the demo administrator.','action':{'name':'HTTP reviewed waste inspection','category':'waste','zone_code':'WARD_A','owner_id':owner,'due_at':(datetime.fromisoformat(world['as_of'])+timedelta(hours=1)).isoformat(),'description':'Software follow-up from the actual saved proposal; no physical pickup claimed.','alert_id':proposal['data'].get('alert_id')}})
+   assert approved['proposal']['status']=='approved' and approved['action']['status']=='open'
+   print(json.dumps({'proposal_id':proposal_id,'proposal_status':approved['proposal']['status'],'permitted_action_id':approved['action']['id'],'action_status':approved['action']['status']}));break
   time.sleep(1)
  else:raise TimeoutError('Agent run still pending')
 print('PASS actual HTTP demo, action lifecycle and stored report artifacts')

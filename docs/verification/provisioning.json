@@ -1,0 +1,5 @@
+{
+  "status": "passed_production_identity_provisioning",
+  "idempotent_users": 1,
+  "operating_history_fabricated": false
+}

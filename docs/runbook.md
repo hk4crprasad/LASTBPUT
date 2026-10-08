@@ -4,7 +4,7 @@
 
 Follow the root README. `docker compose run --rm migrate` safely repeats migrations/bootstrap. Seed and generate are explicit operations. A source-only MinIO build is used because the old official image tags could not be pulled; the pinned release is built from the official Go module. Lockfiles are `services/api/uv.lock` and `apps/web/package-lock.json`.
 
-This machine's Docker socket denied access. Verification used rootless Podman with its Docker API socket and the ordinary Docker Compose configuration. A separate local validation override moved web/API to ports 3100/8100 because ports 3000/8000 already hosted the development stack. For rootless operation:
+This machine's Docker socket denied access. Verification used rootless Podman with its Docker API socket and the ordinary Docker Compose configuration. Fresh-volume verification initially used ports 3100/8100 while development servers occupied the default ports. Those task-owned development services have been stopped; the final verified Compose stack runs on localhost:3000/8000. `./scripts/compose.sh` was tested without DOCKER_HOST and starts the rootless socket automatically. For rootless operation:
 
 ```bash
 podman system service --time=0 unix:///tmp/greenops-podman.sock
@@ -21,7 +21,9 @@ Original data/artifacts remain immutable. Training reads private labels only in 
 
 ```bash
 docker compose -f compose.training.yaml --profile offline build trainer
-docker compose -f compose.training.yaml --profile offline run --rm trainer
+docker compose -f compose.training.yaml --profile offline run --rm trainer \
+  python -m app.cli train --data /workspace/research/starter/data \
+  --out /workspace/research/evaluation/local-training-v2
 # Same explicit CLI supports evaluate (train/evaluate together produce the versioned evidence):
 docker compose -f compose.training.yaml --profile offline run --rm trainer \
   python -m app.cli evaluate --data /workspace/research/starter/data \
@@ -38,6 +40,8 @@ OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 services/api/.venv/bin/python \
 ```
 
 Outputs include six lead-specific regressors, generic detector, predictions, per-zone errors, chronological purge split manifest, artifact hashes and separately evaluated contextual detection metrics. They do not establish field accuracy. The supplied registry and stress failures remain the serving contract. New artifacts require offline review and an explicit checksum allowlist/release; the API never accepts arbitrary pickle/joblib files.
+
+Use a new output version on subsequent runs. The recorded `retrained-v1` and `container-training-v1` evidence is already present; training refuses to overwrite completed output directories.
 
 ```bash
 # Small independent-seed smoke campaign:

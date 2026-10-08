@@ -1,0 +1,1 @@
+{"clean_demo_reset": "passed", "production_reset_refused": true, "source_rows_after_reset": 0, "identities_recreated": 8}

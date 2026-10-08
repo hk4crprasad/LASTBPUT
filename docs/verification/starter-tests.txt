@@ -1,0 +1,13 @@
+test_action_requires_valid_order_and_verification (test_pipeline.PipelineTests.test_action_requires_valid_order_and_verification) ... ok
+test_future_change_cannot_change_origin_features (test_pipeline.PipelineTests.test_future_change_cannot_change_origin_features) ... ok
+test_labels_excluded (test_pipeline.PipelineTests.test_labels_excluded) ... ok
+test_occupancy_quality_and_duplicate_guard (test_pipeline.PipelineTests.test_occupancy_quality_and_duplicate_guard) ... ok
+test_reserve_mass_balance_and_non_depleting (test_pipeline.PipelineTests.test_reserve_mass_balance_and_non_depleting) ... ok
+test_seed_is_reproducible (test_pipeline.PipelineTests.test_seed_is_reproducible) ... ok
+test_split_purges_cross_boundary_targets (test_pipeline.PipelineTests.test_split_purges_cross_boundary_targets) ... ok
+test_waste_age_overrides_fill_and_missing_stays_unknown (test_pipeline.PipelineTests.test_waste_age_overrides_fill_and_missing_stays_unknown) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.204s
+
+OK

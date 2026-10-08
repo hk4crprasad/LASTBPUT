@@ -1,6 +1,6 @@
 # Hospital GreenOps AI
 
-A working, local operations and sustainability application for a fictional hospital. Next.js/TypeScript, FastAPI/Python 3.12, PostgreSQL 18 with Alembic and FORCE RLS, Celery/Redis and S3-compatible MinIO. All displayed hospital data is synthetic. There are no patient workflows.
+A working, local operations and sustainability application for a fictional hospital. Next.js/TypeScript, FastAPI/Python 3.12, PostgreSQL 18 with Alembic and FORCE RLS, Celery/Redis and object storage (MinIO or private Azure Blob Storage). All displayed hospital data is synthetic. There are no patient workflows.
 
 The implementation contract is [Hospital_GreenOps_Codex_Build_Plan.md](Hospital_GreenOps_Codex_Build_Plan.md). Verification and limitations are recorded in [docs/build-status.md](docs/build-status.md).
 
@@ -38,6 +38,10 @@ chmod 600 .local/demo-credentials.json
 ```
 
 Use `hospital_admin` to explore and configure the demo; `operations_supervisor` can independently review actions. Other generated roles demonstrate zone and domain restrictions. Migration runs automatically before the API starts. Repeat seed/generation is idempotent. `scripts/init_env.py` preserves an initialized environment; do not change database passwords without rotating the database roles too.
+
+## Cloud database/storage and jury login
+
+[Cloud setup and switching runbook](docs/cloud-services.md) covers Supabase runtime role provisioning, session/transaction pooling, Azure private containers and provider-aware backups. In demo mode, the login page offers seven real role accounts with one-click sign-in; sign out to switch roles. Manual credentials still work. The picker is disabled in production.
 
 ## Enable the LLM
 

@@ -122,9 +122,18 @@ def test_waste_totals_include_batches_beyond_detail_limit():
         fixture=db.begin_nested();w=db.scalar(select(World).where(World.code=='extended_v1'));s=resolve_scope(db,p,w.id)
         before=waste_state(db,s);initial=sum(c['stock_kg'] for c in before['categories'])
         bins=TABLES['waste_bins'];bin=db.scalar(select(bins).where(bins.world_id==w.id,bins.zone_code=='WARD_A',bins.data['category'].as_string()=='red'))
+        # Bulk fixtures retain the >500 boundary without 1,002 remote DB round trips.
+        from sqlalchemy.dialects.postgresql import insert as bulk_insert
+        batches=[];movements=[]
         for _ in range(501):
-            b=insert(db,s,'waste_batches',{'category':'red','generated_kg':1,'bin_id':str(bin.id)},name='Detail-limit regression batch',zone_code='WARD_A')
-            insert(db,s,'waste_movements',{'kind':'generation'},parent_id=b.id,name='Recorded generation',zone_code='WARD_A',value=1,unit='kg')
+            batch_id=uuid4()
+            common={**s.keys,'event_at':s.world.as_of,'zone_code':'WARD_A'}
+            batches.append({**common,'id':batch_id,'name':'Detail-limit regression batch',
+                            'data':{'category':'red','generated_kg':1,'bin_id':str(bin.id)}})
+            movements.append({**common,'parent_id':batch_id,'name':'Recorded generation',
+                              'data':{'kind':'generation'},'value':1,'unit':'kg'})
+        db.execute(bulk_insert(TABLES['waste_batches']).values(batches))
+        db.execute(bulk_insert(TABLES['waste_movements']).values(movements))
         result=waste_state(db,s)
         assert result['truncated'] and len(result['batches'])==500
         assert result['batch_count']==before['batch_count']+501 and not result['category_totals_partial']

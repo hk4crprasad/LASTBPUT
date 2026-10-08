@@ -6,7 +6,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 from uuid import UUID, uuid5, NAMESPACE_URL
 from argon2 import PasswordHasher
-from sqlalchemy import create_engine, select
+from sqlalchemy import select
+from app.core.db import database_engine
 from sqlalchemy.orm import Session
 from app.core.models import Organization, User, Membership, Facility, Grant, World, Metric
 
@@ -23,7 +24,7 @@ def main():
         return
     dest = Path(os.environ.get('DEMO_CREDENTIALS_PATH','/app/shared/demo-credentials.json'))
     saved = json.loads(dest.read_text()) if dest.exists() else {}
-    with Session(create_engine(os.environ['MIGRATION_DATABASE_URL'])) as db, db.begin():
+    with Session(database_engine(os.environ['MIGRATION_DATABASE_URL'])) as db, db.begin():
         if resetting:
             from sqlalchemy import text
             db.execute(text('TRUNCATE organizations, users, metric_catalog CASCADE'))
@@ -47,7 +48,10 @@ def main():
             email = role+'@demo.greenops.local'
             user_id = uid(email)
             if not db.get(User,user_id):
-                password = secrets.token_urlsafe(18)
+                previous = saved.get(role, {})
+                if previous and (previous.get('email') != email or previous.get('user_id') != str(user_id)):
+                    raise ValueError('Demo credential identity mismatch')
+                password = previous.get('password') or secrets.token_urlsafe(18)
                 db.add(User(id=user_id,email=email,name=role.replace('_',' ').title(),password_hash=PasswordHasher().hash(password),service_principal=role=='monitor_service'))
                 db.flush()
                 db.add(Membership(user_id=user_id,organization_id=org,role=role if role!='monitor_service' else 'operations_supervisor'))

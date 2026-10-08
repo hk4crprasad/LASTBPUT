@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Literal
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -6,7 +7,15 @@ class Settings(BaseSettings):
     app_mode: str = 'demo'
     facility_timezone: str = 'Asia/Kolkata'
     database_url: str = 'postgresql+psycopg://greenops:unset@localhost:5432/greenops'
+    database_prepare_threshold: str = 'disabled'
     redis_url: str = 'redis://localhost:6379/0'
+    object_storage_provider: Literal['s3', 'azure'] = 's3'
+    azure_storage_connection_string: str = ''
+    azure_storage_account_url: str = ''
+    azure_storage_account_key: str = ''
+    azure_storage_container: str = 'greenops'
+    azure_storage_prefix: str = 'hospital-greenops/'
+    azure_storage_create_container: bool = False
     object_storage_endpoint: str = 'http://localhost:9000'
     object_storage_bucket: str = 'greenops'
     object_storage_access_key: str = 'greenops-storage'

@@ -3,7 +3,13 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from app.core.settings import settings
 
-engine = create_engine(settings().database_url, hide_parameters=True, pool_pre_ping=True, pool_size=8, max_overflow=8)
+def database_engine(url, **kwargs):
+    # Supavisor transaction pooling cannot retain prepared statement names.
+    threshold = settings().database_prepare_threshold
+    return create_engine(url, hide_parameters=True, pool_pre_ping=True,
+                         connect_args={'prepare_threshold': None if threshold == 'disabled' else int(threshold)}, **kwargs)
+
+engine = database_engine(settings().database_url, pool_size=8, max_overflow=8)
 Session = sessionmaker(engine, expire_on_commit=False)
 
 def set_identity(db, user_id, org_id):

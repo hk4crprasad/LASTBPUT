@@ -13,6 +13,7 @@ dependencies = [
  "python-multipart",
  "celery[redis]",
  "boto3",
+ "azure-storage-blob",
  "openai",
  "httpx",
  "PyYAML",

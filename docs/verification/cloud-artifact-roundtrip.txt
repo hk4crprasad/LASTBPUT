@@ -1,0 +1,3 @@
+Actual Azure store/read with scoped PostgreSQL file metadata and SHA256: PASSED
+Cross-world download rejected: HTTP 404
+Storage provider: AzureStore

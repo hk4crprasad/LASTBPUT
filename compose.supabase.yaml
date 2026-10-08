@@ -1,0 +1,22 @@
+# Apply after compose.yaml. Runtime uses the restricted DATABASE_URL;
+# only the one-shot migrator receives MIGRATION_DATABASE_URL.
+services:
+  postgres:
+    profiles: [local-database]
+  migrate:
+    depends_on: !reset {}
+  api:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      minio: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}
+  worker:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      minio: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}
+  scheduler:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      minio: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}

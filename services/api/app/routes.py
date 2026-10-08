@@ -24,6 +24,34 @@ def auth_login(body:LoginInput,response:Response):
     response.set_cookie('greenops_csrf',csrf,httponly=False,secure=settings().cookie_secure,samesite='lax',max_age=28800,path='/')
     return {'user':{'id':str(p.user_id),'organization_id':str(p.organization_id),'name':p.name,'role':p.role},'csrf_token':csrf}
 
+from app.core.demo_login import DemoRole, DEMO_ROLES, credentials as demo_credentials
+
+class DemoLoginInput(Strict):
+    role:DemoRole
+
+@router.get('/auth/demo-accounts')
+def demo_accounts(response:Response):
+    response.headers['Cache-Control']='no-store'
+    if settings().app_mode!='demo':return {'enabled':False,'items':[]}
+    saved=demo_credentials()
+    return {'enabled':True,'items':[{'role':role,'name':name,'description':description,'email':saved[role]['email']}
+                                   for role,(name,description) in DEMO_ROLES.items()]}
+
+@router.post('/auth/demo-login')
+def demo_login(body:DemoLoginInput,response:Response,request:Request):
+    saved=demo_credentials()[body.role]
+    origin=request.headers.get('origin')
+    if origin and origin not in settings().cors_origins.split(','):
+        raise HTTPException(403,'Origin not allowed')
+    with Session.begin() as db:
+        p,token,csrf=login(db,saved['email'],saved['password'])
+        if p.role!=body.role or str(p.user_id)!=saved['user_id']:
+            raise HTTPException(403,'Demo account identity mismatch')
+    response.headers['Cache-Control']='no-store'
+    response.set_cookie('greenops_session',token,httponly=True,secure=settings().cookie_secure,samesite='lax',max_age=28800,path='/')
+    response.set_cookie('greenops_csrf',csrf,httponly=False,secure=settings().cookie_secure,samesite='lax',max_age=28800,path='/')
+    return {'user':{'id':str(p.user_id),'organization_id':str(p.organization_id),'name':p.name,'role':p.role},'csrf_token':csrf}
+
 @router.post('/auth/logout')
 def logout(request:Request,response:Response,ctx=Depends(request_db,scope="function")):
     db,p=ctx

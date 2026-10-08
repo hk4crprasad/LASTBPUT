@@ -73,6 +73,58 @@
         }
       }
     },
+    "/api/v1/auth/demo-accounts": {
+      "get": {
+        "summary": "Demo Accounts",
+        "operationId": "demo_accounts_api_v1_auth_demo_accounts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/demo-login": {
+      "post": {
+        "summary": "Demo Login",
+        "operationId": "demo_login_api_v1_auth_demo_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DemoLoginInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/logout": {
       "post": {
         "summary": "Logout",
@@ -12476,6 +12528,29 @@
         "additionalProperties": false,
         "type": "object",
         "title": "ConversationInput"
+      },
+      "DemoLoginInput": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "organization_admin",
+              "hospital_admin",
+              "operations_supervisor",
+              "maintenance_technician",
+              "waste_officer",
+              "sustainability_officer",
+              "auditor"
+            ],
+            "title": "Role"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "DemoLoginInput"
       },
       "HTTPValidationError": {
         "properties": {

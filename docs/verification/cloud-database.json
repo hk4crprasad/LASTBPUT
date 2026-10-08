@@ -1,0 +1,10 @@
+{
+  "postgres_version": "17.11",
+  "revision": "0006",
+  "sources": {
+    "base_v1": 17280,
+    "stress_v1": 8640,
+    "extended_v1": 25920
+  },
+  "observations": 362880
+}

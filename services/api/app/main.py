@@ -13,12 +13,12 @@ def ready():
         with engine.connect() as db:
             role=db.execute(text('SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user')).one()
             if any(role):raise RuntimeError('Unsafe runtime database role')
-            db.execute(text('SELECT version_num FROM alembic_version'))
+            revision=db.execute(text('SELECT version_num FROM alembic_version')).scalar()
+            if revision!='0006':raise RuntimeError('Database schema revision unavailable or outdated')
         import redis
-        import boto3
+        from app.core.object_store import object_store
         redis.Redis.from_url(settings().redis_url).ping()
-        boto3.client('s3',endpoint_url=settings().object_storage_endpoint,aws_access_key_id=settings().object_storage_access_key,
-                     aws_secret_access_key=settings().object_storage_secret_key).list_buckets()
+        object_store().probe()
         return {'status':'ready','database':'ok','redis':'ok','object_storage':'ok'}
     except Exception as e:
         return JSONResponse(status_code=503,content={'status':'unready','dependency_error':type(e).__name__})

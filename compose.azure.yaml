@@ -1,0 +1,17 @@
+# Apply last, after compose.yaml and optional compose.supabase.yaml.
+# Set OBJECT_STORAGE_PROVIDER=azure and private Azure credentials in .env.
+services:
+  minio:
+    profiles: [local-object-storage]
+  api:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}
+  worker:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}
+  scheduler:
+    depends_on: !override
+      redis: {condition: service_healthy}
+      migrate: {condition: service_completed_successfully}

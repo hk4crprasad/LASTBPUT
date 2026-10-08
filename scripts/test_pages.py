@@ -1,0 +1,121 @@
+"""Test every product page with native Python Playwright and capture real UI.
+Run: uv run --project scripts/ui-tests python scripts/test_pages.py
+Requires running services and APP_MODE=demo. No provider/account key is read here.
+"""
+import argparse
+import json
+import re
+from importlib.metadata import version
+from datetime import datetime, timezone
+from pathlib import Path
+from playwright.sync_api import sync_playwright, expect
+
+PAGES = [
+    ('overview', 'Overview'), ('facility', 'Facility operations'),
+    ('energy', 'Energy'), ('water', 'Water & reserves'),
+    ('waste', 'Waste operations'), ('environment', 'Environment'),
+    ('assets', 'Assets & maintenance'), ('parking', 'Traffic & parking'),
+    ('safety', 'Safety incidents'), ('simulations', 'What-if studio'),
+    ('sustainability', 'Sustainability & cost'), ('actions', 'Action centre'),
+    ('reports', 'Reports'), ('chat', 'Chatbot'), ('agent', 'Agent activity'),
+    ('imports', 'Import quality'), ('models', 'Model evaluation'),
+    ('settings', 'Policy & settings'),
+]
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--url', default='http://localhost:3000')
+    parser.add_argument('--output', default='docs/screenshots/pages')
+    args = parser.parse_args()
+    output = Path(args.output); output.mkdir(parents=True, exist_ok=True)
+    results = []; failures = []
+    expect.set_options(timeout=30000)
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context(viewport={'width': 1440, 'height': 960}, device_scale_factor=1)
+        page = context.new_page()
+        page.set_default_timeout(30000)
+        errors = []; responses = []
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.on('response', lambda response: responses.append({'url': response.url.split('?')[0], 'status': response.status})
+                if '/api/v1/' in response.url else None)
+        try:
+            page.goto(args.url, wait_until='networkidle')
+            expect(page.get_by_role('heading', name='Choose a demo role')).to_be_visible()
+            expect(page.locator('.demo-role')).to_have_count(7)
+            page.screenshot(path=str(output / 'login.png'))
+            page.screenshot(path=str(output / 'login-full.png'), full_page=True)
+            results.append({'page': 'login', 'title': 'Demo sign-in', 'passed': True, 'screenshot': 'login.png'})
+            page.get_by_role('button', name='Continue as Hospital admin', exact=True).click()
+            expect(page.get_by_role('heading', name='Overview', exact=True)).to_be_visible()
+            page.wait_for_load_state('networkidle')
+            page.get_by_label('World', exact=True).select_option(label='extended_v1')
+            page.wait_for_load_state('networkidle')
+            for slug, title in PAGES:
+                errors.clear(); responses.clear()
+                try:
+                    response = page.goto(args.url.rstrip('/') + '/' + slug, wait_until='networkidle')
+                    assert response and response.status == 200, 'Document did not return HTTP 200'
+                    expect(page.locator('main h1')).to_have_text(title)
+                    expect(page.locator('.clock')).to_be_visible()
+                    expect(page.locator('.loading:visible')).to_have_count(0)
+                    expect(page.locator('.notice.error:visible')).to_have_count(0)
+                    expect(page.get_by_label('World').locator('option:checked')).to_have_text('extended_v1')
+                    assert not errors, 'JavaScript exception: ' + '; '.join(errors)
+                    assert not [r for r in responses if r['status'] >= 400], 'Domain API request failed'
+                    # Exercise the global refresh and await actual scoped reads.
+                    page.get_by_role('button', name='Refresh', exact=True).click()
+                    page.wait_for_load_state('networkidle')
+                    expect(page.locator('.loading:visible')).to_have_count(0)
+                    expect(page.locator('.notice.error:visible')).to_have_count(0)
+                    assert not errors, 'JavaScript exception after refresh'
+                    assert not [r for r in responses if r['status'] >= 400], 'Domain API refresh failed'
+                    if slug in {'overview', 'energy', 'water'}:
+                        expect(page.locator('.chart canvas').first).to_be_visible()
+                    if slug in {'facility','water','waste','environment','assets','parking','safety','sustainability','settings'}:
+                        add = page.get_by_role('button', name=re.compile(r'^Add '))
+                        if add.count():
+                            add.first.click()
+                            dialog = page.get_by_role('dialog')
+                            expect(dialog).to_be_visible()
+                            expect(dialog.get_by_role('button', name='Save record')).to_be_visible()
+                            dialog.get_by_role('button', name='Cancel', exact=True).click()
+                            expect(dialog).not_to_be_visible()
+                            page.wait_for_load_state('networkidle')
+                    if slug == 'simulations' and page.get_by_role('button', name='View result').count():
+                        page.get_by_role('button', name='View result').first.click()
+                        expect(page.get_by_text('Simulated • saved result', exact=True)).to_be_visible()
+                    if slug == 'chat':
+                        expect(page.get_by_label('Message', exact=True)).to_be_visible()
+                    page.evaluate('document.fonts.ready')
+                    page.evaluate('window.scrollTo(0, 0)')
+                    page.screenshot(path=str(output / f'{slug}.png'))
+                    page.screenshot(path=str(output / f'{slug}-full.png'), full_page=True)
+                    result = {'page': slug, 'title': title, 'passed': True, 'screenshot': f'{slug}.png', 'full_screenshot': f'{slug}-full.png',
+                              'world': 'extended_v1', 'api_responses': list(responses)}
+                    print('PASS', slug, flush=True)
+                except Exception as error:
+                    page.screenshot(path=str(output / f'{slug}-failed.png'), full_page=True)
+                    result = {'page': slug, 'title': title, 'passed': False, 'error': str(error)}
+                    failures.append(slug); print('FAIL', slug, str(error)[:250], flush=True)
+                results.append(result)
+            # Check the loaded mobile workspace and capture it separately.
+            page.set_viewport_size({'width': 390, 'height': 844})
+            page.goto(args.url.rstrip('/') + '/overview', wait_until='networkidle')
+            expect(page.get_by_role('heading', name='Overview', exact=True)).to_be_visible()
+            assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), 'Mobile horizontal overflow'
+            page.screenshot(path=str(output / 'overview-mobile.png'), full_page=True)
+        finally:
+            report = {'captured_at': datetime.now(timezone.utc).isoformat(), 'base_url': args.url,
+                      'viewport': {'width': 1440, 'height': 960}, 'playwright_version': version('playwright'), 'source': 'actual running synthetic demo',
+                      'results': results, 'failed_pages': failures}
+            (output / 'page-results.json').write_text(json.dumps(report, indent=2) + '\n')
+            context.close(); browser.close()
+    if failures:
+        raise SystemExit('Page verification failed: ' + ', '.join(failures))
+    print('PASS all 18 product pages, login and mobile overview')
+
+
+if __name__ == '__main__':
+    main()

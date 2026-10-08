@@ -1,0 +1,11 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test e2e/demo-login.spec.ts
+
+
+Running 2 tests using 1 worker
+
+  ✓  1 [chromium] › e2e/demo-login.spec.ts:3:5 › jury can enter every real demo role and sign out to switch (1.4m)
+  ✓  2 [chromium] › e2e/demo-login.spec.ts:21:5 › demo picker fits mobile without horizontal overflow (4.0s)
+
+  2 passed (1.5m)

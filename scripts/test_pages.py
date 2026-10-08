@@ -8,6 +8,7 @@ import re
 from importlib.metadata import version
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright, expect
 
 PAGES = [
@@ -21,6 +22,39 @@ PAGES = [
     ('imports', 'Import quality'), ('models', 'Model evaluation'),
     ('settings', 'Policy & settings'),
 ]
+
+
+def loaded(page, slug):
+    expect(page.locator('.loading:visible')).to_have_count(0)
+    expect(page.locator('.notice.error:visible')).to_have_count(0)
+    if slug in {'overview', 'energy', 'water'}:
+        expect(page.locator('.kpi .value')).to_have_count(4)
+        for item in page.locator('.kpi .value').all():
+            expect(item).to_contain_text(re.compile(r'\d'))
+        expect(page.locator('.chart canvas').first).to_be_visible()
+    elif slug == 'environment':
+        expect(page.locator('.grid.three .metric-mini')).to_have_count(6)
+    elif slug == 'waste':
+        expect(page.locator('.grid.three .metric-mini')).to_have_count(4)
+    elif slug in {'parking', 'safety'}:
+        expect(page.locator('.grid.three .metric-mini')).to_have_count(3)
+        for item in page.locator('.grid.three .metric-mini').all():
+            expect(item).to_have_text(re.compile(r'\d'))
+    elif slug == 'assets':
+        expect(page.locator('pre.data').first).to_contain_text('"assets"')
+    elif slug == 'sustainability':
+        expect(page.locator('pre.data').first).to_contain_text('cost_estimate_inr')
+    elif slug == 'models':
+        expect(page.locator('.grid.three .panel')).to_have_count(7)
+        expect(page.get_by_role('heading', name='anomaly', exact=True)).to_be_visible()
+    elif slug in {'facility', 'agent', 'imports', 'settings'}:
+        expect(page.locator('.record-title').first).to_be_visible()
+    elif slug == 'actions':
+        expect(page.locator('.action-columns')).to_be_visible()
+    elif slug == 'reports':
+        expect(page.get_by_role('link', name='Download CSV').first).to_be_visible()
+    elif slug == 'chat':
+        expect(page.get_by_label('Message', exact=True)).to_be_visible()
 
 
 def main():
@@ -46,7 +80,7 @@ def main():
             expect(page.locator('.demo-role')).to_have_count(7)
             page.screenshot(path=str(output / 'login.png'))
             page.screenshot(path=str(output / 'login-full.png'), full_page=True)
-            results.append({'page': 'login', 'title': 'Demo sign-in', 'passed': True, 'screenshot': 'login.png'})
+            results.append({'page': 'login', 'title': 'Demo sign-in', 'passed': True, 'screenshot': 'login.png', 'full_screenshot': 'login-full.png'})
             page.get_by_role('button', name='Continue as Hospital admin', exact=True).click()
             expect(page.get_by_role('heading', name='Overview', exact=True)).to_be_visible()
             page.wait_for_load_state('networkidle')
@@ -65,7 +99,21 @@ def main():
                     assert not errors, 'JavaScript exception: ' + '; '.join(errors)
                     assert not [r for r in responses if r['status'] >= 400], 'Domain API request failed'
                     # Exercise the global refresh and await actual scoped reads.
-                    page.get_by_role('button', name='Refresh', exact=True).click()
+                    refresh_path = {
+                        'overview': '/overview', 'energy': '/overview', 'water': '/reserves',
+                        'waste': '/waste/state', 'environment': '/environment/state',
+                        'assets': '/assets/state', 'parking': '/parking/state',
+                        'safety': '/safety/state', 'sustainability': '/sustainability',
+                        'models': '/models', 'facility': '/records/buildings',
+                        'actions': '/actions', 'reports': '/reports',
+                        'chat': '/conversations', 'agent': '/records/agent_runs',
+                        'imports': '/records/dataset_versions', 'settings': '/records/policy_versions',
+                        'simulations': '/simulations',
+                    }[slug]
+                    with page.expect_response(lambda r: urlparse(r.url).path == '/api/v1' + refresh_path) as refreshed:
+                        page.get_by_role('button', name='Refresh', exact=True).click()
+                    assert refreshed.value.status == 200, 'Refresh API did not return HTTP 200'
+                    refreshed.value.finished()
                     page.wait_for_load_state('networkidle')
                     expect(page.locator('.loading:visible')).to_have_count(0)
                     expect(page.locator('.notice.error:visible')).to_have_count(0)
@@ -88,8 +136,27 @@ def main():
                         expect(page.get_by_text('Simulated • saved result', exact=True)).to_be_visible()
                     if slug == 'chat':
                         expect(page.get_by_label('Message', exact=True)).to_be_visible()
+                        # Display the completed real-provider flow from the browser suite.
+                        conversation = page.get_by_label('Conversation', exact=True)
+                        option = conversation.locator('option').filter(has_text='Read current water reserves using your tools; show assumptions.').first
+                        if option.count():
+                            conversation.select_option(option.get_attribute('value'))
+                        else:
+                            page.get_by_label('Message', exact=True).fill('Read current water reserves using your tools; show assumptions.')
+                            page.get_by_role('button', name='Send message', exact=True).click()
+                            expect(page.get_by_text(re.compile(r'run completed')).first).to_be_visible(timeout=180000)
+                        expect(page.locator('.message.assistant').first).to_be_visible()
+                    loaded(page, slug)
+                    # A final completed response and two painted frames keep captures
+                    # from racing React effects after refresh/dialog closure.
+                    page.wait_for_load_state('networkidle')
+                    loaded(page, slug)
+                    page.evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
                     page.evaluate('document.fonts.ready')
                     page.evaluate('window.scrollTo(0, 0)')
+                    loaded(page, slug)
+                    assert not errors, 'JavaScript exception before capture: ' + '; '.join(errors)
+                    assert not [r for r in responses if r['status'] >= 400], 'Domain API request failed before capture'
                     page.screenshot(path=str(output / f'{slug}.png'))
                     page.screenshot(path=str(output / f'{slug}-full.png'), full_page=True)
                     result = {'page': slug, 'title': title, 'passed': True, 'screenshot': f'{slug}.png', 'full_screenshot': f'{slug}-full.png',
@@ -101,11 +168,18 @@ def main():
                     failures.append(slug); print('FAIL', slug, str(error)[:250], flush=True)
                 results.append(result)
             # Check the loaded mobile workspace and capture it separately.
+            errors.clear(); responses.clear()
             page.set_viewport_size({'width': 390, 'height': 844})
             page.goto(args.url.rstrip('/') + '/overview', wait_until='networkidle')
             expect(page.get_by_role('heading', name='Overview', exact=True)).to_be_visible()
+            loaded(page, 'overview')
             assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), 'Mobile horizontal overflow'
+            assert not errors, 'Mobile JavaScript exception'
+            assert not [r for r in responses if r['status'] >= 400], 'Mobile domain API request failed'
             page.screenshot(path=str(output / 'overview-mobile.png'), full_page=True)
+            results.append({'page': 'overview-mobile', 'title': 'Mobile overview', 'passed': True,
+                            'screenshot': 'overview-mobile.png', 'viewport': {'width': 390, 'height': 844},
+                            'world': 'extended_v1', 'api_responses': list(responses)})
         finally:
             report = {'captured_at': datetime.now(timezone.utc).isoformat(), 'base_url': args.url,
                       'viewport': {'width': 1440, 'height': 960}, 'playwright_version': version('playwright'), 'source': 'actual running synthetic demo',

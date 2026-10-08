@@ -36,7 +36,8 @@ def configure(path=Path('.env')):
     runtime = f'postgresql+psycopg://greenops.{project}:{quote(password, safe="")}@{u.hostname}:6543{u.path}?sslmode=require'
     with psycopg.connect(runtime.replace('postgresql+psycopg', 'postgresql'), connect_timeout=15, prepare_threshold=None) as db:
         assert db.execute('SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user').fetchone() == (False, False)
-    changes = {'DATABASE_URL': runtime, 'MIGRATION_DATABASE_URL': admin, 'DATABASE_PREPARE_THRESHOLD': 'disabled'}
+    changes = {'DATABASE_URL': runtime, 'MIGRATION_DATABASE_URL': admin, 'DATABASE_PREPARE_THRESHOLD': 'disabled',
+               'DATABASE_STATEMENT_TIMEOUT_MS': '10000'}
     for key, value in changes.items():
         lines = [line for line in lines if not line.startswith(key + '=')]
         lines.append(key + '=' + value)

@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-10-08T10:50:50.202903+00:00",
+  "captured_at": "2026-10-08T10:58:14.258384+00:00",
   "base_url": "http://localhost:3000",
   "viewport": {
     "width": 1440,
@@ -17,14 +17,9 @@
     {
       "page": "overview",
       "title": "Overview",
-      "passed": false,
-      "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" locator(\".loading:visible\") with timeout 5000ms\n  - waiting for locator(\".loading:visible\")\n    14 \u00d7 locator resolved to 1 element\n       - unexpected value \"1\"\n"
-    },
-    {
-      "page": "facility",
-      "title": "Facility operations",
       "passed": true,
-      "screenshot": "facility.png",
+      "screenshot": "overview.png",
+      "full_screenshot": "overview-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
@@ -44,51 +39,45 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/floors",
+          "url": "http://localhost:3000/api/v1/metrics/series",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/zones",
+          "url": "http://localhost:3000/api/v1/overview",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/operating_schedules",
+          "url": "http://localhost:3000/api/v1/metrics/series",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/zone_capacities",
+          "url": "http://localhost:3000/api/v1/overview",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "page": "facility",
+      "title": "Facility operations",
+      "passed": true,
+      "screenshot": "facility.png",
+      "full_screenshot": "facility-full.png",
+      "world": "extended_v1",
+      "api_responses": [
+        {
+          "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/buildings",
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/floors",
+          "url": "http://localhost:3000/api/v1/worlds",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/zones",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/buildings",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/operational_snapshots",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/zone_capacities",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/operating_schedules",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/operational_snapshots",
+          "url": "http://localhost:3000/api/v1/me",
           "status": 200
         },
         {
@@ -100,11 +89,11 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/floors",
+          "url": "http://localhost:3000/api/v1/records/zones",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/zones",
+          "url": "http://localhost:3000/api/v1/records/floors",
           "status": 200
         },
         {
@@ -113,6 +102,90 @@
         },
         {
           "url": "http://localhost:3000/api/v1/records/operational_snapshots",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/operating_schedules",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/floors",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zone_capacities",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/operational_snapshots",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/operating_schedules",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zone_capacities",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/floors",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/operational_snapshots",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
           "status": 200
         }
       ]
@@ -120,24 +193,115 @@
     {
       "page": "energy",
       "title": "Energy",
-      "passed": false,
-      "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" locator(\".loading:visible\") with timeout 5000ms\n  - waiting for locator(\".loading:visible\")\n    14 \u00d7 locator resolved to 1 element\n       - unexpected value \"1\"\n"
+      "passed": true,
+      "screenshot": "energy.png",
+      "full_screenshot": "energy-full.png",
+      "world": "extended_v1",
+      "api_responses": [
+        {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/facilities",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/forecasts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/metrics/series",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/overview",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/forecasts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/metrics/series",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/overview",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        }
+      ]
     },
     {
       "page": "water",
       "title": "Water & reserves",
-      "passed": false,
-      "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" locator(\".loading:visible\") with timeout 5000ms\n  - waiting for locator(\".loading:visible\")\n    14 \u00d7 locator resolved to 1 element\n       - unexpected value \"1\"\n"
-    },
-    {
-      "page": "waste",
-      "title": "Waste operations",
       "passed": true,
-      "screenshot": "waste.png",
+      "screenshot": "water.png",
+      "full_screenshot": "water-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
           "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
@@ -149,11 +313,185 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/records/tanks",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tank_states",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/metrics/series",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/forecasts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/reserves",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/overview",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tanks",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tank_states",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tanks",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tank_states",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/metrics/series",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/forecasts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/reserves",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/overview",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tanks",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/alerts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/quality_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/forecast_points",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tank_states",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "page": "waste",
+      "title": "Waste operations",
+      "passed": true,
+      "screenshot": "waste.png",
+      "full_screenshot": "waste-full.png",
+      "world": "extended_v1",
+      "api_responses": [
+        {
           "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/handover_evidence",
           "status": 200
         },
         {
@@ -162,10 +500,6 @@
         },
         {
           "url": "http://localhost:3000/api/v1/records/waste_movements",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/handover_evidence",
           "status": 200
         },
         {
@@ -177,6 +511,14 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/records/handover_evidence",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/waste_bins",
           "status": 200
         },
@@ -189,11 +531,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/handover_evidence",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "url": "http://localhost:3000/api/v1/records/pickups",
           "status": 200
         },
         {
@@ -210,10 +548,6 @@
         },
         {
           "url": "http://localhost:3000/api/v1/records/waste_batches",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/pickups",
           "status": 200
         },
         {
@@ -221,7 +555,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "url": "http://localhost:3000/api/v1/records/pickups",
           "status": 200
         },
         {
@@ -229,15 +563,51 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/records/handover_evidence",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/waste_batches",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/pickups",
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/handover_evidence",
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
           "status": 200
         }
       ]
@@ -247,14 +617,11 @@
       "title": "Environment",
       "passed": true,
       "screenshot": "environment.png",
+      "full_screenshot": "environment-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
-          "url": "http://localhost:3000/api/v1/worlds",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/me",
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -262,7 +629,11 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/organizations",
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/me",
           "status": 200
         },
         {
@@ -282,16 +653,15 @@
     {
       "page": "assets",
       "title": "Assets & maintenance",
-      "passed": false,
-      "error": "Locator expected to have count '0'\nActual value: 4 \nCall log:\n  - Expect \"to_have_count\" locator(\".loading:visible\") with timeout 5000ms\n  - waiting for locator(\".loading:visible\")\n    11 \u00d7 locator resolved to 1 element\n       - unexpected value \"1\"\n    3 \u00d7 locator resolved to 4 elements\n      - unexpected value \"4\"\n"
-    },
-    {
-      "page": "parking",
-      "title": "Traffic & parking",
       "passed": true,
-      "screenshot": "parking.png",
+      "screenshot": "assets.png",
+      "full_screenshot": "assets-full.png",
       "world": "extended_v1",
       "api_responses": [
+        {
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
         {
           "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
@@ -301,7 +671,133 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_dependencies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/maintenance_orders",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_telemetry",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/assets/state",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_dependencies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/maintenance_orders",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_telemetry",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/maintenance_orders",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_dependencies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_telemetry",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/assets/state",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/maintenance_orders",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_telemetry",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/asset_dependencies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "page": "parking",
+      "title": "Traffic & parking",
+      "passed": true,
+      "screenshot": "parking.png",
+      "full_screenshot": "parking-full.png",
+      "world": "extended_v1",
+      "api_responses": [
+        {
           "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
@@ -309,6 +805,10 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/organizations",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/parking_areas",
           "status": 200
         },
@@ -329,11 +829,11 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/parking_events",
+          "url": "http://localhost:3000/api/v1/records/parking_snapshots",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/parking_snapshots",
+          "url": "http://localhost:3000/api/v1/records/parking_events",
           "status": 200
         },
         {
@@ -353,15 +853,51 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/parking_events",
-          "status": 200
-        },
-        {
           "url": "http://localhost:3000/api/v1/records/parking_areas",
           "status": 200
         },
         {
           "url": "http://localhost:3000/api/v1/records/parking_snapshots",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
           "status": 200
         }
       ]
@@ -371,22 +907,23 @@
       "title": "Safety incidents",
       "passed": true,
       "screenshot": "safety.png",
+      "full_screenshot": "safety-full.png",
       "world": "extended_v1",
       "api_responses": [
-        {
-          "url": "http://localhost:3000/api/v1/organizations",
-          "status": 200
-        },
         {
           "url": "http://localhost:3000/api/v1/me",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/worlds",
+          "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/facilities",
+          "url": "http://localhost:3000/api/v1/organizations",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/worlds",
           "status": 200
         },
         {
@@ -408,10 +945,11 @@
       "title": "What-if studio",
       "passed": true,
       "screenshot": "simulations.png",
+      "full_screenshot": "simulations-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
-          "url": "http://localhost:3000/api/v1/me",
+          "url": "http://localhost:3000/api/v1/worlds",
           "status": 200
         },
         {
@@ -419,7 +957,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/worlds",
+          "url": "http://localhost:3000/api/v1/me",
           "status": 200
         },
         {
@@ -437,6 +975,7 @@
       "title": "Sustainability & cost",
       "passed": true,
       "screenshot": "sustainability.png",
+      "full_screenshot": "sustainability-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
@@ -444,11 +983,11 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/organizations",
+          "url": "http://localhost:3000/api/v1/worlds",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/worlds",
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -456,11 +995,11 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "url": "http://localhost:3000/api/v1/records/tariff_versions",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
           "status": 200
         },
         {
@@ -468,11 +1007,67 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
           "status": 200
         },
         {
           "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/sustainability",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/contracts",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/assets",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/buildings",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
           "status": 200
         }
       ]
@@ -482,10 +1077,11 @@
       "title": "Action centre",
       "passed": true,
       "screenshot": "actions.png",
+      "full_screenshot": "actions-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
-          "url": "http://localhost:3000/api/v1/worlds",
+          "url": "http://localhost:3000/api/v1/me",
           "status": 200
         },
         {
@@ -493,22 +1089,14 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/me",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/owners",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/action_events",
-          "status": 200
-        },
-        {
           "url": "http://localhost:3000/api/v1/records/action_evidence",
           "status": 200
         },
@@ -517,19 +1105,15 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/actions",
-          "status": 200
-        },
-        {
           "url": "http://localhost:3000/api/v1/owners",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/zones",
+          "url": "http://localhost:3000/api/v1/actions",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/action_evidence",
+          "url": "http://localhost:3000/api/v1/zones",
           "status": 200
         },
         {
@@ -537,7 +1121,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/actions",
+          "url": "http://localhost:3000/api/v1/owners",
           "status": 200
         },
         {
@@ -545,11 +1129,23 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/owners",
+          "url": "http://localhost:3000/api/v1/records/action_evidence",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/actions",
           "status": 200
         },
         {
           "url": "http://localhost:3000/api/v1/zones",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/action_events",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/owners",
           "status": 200
         },
         {
@@ -563,22 +1159,23 @@
       "title": "Reports",
       "passed": true,
       "screenshot": "reports.png",
+      "full_screenshot": "reports-full.png",
       "world": "extended_v1",
       "api_responses": [
-        {
-          "url": "http://localhost:3000/api/v1/me",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/organizations",
-          "status": 200
-        },
         {
           "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -592,8 +1189,13 @@
       "title": "Chatbot",
       "passed": true,
       "screenshot": "chat.png",
+      "full_screenshot": "chat-full.png",
       "world": "extended_v1",
       "api_responses": [
+        {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
         {
           "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
@@ -604,10 +1206,6 @@
         },
         {
           "url": "http://localhost:3000/api/v1/me",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/worlds",
           "status": 200
         },
         {
@@ -619,24 +1217,11 @@
     {
       "page": "agent",
       "title": "Agent activity",
-      "passed": false,
-      "error": "Locator expected to have count '0'\nActual value: 1 \nCall log:\n  - Expect \"to_have_count\" locator(\".loading:visible\") with timeout 5000ms\n  - waiting for locator(\".loading:visible\")\n    8 \u00d7 locator resolved to 5 elements\n      - unexpected value \"5\"\n    - locator resolved to 3 elements\n    - unexpected value \"3\"\n    5 \u00d7 locator resolved to 1 element\n      - unexpected value \"1\"\n"
-    },
-    {
-      "page": "imports",
-      "title": "Import quality",
       "passed": true,
-      "screenshot": "imports.png",
+      "screenshot": "agent.png",
+      "full_screenshot": "agent-full.png",
       "world": "extended_v1",
       "api_responses": [
-        {
-          "url": "http://localhost:3000/api/v1/me",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/organizations",
-          "status": 200
-        },
         {
           "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
@@ -646,7 +1231,97 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/import_jobs",
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/action_proposals",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tool_calls",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/action_proposals",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/jobs",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tool_calls",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_runs",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/jobs",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_runs",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/action_proposals",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tool_calls",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/jobs",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_runs",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "page": "imports",
+      "title": "Import quality",
+      "passed": true,
+      "screenshot": "imports.png",
+      "full_screenshot": "imports-full.png",
+      "world": "extended_v1",
+      "api_responses": [
+        {
+          "url": "http://localhost:3000/api/v1/facilities",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/me",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -655,6 +1330,10 @@
         },
         {
           "url": "http://localhost:3000/api/v1/records/dataset_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/import_jobs",
           "status": 200
         },
         {
@@ -662,15 +1341,15 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/import_jobs",
-          "status": 200
-        },
-        {
           "url": "http://localhost:3000/api/v1/records/import_rejects",
           "status": 200
         },
         {
           "url": "http://localhost:3000/api/v1/records/dataset_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/import_jobs",
           "status": 200
         },
         {
@@ -678,7 +1357,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/dataset_versions",
+          "url": "http://localhost:3000/api/v1/records/import_rejects",
           "status": 200
         },
         {
@@ -686,7 +1365,7 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/import_rejects",
+          "url": "http://localhost:3000/api/v1/records/dataset_versions",
           "status": 200
         },
         {
@@ -700,14 +1379,11 @@
       "title": "Model evaluation",
       "passed": true,
       "screenshot": "models.png",
+      "full_screenshot": "models-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
           "url": "http://localhost:3000/api/v1/me",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -716,6 +1392,10 @@
         },
         {
           "url": "http://localhost:3000/api/v1/worlds",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/organizations",
           "status": 200
         },
         {
@@ -729,14 +1409,11 @@
       "title": "Policy & settings",
       "passed": true,
       "screenshot": "settings.png",
+      "full_screenshot": "settings-full.png",
       "world": "extended_v1",
       "api_responses": [
         {
           "url": "http://localhost:3000/api/v1/organizations",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/facilities",
           "status": 200
         },
         {
@@ -748,6 +1425,58 @@
           "status": 200
         },
         {
+          "url": "http://localhost:3000/api/v1/facilities",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/policy_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/documents",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/policy_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/documents",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/policy_versions",
+          "status": 200
+        },
+        {
+          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "status": 200
+        },
+        {
           "url": "http://localhost:3000/api/v1/records/documents",
           "status": 200
         },
@@ -760,61 +1489,43 @@
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "url": "http://localhost:3000/api/v1/contracts",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/policy_versions",
+          "url": "http://localhost:3000/api/v1/zones",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/documents",
+          "url": "http://localhost:3000/api/v1/records/waste_bins",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/tariff_versions",
+          "url": "http://localhost:3000/api/v1/records/assets",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/policy_versions",
+          "url": "http://localhost:3000/api/v1/records/waste_batches",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/agent_policies",
+          "url": "http://localhost:3000/api/v1/owners",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "url": "http://localhost:3000/api/v1/records/buildings",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/documents",
+          "url": "http://localhost:3000/api/v1/records/parking_areas",
           "status": 200
         },
         {
-          "url": "http://localhost:3000/api/v1/records/agent_policies",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/policy_versions",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/tariff_versions",
-          "status": 200
-        },
-        {
-          "url": "http://localhost:3000/api/v1/records/emission_factor_versions",
+          "url": "http://localhost:3000/api/v1/records/zones",
           "status": 200
         }
       ]
     }
   ],
-  "failed_pages": [
-    "overview",
-    "energy",
-    "water",
-    "assets",
-    "agent"
-  ]
+  "failed_pages": []
 }

@@ -1,6 +1,6 @@
 # Hospital GreenOps AI
 
-A working, local operations and sustainability application for a fictional hospital. Next.js/TypeScript, FastAPI/Python 3.12, PostgreSQL 18 with Alembic and FORCE RLS, Celery/Redis and object storage (MinIO or private Azure Blob Storage). All displayed hospital data is synthetic. There are no patient workflows.
+A working, local operations and sustainability application for a fictional hospital. Next.js/TypeScript, FastAPI/Python 3.12, PostgreSQL with Alembic and FORCE RLS, Celery/Redis and object storage (MinIO or private Azure Blob Storage). The local database image is PostgreSQL 18; the configured Supabase database is PostgreSQL 17. All displayed hospital data is synthetic. There are no patient workflows.
 
 The implementation contract is [Hospital_GreenOps_Codex_Build_Plan.md](Hospital_GreenOps_Codex_Build_Plan.md). Verification and limitations are recorded in [docs/build-status.md](docs/build-status.md).
 
@@ -89,3 +89,139 @@ The browser suite expects the seeded/generated worlds. Its explicit live chat te
 See [docs/runbook.md](docs/runbook.md) for offline train/evaluate, clean demo reset, backup/restore, production configuration, failure recovery and rollback. See [docs/demo.md](docs/demo.md) for the guided walkthrough, [docs/architecture.md](docs/architecture.md) for boundaries and [docs/references.md](docs/references.md) for researched primary references.
 
 The synthetic models remain experimental: only 1/6/24-hour target predictions; energy loses to a weekly baseline under stress; generic anomaly detection has weak precision/recall. Estimates use explicitly illustrative versioned factors. Simulation deltas are modeled results, not measured savings or validated real-hospital performance.
+
+## Screenshots and page verification
+
+Actual captures from the running synthetic demonstration, using Supabase PostgreSQL and private Azure Blob Storage. The checks cover all 18 product pages, demo sign-in and mobile overview: loaded domain APIs, refresh, role scope, chart rendering and available record dialogs. Click an image to open the complete page.
+
+[Page check results](docs/screenshots/pages/page-results.json) · [Cloud runbook](docs/cloud-services.md) · [Verification evidence](docs/verification/README.md)
+
+Reproduce the captures after starting the services:
+
+```bash
+./scripts/compose.sh exec -T web npm run test:e2e -- --timeout=180000
+uv run --frozen --project scripts/ui-tests python -m playwright install chromium
+uv run --frozen --project scripts/ui-tests python scripts/test_pages.py
+```
+
+The workflow suite creates clearly named browser fixtures, saved scenarios and reports, and a real provider conversation. The page-capture script verifies the loaded screens and selects that conversation for the chatbot image. Cloud SQL round trips take longer than the local checks recorded in the original build evidence.
+
+<details><summary>Demo sign-in</summary>
+
+[![Demo sign-in](docs/screenshots/pages/login.png)](docs/screenshots/pages/login-full.png)
+
+</details>
+
+<details><summary>Overview</summary>
+
+[![Overview](docs/screenshots/pages/overview.png)](docs/screenshots/pages/overview-full.png)
+
+</details>
+
+<details><summary>Facility operations</summary>
+
+[![Facility operations](docs/screenshots/pages/facility.png)](docs/screenshots/pages/facility-full.png)
+
+</details>
+
+<details><summary>Energy</summary>
+
+[![Energy](docs/screenshots/pages/energy.png)](docs/screenshots/pages/energy-full.png)
+
+</details>
+
+<details><summary>Water &amp; reserves</summary>
+
+[![Water & reserves](docs/screenshots/pages/water.png)](docs/screenshots/pages/water-full.png)
+
+</details>
+
+<details><summary>Waste operations</summary>
+
+[![Waste operations](docs/screenshots/pages/waste.png)](docs/screenshots/pages/waste-full.png)
+
+</details>
+
+<details><summary>Environment</summary>
+
+[![Environment](docs/screenshots/pages/environment.png)](docs/screenshots/pages/environment-full.png)
+
+</details>
+
+<details><summary>Assets &amp; maintenance</summary>
+
+[![Assets & maintenance](docs/screenshots/pages/assets.png)](docs/screenshots/pages/assets-full.png)
+
+</details>
+
+<details><summary>Traffic &amp; parking</summary>
+
+[![Traffic & parking](docs/screenshots/pages/parking.png)](docs/screenshots/pages/parking-full.png)
+
+</details>
+
+<details><summary>Safety incidents</summary>
+
+[![Safety incidents](docs/screenshots/pages/safety.png)](docs/screenshots/pages/safety-full.png)
+
+</details>
+
+<details><summary>What-if studio</summary>
+
+[![What-if studio](docs/screenshots/pages/simulations.png)](docs/screenshots/pages/simulations-full.png)
+
+</details>
+
+<details><summary>Sustainability &amp; cost</summary>
+
+[![Sustainability & cost](docs/screenshots/pages/sustainability.png)](docs/screenshots/pages/sustainability-full.png)
+
+</details>
+
+<details><summary>Action centre</summary>
+
+[![Action centre](docs/screenshots/pages/actions.png)](docs/screenshots/pages/actions-full.png)
+
+</details>
+
+<details><summary>Reports</summary>
+
+[![Reports](docs/screenshots/pages/reports.png)](docs/screenshots/pages/reports-full.png)
+
+</details>
+
+<details><summary>Chatbot</summary>
+
+[![Chatbot](docs/screenshots/pages/chat.png)](docs/screenshots/pages/chat-full.png)
+
+</details>
+
+<details><summary>Agent activity</summary>
+
+[![Agent activity](docs/screenshots/pages/agent.png)](docs/screenshots/pages/agent-full.png)
+
+</details>
+
+<details><summary>Import quality</summary>
+
+[![Import quality](docs/screenshots/pages/imports.png)](docs/screenshots/pages/imports-full.png)
+
+</details>
+
+<details><summary>Model evaluation</summary>
+
+[![Model evaluation](docs/screenshots/pages/models.png)](docs/screenshots/pages/models-full.png)
+
+</details>
+
+<details><summary>Policy &amp; settings</summary>
+
+[![Policy & settings](docs/screenshots/pages/settings.png)](docs/screenshots/pages/settings-full.png)
+
+</details>
+
+<details><summary>Mobile overview</summary>
+
+![Mobile overview](docs/screenshots/pages/overview-mobile.png)
+
+</details>

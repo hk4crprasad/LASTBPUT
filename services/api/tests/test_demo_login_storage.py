@@ -85,3 +85,9 @@ def test_runtime_can_read_hosted_static_metadata_with_rls():
         with Session.begin() as db:
             db.execute(text("INSERT INTO metric_catalog(code,domain,unit,semantics,aggregation) VALUES ('unauthorized','x','x','x','x')"))
     assert denied.value.orig.sqlstate == '42501'
+
+    from app.cli import demo_principal
+    from app.core.db import transaction
+    principal = demo_principal()
+    with transaction(principal.user_id, principal.organization_id) as db:
+        assert db.scalar(text("SELECT setting::int FROM pg_settings WHERE name='statement_timeout'")) == settings().database_statement_timeout_ms

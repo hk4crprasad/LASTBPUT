@@ -1,6 +1,7 @@
 from functools import lru_cache
 from typing import Literal
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file='.env', extra='ignore')
@@ -8,6 +9,8 @@ class Settings(BaseSettings):
     facility_timezone: str = 'Asia/Kolkata'
     database_url: str = 'postgresql+psycopg://greenops:unset@localhost:5432/greenops'
     database_prepare_threshold: str = 'disabled'
+    database_statement_timeout_ms: int = Field(default=3000, ge=100, le=60000)
+    database_connect_timeout_seconds: int = Field(default=15, ge=2, le=60)
     redis_url: str = 'redis://localhost:6379/0'
     object_storage_provider: Literal['s3', 'azure'] = 's3'
     azure_storage_connection_string: str = ''

@@ -1,0 +1,5 @@
+{
+  "organization_name": "Example operations organization",
+  "facilities": [{"code": "FACILITY_A", "name": "Example facility", "world_code": "operations_v1", "as_of": "2026-01-01T00:00:00Z"}],
+  "users": [{"email": "admin@example.invalid", "name": "Operations administrator", "role": "organization_admin", "facility_codes": ["FACILITY_A"], "zones": []}]
+}

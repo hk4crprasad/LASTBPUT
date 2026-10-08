@@ -1,0 +1,155 @@
+{
+  "artifact": "Hospital Operations + GreenOps offline starter",
+  "files": [
+    {
+      "path": "Hospital_GreenOps_Technical_Workflow_Plan.md",
+      "bytes": 41155,
+      "sha256": "62b6c941adb3df3479704db340b2ab599e5d432db4235e23eb37d786a7fa6a83"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3624,
+      "sha256": "7abd154ac3443d121abd60ba56b5d796fa1d1b1987ec7f3f8129de37378d109e"
+    },
+    {
+      "path": "RESULTS.md",
+      "bytes": 3172,
+      "sha256": "d17f15716b3d20702ba98eaeeab31ce4749ad91d7a22ef228ea865321dc63bdf"
+    },
+    {
+      "path": "artifacts/anomaly.joblib",
+      "bytes": 1576907,
+      "sha256": "efd407317cc3b3dcf0f999a0a76bc3a8c914a9e49f00b7a69a9e2e4827dddceb"
+    },
+    {
+      "path": "artifacts/demo_scenarios.json",
+      "bytes": 1751,
+      "sha256": "99eff9de2a81e20d2e0491f001ab54d7f193577c5a10f06a8db90cca5618acaf"
+    },
+    {
+      "path": "artifacts/energy_kwh_1h.joblib",
+      "bytes": 225009,
+      "sha256": "a397d9de2640cb8a2b2520881a7e00b092610e262127f4305e3855523b854541"
+    },
+    {
+      "path": "artifacts/energy_kwh_24h.joblib",
+      "bytes": 225009,
+      "sha256": "4bfbfe05249068b490ffd52837886a6bc8f77f889dc479f09a0b26093686bf40"
+    },
+    {
+      "path": "artifacts/energy_kwh_6h.joblib",
+      "bytes": 225009,
+      "sha256": "621bd8562dff7adf743c7b7e13c6113d706a401bccdb650470c791f19d601b9b"
+    },
+    {
+      "path": "artifacts/evaluation.json",
+      "bytes": 7974,
+      "sha256": "bfbf1f012a1edf0cdb6ea8c8c85628bdfbad6b1be2591874ed3848c1137713de"
+    },
+    {
+      "path": "artifacts/model_registry.json",
+      "bytes": 2078,
+      "sha256": "93fc3159f928d10286389d08f8865f2f027af06c4306af5e4743c80f8e298dbd"
+    },
+    {
+      "path": "artifacts/predictions_energy_kwh_1h.csv",
+      "bytes": 442277,
+      "sha256": "10ae28b0b733a14ffeea50721a34955e1f526e574cbcc04118c67ee16c97aa7e"
+    },
+    {
+      "path": "artifacts/predictions_energy_kwh_24h.csv",
+      "bytes": 430447,
+      "sha256": "c80a9152092a8eefa6e0b3e9c3ff01e609dbac4cb32eed3fa4724b55098f99db"
+    },
+    {
+      "path": "artifacts/predictions_energy_kwh_6h.csv",
+      "bytes": 439739,
+      "sha256": "9f294e6f1282df71fb05940fa976fe2aa202df874a44400280673efc3d762501"
+    },
+    {
+      "path": "artifacts/predictions_water_l_1h.csv",
+      "bytes": 434992,
+      "sha256": "bc74f7d3fb26d9712cae6841c7386f98333c2b0301c8e80b63582830c0c1863f"
+    },
+    {
+      "path": "artifacts/predictions_water_l_24h.csv",
+      "bytes": 420480,
+      "sha256": "63a987819439626c9f0157595a42f5152c479b97e436c6cc7780046254aca434"
+    },
+    {
+      "path": "artifacts/predictions_water_l_6h.csv",
+      "bytes": 431648,
+      "sha256": "6194b86c392f4f4df37f875769d70c41e357efdb6ea4804e847752b707c4ee14"
+    },
+    {
+      "path": "artifacts/water_l_1h.joblib",
+      "bytes": 225006,
+      "sha256": "1539b9b648daac9f2ff5e91b4269d6b79ff02e338e42aedf87a450704377b2b8"
+    },
+    {
+      "path": "artifacts/water_l_24h.joblib",
+      "bytes": 225006,
+      "sha256": "a0c273a478a9956b4dd2f5f5572094be8d89817c52bb7c3725704cbf57cc2687"
+    },
+    {
+      "path": "artifacts/water_l_6h.joblib",
+      "bytes": 225006,
+      "sha256": "c9bea6800c189341b6138f9c95c03e35e1cc2a366aeb4eab8d4b333317f677c0"
+    },
+    {
+      "path": "data/facility.json",
+      "bytes": 6926,
+      "sha256": "8a97c6d3aaeb546babfe92ce87c3ba6a98101c2d60d930a717e59f50a9a12fec"
+    },
+    {
+      "path": "data/observations.csv",
+      "bytes": 2017042,
+      "sha256": "bbb5317a5dea9315c6fb5d8baab6f5a304c41044cae2f99ecaa746fb06a77c36"
+    },
+    {
+      "path": "data/private_labels.csv",
+      "bytes": 725888,
+      "sha256": "91d390b5a429d123154ae1051336d2139ea77e3ae609190b1ed3d341992db863"
+    },
+    {
+      "path": "data/stress_facility.json",
+      "bytes": 4598,
+      "sha256": "6f0b2f631dcb69cb840b17d8a2751bb99adff29d38392c81ffdeac7629dd7b05"
+    },
+    {
+      "path": "data/stress_observations.csv",
+      "bytes": 1009578,
+      "sha256": "ed6d9c8829f2a6b6c05384e984b81d9a66371330f1201902eb0382e632302518"
+    },
+    {
+      "path": "data/stress_private_labels.csv",
+      "bytes": 364837,
+      "sha256": "51ed16e9223904a78416bf21e026e41895e14c8856e5a84f720c7476776c21e0"
+    },
+    {
+      "path": "data/validation.json",
+      "bytes": 222,
+      "sha256": "081d74d03c5578067e157b9344158f61922d735b88bd72212bcf117382d8d1ea"
+    },
+    {
+      "path": "greenops/__init__.py",
+      "bytes": 64,
+      "sha256": "14d3e20669c9655b3ad05ee64af7f5c81065dd2c4a32c630b9010fc4aefe8a4c"
+    },
+    {
+      "path": "greenops/pipeline.py",
+      "bytes": 24240,
+      "sha256": "0adf506beb76cc7ad2745c00a8d95be8b9b3f46855b89e84c7cd853cd2ac18c5"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 61,
+      "sha256": "8f6caa613515ffd6a3afed81fce3ffad83d14334b35bdd7e696439310c092641"
+    },
+    {
+      "path": "tests/test_pipeline.py",
+      "bytes": 3322,
+      "sha256": "0c3a68a8327f373a0ab458c540195fecd40074cb0aab118a7def3ca3d4012456"
+    }
+  ]
+}

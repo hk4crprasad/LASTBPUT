@@ -1,0 +1,132 @@
+name: hospital-greenops
+x-runtime: &runtime
+  build:
+    context: .
+    dockerfile: infra/api.Dockerfile
+  environment: &runtime-env
+    APP_MODE: ${APP_MODE:-demo}
+    FACILITY_TIMEZONE: ${FACILITY_TIMEZONE:-Asia/Kolkata}
+    JOB_MAX_RETRIES: ${JOB_MAX_RETRIES:-3}
+    JOB_LEASE_SECONDS: ${JOB_LEASE_SECONDS:-180}
+    DATABASE_URL: ${DATABASE_URL}
+    REDIS_URL: ${REDIS_URL}
+    OBJECT_STORAGE_ENDPOINT: ${OBJECT_STORAGE_ENDPOINT}
+    OBJECT_STORAGE_BUCKET: ${OBJECT_STORAGE_BUCKET}
+    OBJECT_STORAGE_ACCESS_KEY: ${OBJECT_STORAGE_ACCESS_KEY}
+    OBJECT_STORAGE_SECRET_KEY: ${OBJECT_STORAGE_SECRET_KEY}
+    SESSION_SECRET: ${SESSION_SECRET}
+    PUBLIC_URL: ${PUBLIC_URL}
+    CORS_ORIGINS: ${CORS_ORIGINS}
+    COOKIE_SECURE: ${COOKIE_SECURE:-false}
+    LLM_ENABLED: ${LLM_ENABLED:-false}
+    OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+    OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-}
+    OPENAI_AGENT_MODEL: ${OPENAI_AGENT_MODEL:-}
+    LLM_SUPPORTS_TOOLS: ${LLM_SUPPORTS_TOOLS:-true}
+    LLM_SUPPORTS_STREAMING: ${LLM_SUPPORTS_STREAMING:-false}
+    LLM_SUPPORTS_STRICT_SCHEMA: ${LLM_SUPPORTS_STRICT_SCHEMA:-false}
+    LLM_SUPPORTS_PARALLEL_TOOL_CALLS: ${LLM_SUPPORTS_PARALLEL_TOOL_CALLS:-false}
+    LLM_REASONING_EFFORT: ${LLM_REASONING_EFFORT:-}
+    LLM_TOKEN_LIMIT_PARAMETER: ${LLM_TOKEN_LIMIT_PARAMETER:-max_completion_tokens}
+    LLM_STREAM_INCLUDE_USAGE: ${LLM_STREAM_INCLUDE_USAGE:-true}
+    LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-45}
+    AGENT_MAX_STEPS: ${AGENT_MAX_STEPS:-8}
+    AGENT_MAX_TOOL_CALLS: ${AGENT_MAX_TOOL_CALLS:-16}
+    AGENT_MAX_RUN_SECONDS: ${AGENT_MAX_RUN_SECONDS:-120}
+    AGENT_MAX_OUTPUT_TOKENS: ${AGENT_MAX_OUTPUT_TOKENS:-3000}
+    AGENT_AUTONOMOUS_WRITES_ENABLED: ${AGENT_AUTONOMOUS_WRITES_ENABLED:-false}
+    DEMO_CREDENTIALS_PATH: /app/shared/demo-credentials.json
+    STARTER_PATH: /app/data/public/starter
+  volumes:
+    - shared:/app/shared
+  depends_on:
+    postgres: {condition: service_healthy}
+    redis: {condition: service_healthy}
+    minio: {condition: service_healthy}
+    migrate: {condition: service_completed_successfully}
+  restart: unless-stopped
+  mem_limit: 1g
+services:
+  postgres:
+    image: postgres:18.3
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RUNTIME_DB_PASSWORD: ${RUNTIME_DB_PASSWORD}
+      MIGRATOR_DB_PASSWORD: ${MIGRATOR_DB_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql
+      - ./infra/bootstrap.sh:/docker-entrypoint-initdb.d/01-roles.sh:ro,z
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    mem_limit: 1g
+  redis:
+    image: redis:7.4.8-alpine
+    command: [redis-server, --appendonly, 'yes']
+    volumes: [redis:/data]
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 256m
+  minio:
+    build: {context: ., dockerfile: infra/minio.Dockerfile}
+    command: [server, /data, --console-address, ':9001']
+    environment:
+      MINIO_ROOT_USER: ${OBJECT_STORAGE_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${OBJECT_STORAGE_SECRET_KEY}
+    volumes: [minio:/data]
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:9000/minio/health/live]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    mem_limit: 512m
+  migrate:
+    build: {context: ., dockerfile: infra/api.Dockerfile}
+    user: '0'
+    environment:
+      MIGRATION_DATABASE_URL: ${MIGRATION_DATABASE_URL}
+      APP_MODE: ${APP_MODE:-demo}
+      DEMO_CREDENTIALS_PATH: /app/shared/demo-credentials.json
+    command: [sh, -c, 'alembic upgrade head && python -m app.bootstrap']
+    volumes: [shared:/app/shared]
+    depends_on:
+      postgres: {condition: service_healthy}
+  api:
+    <<: *runtime
+    ports: ['127.0.0.1:8000:8000']
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health/ready')"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+  worker:
+    <<: *runtime
+    command: [celery, -A, app.jobs.tasks.celery, worker, --loglevel=info, --concurrency=1]
+  scheduler:
+    <<: *runtime
+    command: [celery, -A, app.jobs.tasks.celery, beat, --loglevel=info, --schedule=/tmp/celerybeat-schedule]
+  web:
+    build: {context: ., dockerfile: infra/web.Dockerfile}
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      E2E_BASE_URL: http://localhost:3000
+      DEMO_CREDENTIALS_PATH: /app/shared/demo-credentials.json
+      E2E_SCREENSHOT_DIR: /app/test-results/screenshots
+    volumes: [shared:/app/shared:ro]
+    ports: ['127.0.0.1:3000:3000']
+    depends_on:
+      api: {condition: service_healthy}
+    mem_limit: 1g
+volumes:
+  postgres:
+  redis:
+  minio:
+  shared:

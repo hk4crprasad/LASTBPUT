@@ -1,0 +1,333 @@
+{
+  "scope": "Synthetic-only validation, not real hospital accuracy",
+  "forecast": {
+    "energy_kwh_1h": {
+      "train_rows": 9622,
+      "validation_rows": 3435,
+      "units": "kWh",
+      "test": {
+        "n": 3422,
+        "mae": 0.7274548987888207,
+        "rmse": 0.995496321243519,
+        "weekly_baseline_mae": 1.2110747223845704,
+        "mae_improvement_pct": 39.933111859812946,
+        "validation_residual_half_width": 1.352479568823478,
+        "empirical_interval_coverage": 0.8752191700759789,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7792,
+        "mae": 2.143022702189162,
+        "rmse": 2.6247992908588933,
+        "weekly_baseline_mae": 1.6038076745379877,
+        "mae_improvement_pct": -33.62092825790395,
+        "validation_residual_half_width": 1.352479568823478,
+        "empirical_interval_coverage": 0.36024127310061604,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 0.640978717403607,
+          "rows": 857
+        },
+        "OPD": {
+          "mae": 0.8078166570077799,
+          "rows": 857
+        },
+        "WARD_A": {
+          "mae": 0.7256239176364594,
+          "rows": 851
+        },
+        "WARD_B": {
+          "mae": 0.7353874841028696,
+          "rows": 857
+        }
+      }
+    },
+    "water_l_1h": {
+      "train_rows": 9577,
+      "validation_rows": 3423,
+      "units": "L",
+      "test": {
+        "n": 3402,
+        "mae": 8.855492899625196,
+        "rmse": 11.275856203333223,
+        "weekly_baseline_mae": 18.231791593180482,
+        "mae_improvement_pct": 51.42829022388808,
+        "validation_residual_half_width": 19.06465376575565,
+        "empirical_interval_coverage": 0.9124044679600235,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7677,
+        "mae": 20.791409264286813,
+        "rmse": 27.566884055254018,
+        "weekly_baseline_mae": 26.350721375537322,
+        "mae_improvement_pct": 21.097381100205833,
+        "validation_residual_half_width": 19.06465376575565,
+        "empirical_interval_coverage": 0.5608961834049759,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 7.698113948291036,
+          "rows": 853
+        },
+        "OPD": {
+          "mae": 9.202657745792182,
+          "rows": 853
+        },
+        "WARD_A": {
+          "mae": 9.09923043866456,
+          "rows": 843
+        },
+        "WARD_B": {
+          "mae": 9.424826881216534,
+          "rows": 853
+        }
+      }
+    },
+    "energy_kwh_6h": {
+      "train_rows": 9602,
+      "validation_rows": 3415,
+      "units": "kWh",
+      "test": {
+        "n": 3402,
+        "mae": 0.8022385416514421,
+        "rmse": 1.2622832082080875,
+        "weekly_baseline_mae": 1.2091695767195767,
+        "mae_improvement_pct": 33.65376063894366,
+        "validation_residual_half_width": 1.3658689793789014,
+        "empirical_interval_coverage": 0.8662551440329218,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7772,
+        "mae": 3.655508594926177,
+        "rmse": 4.134620398233438,
+        "weekly_baseline_mae": 1.6097872233659292,
+        "mae_improvement_pct": -127.08023407483736,
+        "validation_residual_half_width": 1.3658689793789014,
+        "empirical_interval_coverage": 0.11644364384971694,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 0.6807975612009607,
+          "rows": 852
+        },
+        "OPD": {
+          "mae": 0.9304777065852622,
+          "rows": 852
+        },
+        "WARD_A": {
+          "mae": 0.8024862087373593,
+          "rows": 846
+        },
+        "WARD_B": {
+          "mae": 0.7951944342165945,
+          "rows": 852
+        }
+      }
+    },
+    "water_l_6h": {
+      "train_rows": 9556,
+      "validation_rows": 3403,
+      "units": "L",
+      "test": {
+        "n": 3382,
+        "mae": 10.035470913817198,
+        "rmse": 13.089273025303038,
+        "weekly_baseline_mae": 18.25927971614429,
+        "mae_improvement_pct": 45.03906468476879,
+        "validation_residual_half_width": 21.169249397610965,
+        "empirical_interval_coverage": 0.9039030159668835,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7659,
+        "mae": 19.682104371275138,
+        "rmse": 27.56828392690054,
+        "weekly_baseline_mae": 26.37315785350568,
+        "mae_improvement_pct": 25.370695156784674,
+        "validation_residual_half_width": 21.169249397610965,
+        "empirical_interval_coverage": 0.6431649040344692,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 9.132456955340752,
+          "rows": 848
+        },
+        "OPD": {
+          "mae": 10.14771377844629,
+          "rows": 848
+        },
+        "WARD_A": {
+          "mae": 10.051142478109492,
+          "rows": 838
+        },
+        "WARD_B": {
+          "mae": 10.810755249554953,
+          "rows": 848
+        }
+      }
+    },
+    "energy_kwh_24h": {
+      "train_rows": 9530,
+      "validation_rows": 3343,
+      "units": "kWh",
+      "test": {
+        "n": 3331,
+        "mae": 0.9040459149706856,
+        "rmse": 1.4093428309436313,
+        "weekly_baseline_mae": 1.2165190933653558,
+        "mae_improvement_pct": 25.68584250743243,
+        "validation_residual_half_width": 1.463420234128882,
+        "empirical_interval_coverage": 0.8465926148303813,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7701,
+        "mae": 2.8043677275682803,
+        "rmse": 3.544862137893367,
+        "weekly_baseline_mae": 1.6106499155953773,
+        "mae_improvement_pct": -74.1140455423949,
+        "validation_residual_half_width": 1.463420234128882,
+        "empirical_interval_coverage": 0.3221659524737047,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 0.7711413813371312,
+          "rows": 834
+        },
+        "OPD": {
+          "mae": 1.0240587710121103,
+          "rows": 834
+        },
+        "WARD_A": {
+          "mae": 0.9423468780754479,
+          "rows": 829
+        },
+        "WARD_B": {
+          "mae": 0.8788662515390164,
+          "rows": 834
+        }
+      }
+    },
+    "water_l_24h": {
+      "train_rows": 9484,
+      "validation_rows": 3332,
+      "units": "L",
+      "test": {
+        "n": 3312,
+        "mae": 11.415786388293355,
+        "rmse": 16.065490702183833,
+        "weekly_baseline_mae": 18.301321859903382,
+        "mae_improvement_pct": 37.6231592685971,
+        "validation_residual_half_width": 22.648322591574416,
+        "empirical_interval_coverage": 0.8885869565217391,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "shifted_world": {
+        "n": 7589,
+        "mae": 20.971944442252987,
+        "rmse": 30.025346632871408,
+        "weekly_baseline_mae": 26.479356568717883,
+        "mae_improvement_pct": 20.798889550704676,
+        "validation_residual_half_width": 22.648322591574416,
+        "empirical_interval_coverage": 0.6523916194492028,
+        "interval_note": "Nominal 90% residual interval, calibrated on validation; test coverage is reported, not assumed"
+      },
+      "by_zone": {
+        "ICU": {
+          "mae": 9.823272013399539,
+          "rows": 830
+        },
+        "OPD": {
+          "mae": 11.953938759770029,
+          "rows": 830
+        },
+        "WARD_A": {
+          "mae": 11.7830717542034,
+          "rows": 822
+        },
+        "WARD_B": {
+          "mae": 12.106403125712841,
+          "rows": 830
+        }
+      }
+    }
+  },
+  "selection": "Single preset model per target/horizon; validation calibrates interval only; test/stress never tunes models",
+  "versions": {
+    "python": "3.12.15",
+    "sklearn": "1.8.0",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "joblib": "1.5.3"
+  },
+  "data_sha256": "bbb5317a5dea9315c6fb5d8baab6f5a304c41044cae2f99ecaa746fb06a77c36",
+  "split_policy": {
+    "train_target_before": "2025-04-19T00:00:00+00:00",
+    "validation_target_before": "2025-05-25T00:00:00+00:00",
+    "test_origin_from": "2025-05-25T00:00:00+00:00",
+    "policy": "Shared time cutoffs across all zones; boundary-crossing targets purged"
+  },
+  "anomaly": {
+    "test": {
+      "n": 3436,
+      "precision": 0.022727272727272728,
+      "recall": 0.03571428571428571,
+      "f1": 0.027777777777777776,
+      "false_positive_rows_per_facility_day": 2.391657010428737,
+      "evaluated_events": 4,
+      "event_detection_rate": 0.25,
+      "median_detection_delay_hours": 0.0,
+      "note": "Raw row alerts, no deduplication. Event delay is measured from first event row in evaluation window; boundary events may be partial."
+    },
+    "shifted_world": {
+      "n": 8516,
+      "precision": 0.05942622950819672,
+      "recall": 0.12083333333333333,
+      "f1": 0.07967032967032966,
+      "false_positive_rows_per_facility_day": 5.104726598702502,
+      "evaluated_events": 20,
+      "event_detection_rate": 0.65,
+      "median_detection_delay_hours": 3.0,
+      "note": "Raw row alerts, no deduplication. Event delay is measured from first event row in evaluation window; boundary events may be partial."
+    },
+    "score_semantics": "Outlier score, not a calibrated fault/leak probability"
+  },
+  "artifact_manifest": [
+    {
+      "path": "energy_kwh_1h.joblib",
+      "sha256": "03713bc0c21ebb45254e8196eda9d93af970385fe8117987c8ad6c1628c81042"
+    },
+    {
+      "path": "water_l_1h.joblib",
+      "sha256": "be330ed8f308591d68a6679b587e2e9beccfdde986872cd025018960dcf62aeb"
+    },
+    {
+      "path": "anomaly.joblib",
+      "sha256": "efd407317cc3b3dcf0f999a0a76bc3a8c914a9e49f00b7a69a9e2e4827dddceb"
+    },
+    {
+      "path": "water_l_6h.joblib",
+      "sha256": "fcfc1bd2cee939d4f8027d75b5113cc7e27ce728debf5ce099e9a039795306fe"
+    },
+    {
+      "path": "energy_kwh_6h.joblib",
+      "sha256": "1a5f7b533acc814c7cc5848be2e809a48d783882e5284656f3b7f918a347dba8"
+    },
+    {
+      "path": "water_l_24h.joblib",
+      "sha256": "3feedabdc6d4e24abcd78647af9a2a3e4c3983a1b963bed178c34bfa6eec9471"
+    },
+    {
+      "path": "energy_kwh_24h.joblib",
+      "sha256": "d6a71e95bc6c51b5ca62b1dd78a9f547db5096c8decca3799a831997497d1ecf"
+    }
+  ]
+}

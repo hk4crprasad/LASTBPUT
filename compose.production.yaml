@@ -1,0 +1,37 @@
+services:
+  api:
+    environment:
+      APP_MODE: production
+      COOKIE_SECURE: 'true'
+    ports: !reset []
+    read_only: true
+    tmpfs: [/tmp]
+  worker:
+    environment:
+      APP_MODE: production
+    read_only: true
+    tmpfs: [/tmp]
+  scheduler:
+    environment:
+      APP_MODE: production
+    read_only: true
+    tmpfs: [/tmp]
+  migrate:
+    environment:
+      APP_MODE: production
+  web:
+    ports: !reset []
+  proxy:
+    image: caddy:2.10.2-alpine
+    environment:
+      GREENOPS_HOST: ${GREENOPS_HOST:?Configure your private or public domain explicitly}
+    ports: ['80:80', '443:443']
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro,z
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      web: {condition: service_started}
+volumes:
+  caddy-data:
+  caddy-config:

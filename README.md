@@ -1,0 +1,83 @@
+# Hospital GreenOps AI
+
+A working, local operations and sustainability application for a fictional hospital. Next.js/TypeScript, FastAPI/Python 3.12, PostgreSQL 18 with Alembic and FORCE RLS, Celery/Redis and S3-compatible MinIO. All displayed hospital data is synthetic. There are no patient workflows.
+
+The implementation contract is [Hospital_GreenOps_Codex_Build_Plan.md](Hospital_GreenOps_Codex_Build_Plan.md). Verification and limitations are recorded in [docs/build-status.md](docs/build-status.md).
+
+## Start
+
+Requires Docker with Compose v2 (supporting `!reset`/`!override`), network access for the initial image/dependency build, approximately 12 GB free disk and 8 GB RAM. The initial MinIO build compiles its pinned official source release; browser dependencies are included in the web image.
+
+```bash
+cp .env.example .env
+python3 scripts/init_env.py
+python3 scripts/prepare_starter.py --source-dir hospital_greenops_starter
+# Alternative supplied ZIP: --archive Hospital_GreenOps_Synthetic_ML_Starter.zip
+
+docker compose up --build -d
+docker compose exec api python -m app.cli seed-demo --starter /app/data/public/starter
+docker compose exec api python -m app.cli generate-world --config /app/data/public/extended-demo.yaml
+for world in base_v1 stress_v1 extended_v1; do
+  docker compose exec api python -m app.cli infer --world "$world"
+done
+docker compose exec api python -m app.cli smoke-test
+```
+
+Open **http://localhost:3000**. API documentation: **http://localhost:8000/docs**. Readiness: **http://localhost:8000/api/v1/health/ready**. Ports bind to loopback. PostgreSQL, Redis and object storage remain on the private Compose network.
+
+Retrieve generated credentials locally; they are deliberately excluded from version control:
+
+```bash
+mkdir -p .local
+docker compose exec -T api cat /app/shared/demo-credentials.json > .local/demo-credentials.json
+chmod 600 .local/demo-credentials.json
+```
+
+Use `hospital_admin` to explore and configure the demo; `operations_supervisor` can independently review actions. Other generated roles demonstrate zone and domain restrictions. Migration runs automatically before the API starts. Repeat seed/generation is idempotent. `scripts/init_env.py` preserves an initialized environment; do not change database passwords without rotating the database roles too.
+
+## Enable the LLM
+
+Set these **server-side** values in `.env`, then recreate API, worker and scheduler. The frontend receives no provider key.
+
+```dotenv
+LLM_ENABLED=true
+OPENAI_BASE_URL=https://YOUR-ENDPOINT/openai/v1
+OPENAI_API_KEY=YOUR-SERVER-SIDE-KEY
+OPENAI_CHAT_MODEL=YOUR-DEPLOYMENT
+OPENAI_AGENT_MODEL=YOUR-DEPLOYMENT
+LLM_SUPPORTS_TOOLS=true
+LLM_SUPPORTS_STREAMING=true
+LLM_SUPPORTS_PARALLEL_TOOL_CALLS=true
+LLM_TOKEN_LIMIT_PARAMETER=max_completion_tokens
+LLM_REASONING_EFFORT=none
+```
+
+The supplied Azure endpoint with `gpt-6-luna` was actually verified for text, streamed chunks, function calling, matching tool results and multiple parallel read calls. Its Chat Completions function calling required `reasoning_effort=none`. The adapter does not send `temperature`; `max_tokens` is not sent in this configuration. Capabilities are configurable for other compatible providers and must be checked against the selected deployment.
+
+```bash
+docker compose up -d --force-recreate api worker scheduler
+docker compose exec api python -m app.cli check-llm
+docker compose exec api python -m app.cli agent-evaluate
+docker compose exec api python -m app.cli agent-refresh-evaluate
+```
+
+Without credentials, metrics, CRUD, simulations, rules and deterministic reports work. Chat records configuration/provider failures honestly. Monitoring is disabled by default; enable a versioned facility agent policy in Settings. Autonomous software task creation additionally requires the server flag and the policy's category, severity, owner and daily limits. No tool operates equipment.
+
+## Validate and demonstrate
+
+```bash
+docker compose exec api pytest -q
+docker compose exec web npm run test:e2e
+python3 scripts/check_boundary.py
+docker compose exec api python -m app.cli verify-checksums
+# Host Python dependencies, if running the HTTP demo outside the containers:
+cd services/api && uv sync --frozen && cd ../..
+services/api/.venv/bin/python scripts/demo.py --url http://localhost:3000 --credentials .local/demo-credentials.json --llm
+services/api/.venv/bin/python scripts/performance.py --url http://localhost:3000 --credentials .local/demo-credentials.json
+```
+
+The browser suite expects the seeded/generated worlds. Its explicit live chat test requires a configured provider; deterministic backend tests use mocked providers. Reports are real CSV, printable HTML and server-rendered PDF files in scoped object storage.
+
+See [docs/runbook.md](docs/runbook.md) for offline train/evaluate, clean demo reset, backup/restore, production configuration, failure recovery and rollback. See [docs/demo.md](docs/demo.md) for the guided walkthrough, [docs/architecture.md](docs/architecture.md) for boundaries and [docs/references.md](docs/references.md) for researched primary references.
+
+The synthetic models remain experimental: only 1/6/24-hour target predictions; energy loses to a weekly baseline under stress; generic anomaly detection has weak precision/recall. Estimates use explicitly illustrative versioned factors. Simulation deltas are modeled results, not measured savings or validated real-hospital performance.

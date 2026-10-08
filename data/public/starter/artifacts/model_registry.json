@@ -1,0 +1,56 @@
+[
+  {
+    "model_id": "energy_kwh_1h",
+    "artifact": "energy_kwh_1h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": false,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "water_l_1h",
+    "artifact": "water_l_1h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": true,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "energy_kwh_6h",
+    "artifact": "energy_kwh_6h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": false,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "water_l_6h",
+    "artifact": "water_l_6h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": true,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "energy_kwh_24h",
+    "artifact": "energy_kwh_24h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": false,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "water_l_24h",
+    "artifact": "water_l_24h.joblib",
+    "status": "experimental_synthetic_only",
+    "baseline_beaten_test": true,
+    "baseline_beaten_stress": true,
+    "serving_policy": "No production promotion; preserve weekly baseline and calibrate target-facility uncertainty"
+  },
+  {
+    "model_id": "anomaly",
+    "artifact": "anomaly.joblib",
+    "status": "experimental_synthetic_only",
+    "serving_policy": "Weak held-out detection; do not use as definitive fault/leak decision"
+  }
+]

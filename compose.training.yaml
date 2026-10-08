@@ -1,0 +1,10 @@
+services:
+  trainer:
+    profiles: [offline]
+    build: {context: ., dockerfile: infra/training.Dockerfile}
+    volumes:
+      - ./research/starter:/workspace/research/starter:ro,z
+      - ./research/evaluation:/workspace/research/evaluation:z
+    network_mode: none
+    mem_limit: 3g
+    cpus: 2

@@ -1,0 +1,11 @@
+.git
+.env
+.local
+**/.venv
+**/node_modules
+**/.next
+research
+hospital_greenops_starter
+*.zip
+**/__pycache__
+docs/demo-credentials.json

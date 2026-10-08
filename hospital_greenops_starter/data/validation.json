@@ -1,0 +1,14 @@
+{
+  "base": {
+    "rows": 17280,
+    "zones": 4,
+    "missing_water_rows": 40,
+    "validation": "passed"
+  },
+  "stress_": {
+    "rows": 8640,
+    "zones": 4,
+    "missing_water_rows": 60,
+    "validation": "passed"
+  }
+}

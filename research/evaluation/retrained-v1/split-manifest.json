@@ -1,0 +1,13 @@
+{
+  "split_policy": {
+    "train_target_before": "2025-04-19T00:00:00+00:00",
+    "validation_target_before": "2025-05-25T00:00:00+00:00",
+    "test_origin_from": "2025-05-25T00:00:00+00:00",
+    "policy": "Shared time cutoffs across all zones; boundary-crossing targets purged"
+  },
+  "data_sha256": "bbb5317a5dea9315c6fb5d8baab6f5a304c41044cae2f99ecaa746fb06a77c36",
+  "train_origin_count": 9530,
+  "validation_origin_count": 3343,
+  "test_origin_count": 3426,
+  "purged_origin_count": 191
+}

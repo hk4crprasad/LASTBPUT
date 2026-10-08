@@ -1,0 +1,15 @@
+{
+  "days": 180,
+  "bed_capacity": 168,
+  "waste_note": "Aggregate simulated biomedical stream only; category/batch ledger is specified in the full plan",
+  "facility_type": "hospital",
+  "source_type": "synthetic",
+  "facility_id": "DEMO_HOSPITAL",
+  "interval_semantics": "Resource usage is for the hourly interval ending at observed_at",
+  "essential_water_lph": 3000,
+  "battery_deliverable_kwh": 120,
+  "essential_load_kw": 60,
+  "stress": false,
+  "tank_usable_l": 30000,
+  "seed": 42
+}

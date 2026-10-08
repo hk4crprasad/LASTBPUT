@@ -1,0 +1,15 @@
+.env
+.env.*.local
+.venv/
+node_modules/
+.next/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.local/
+test-results/
+playwright-report/
+docs/demo-credentials.json
+
+.firecrawl/

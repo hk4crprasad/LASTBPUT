@@ -1,0 +1,7 @@
+{$GREENOPS_HOST} {
+  encode zstd gzip
+  reverse_proxy web:3000
+  header X-Content-Type-Options nosniff
+  header Referrer-Policy same-origin
+  header X-Frame-Options DENY
+}

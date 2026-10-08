@@ -1,0 +1,881 @@
+{
+  "buildings": {
+    "additionalProperties": false,
+    "properties": {
+      "address": {
+        "default": "",
+        "maxLength": 500,
+        "title": "Address",
+        "type": "string"
+      },
+      "gross_area_m2": {
+        "exclusiveMinimum": 0,
+        "title": "Gross Area M2",
+        "type": "number"
+      }
+    },
+    "required": [
+      "gross_area_m2"
+    ],
+    "title": "Building",
+    "type": "object"
+  },
+  "floors": {
+    "additionalProperties": false,
+    "properties": {
+      "level": {
+        "maximum": 100,
+        "minimum": -5,
+        "title": "Level",
+        "type": "integer"
+      },
+      "area_m2": {
+        "exclusiveMinimum": 0,
+        "title": "Area M2",
+        "type": "number"
+      }
+    },
+    "required": [
+      "level",
+      "area_m2"
+    ],
+    "title": "Floor",
+    "type": "object"
+  },
+  "zones": {
+    "additionalProperties": false,
+    "properties": {
+      "source_zone_code": {
+        "minimum": 0,
+        "title": "Source Zone Code",
+        "type": "integer"
+      },
+      "bed_capacity": {
+        "maximum": 2000,
+        "minimum": 0,
+        "title": "Bed Capacity",
+        "type": "integer"
+      },
+      "protected": {
+        "default": false,
+        "title": "Protected",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "source_zone_code",
+      "bed_capacity"
+    ],
+    "title": "Zone",
+    "type": "object"
+  },
+  "zone_capacities": {
+    "additionalProperties": false,
+    "properties": {
+      "bed_capacity": {
+        "maximum": 2000,
+        "minimum": 0,
+        "title": "Bed Capacity",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "bed_capacity"
+    ],
+    "title": "Capacity",
+    "type": "object"
+  },
+  "operating_schedules": {
+    "additionalProperties": false,
+    "properties": {
+      "start_hour": {
+        "maximum": 23,
+        "minimum": 0,
+        "title": "Start Hour",
+        "type": "integer"
+      },
+      "end_hour": {
+        "maximum": 24,
+        "minimum": 1,
+        "title": "End Hour",
+        "type": "integer"
+      },
+      "days": {
+        "items": {
+          "type": "integer"
+        },
+        "maxItems": 7,
+        "minItems": 1,
+        "title": "Days",
+        "type": "array"
+      },
+      "essential": {
+        "default": false,
+        "title": "Essential",
+        "type": "boolean"
+      },
+      "policy_source": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Policy Source",
+        "type": "string"
+      }
+    },
+    "required": [
+      "start_hour",
+      "end_hour",
+      "days",
+      "policy_source"
+    ],
+    "title": "Schedule",
+    "type": "object"
+  },
+  "assets": {
+    "additionalProperties": false,
+    "properties": {
+      "kind": {
+        "enum": [
+          "pump",
+          "hvac",
+          "meter",
+          "genset",
+          "battery",
+          "bin",
+          "gate"
+        ],
+        "title": "Kind",
+        "type": "string"
+      },
+      "mode": {
+        "default": "operational",
+        "enum": [
+          "operational",
+          "degraded",
+          "offline",
+          "inspection"
+        ],
+        "title": "Mode",
+        "type": "string"
+      },
+      "critical": {
+        "default": false,
+        "title": "Critical",
+        "type": "boolean"
+      },
+      "rated_kw": {
+        "default": 0,
+        "minimum": 0,
+        "title": "Rated Kw",
+        "type": "number"
+      },
+      "inspection_interval_days": {
+        "default": 30,
+        "exclusiveMinimum": 0,
+        "title": "Inspection Interval Days",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "kind"
+    ],
+    "title": "Asset",
+    "type": "object"
+  },
+  "asset_dependencies": {
+    "additionalProperties": false,
+    "properties": {
+      "from_asset_id": {
+        "format": "uuid",
+        "title": "From Asset Id",
+        "type": "string"
+      },
+      "to_asset_id": {
+        "format": "uuid",
+        "title": "To Asset Id",
+        "type": "string"
+      },
+      "resource": {
+        "enum": [
+          "power",
+          "water",
+          "access"
+        ],
+        "title": "Resource",
+        "type": "string"
+      }
+    },
+    "required": [
+      "from_asset_id",
+      "to_asset_id",
+      "resource"
+    ],
+    "title": "Dependency",
+    "type": "object"
+  },
+  "maintenance_orders": {
+    "additionalProperties": false,
+    "properties": {
+      "asset_id": {
+        "format": "uuid",
+        "title": "Asset Id",
+        "type": "string"
+      },
+      "inspection_type": {
+        "enum": [
+          "inspection",
+          "repair",
+          "preventive"
+        ],
+        "title": "Inspection Type",
+        "type": "string"
+      },
+      "notes": {
+        "default": "",
+        "maxLength": 4000,
+        "title": "Notes",
+        "type": "string"
+      }
+    },
+    "required": [
+      "asset_id",
+      "inspection_type"
+    ],
+    "title": "Maintenance",
+    "type": "object"
+  },
+  "tanks": {
+    "additionalProperties": false,
+    "properties": {
+      "kind": {
+        "enum": [
+          "potable",
+          "process",
+          "fire"
+        ],
+        "title": "Kind",
+        "type": "string"
+      },
+      "capacity_l": {
+        "exclusiveMinimum": 0,
+        "title": "Capacity L",
+        "type": "number"
+      },
+      "initial_reserve_l": {
+        "minimum": 0,
+        "title": "Initial Reserve L",
+        "type": "number"
+      },
+      "inflow_lph": {
+        "minimum": 0,
+        "title": "Inflow Lph",
+        "type": "number"
+      },
+      "essential_lph": {
+        "minimum": 0,
+        "title": "Essential Lph",
+        "type": "number"
+      },
+      "nonessential_lph": {
+        "default": 0,
+        "minimum": 0,
+        "title": "Nonessential Lph",
+        "type": "number"
+      }
+    },
+    "required": [
+      "kind",
+      "capacity_l",
+      "initial_reserve_l",
+      "inflow_lph",
+      "essential_lph"
+    ],
+    "title": "TankConfig",
+    "type": "object"
+  },
+  "waste_bins": {
+    "additionalProperties": false,
+    "properties": {
+      "category": {
+        "enum": [
+          "yellow",
+          "red",
+          "white",
+          "blue"
+        ],
+        "title": "Category",
+        "type": "string"
+      },
+      "capacity_kg": {
+        "exclusiveMinimum": 0,
+        "title": "Capacity Kg",
+        "type": "number"
+      }
+    },
+    "required": [
+      "category",
+      "capacity_kg"
+    ],
+    "title": "WasteBin",
+    "type": "object"
+  },
+  "waste_batches": {
+    "additionalProperties": false,
+    "properties": {
+      "category": {
+        "enum": [
+          "yellow",
+          "red",
+          "white",
+          "blue"
+        ],
+        "title": "Category",
+        "type": "string"
+      },
+      "bin_id": {
+        "format": "uuid",
+        "title": "Bin Id",
+        "type": "string"
+      },
+      "generated_kg": {
+        "exclusiveMinimum": 0,
+        "title": "Generated Kg",
+        "type": "number"
+      },
+      "generated_at": {
+        "format": "date-time",
+        "title": "Generated At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "category",
+      "bin_id",
+      "generated_kg",
+      "generated_at"
+    ],
+    "title": "WasteBatch",
+    "type": "object"
+  },
+  "pickups": {
+    "additionalProperties": false,
+    "properties": {
+      "batch_ids": {
+        "items": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "maxItems": 100,
+        "minItems": 1,
+        "title": "Batch Ids",
+        "type": "array"
+      },
+      "vehicle_reference": {
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Vehicle Reference",
+        "type": "string"
+      },
+      "handover_reference": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Handover Reference",
+        "type": "string"
+      },
+      "collected_at": {
+        "format": "date-time",
+        "title": "Collected At",
+        "type": "string"
+      },
+      "destination": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Destination",
+        "type": "string"
+      }
+    },
+    "required": [
+      "batch_ids",
+      "vehicle_reference",
+      "handover_reference",
+      "collected_at",
+      "destination"
+    ],
+    "title": "Pickup",
+    "type": "object"
+  },
+  "environment_readings": {
+    "additionalProperties": false,
+    "properties": {
+      "temperature_c": {
+        "maximum": 65,
+        "minimum": -30,
+        "title": "Temperature C",
+        "type": "number"
+      },
+      "humidity_pct": {
+        "maximum": 100,
+        "minimum": 0,
+        "title": "Humidity Pct",
+        "type": "number"
+      },
+      "pm25_ug_m3": {
+        "maximum": 3000,
+        "minimum": 0,
+        "title": "Pm25 Ug M3",
+        "type": "number"
+      },
+      "co2_ppm": {
+        "maximum": 20000,
+        "minimum": 0,
+        "title": "Co2 Ppm",
+        "type": "number"
+      },
+      "outdoor": {
+        "default": false,
+        "title": "Outdoor",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "temperature_c",
+      "humidity_pct",
+      "pm25_ug_m3",
+      "co2_ppm"
+    ],
+    "title": "Environment",
+    "type": "object"
+  },
+  "parking_areas": {
+    "additionalProperties": false,
+    "properties": {
+      "capacity": {
+        "exclusiveMinimum": 0,
+        "maximum": 10000,
+        "title": "Capacity",
+        "type": "integer"
+      },
+      "protected_route": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Protected Route",
+        "type": "string"
+      }
+    },
+    "required": [
+      "capacity",
+      "protected_route"
+    ],
+    "title": "ParkingArea",
+    "type": "object"
+  },
+  "parking_events": {
+    "additionalProperties": false,
+    "properties": {
+      "direction": {
+        "enum": [
+          "arrival",
+          "exit"
+        ],
+        "title": "Direction",
+        "type": "string"
+      },
+      "count": {
+        "exclusiveMinimum": 0,
+        "maximum": 1000,
+        "title": "Count",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "direction",
+      "count"
+    ],
+    "title": "ParkingEvent",
+    "type": "object"
+  },
+  "safety_incidents": {
+    "additionalProperties": false,
+    "properties": {
+      "kind": {
+        "enum": [
+          "spill",
+          "blocked_route",
+          "equipment",
+          "slip",
+          "fire_risk",
+          "other"
+        ],
+        "title": "Kind",
+        "type": "string"
+      },
+      "description": {
+        "maxLength": 4000,
+        "minLength": 3,
+        "title": "Description",
+        "type": "string"
+      },
+      "denominator_type": {
+        "default": "zone_hours",
+        "enum": [
+          "zone_hours",
+          "vehicle_arrivals",
+          "inspections"
+        ],
+        "title": "Denominator Type",
+        "type": "string"
+      }
+    },
+    "required": [
+      "kind",
+      "description"
+    ],
+    "title": "Incident",
+    "type": "object"
+  },
+  "policy_versions": {
+    "additionalProperties": false,
+    "properties": {
+      "source": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Source",
+        "type": "string"
+      },
+      "jurisdiction": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Jurisdiction",
+        "type": "string"
+      },
+      "effective_from": {
+        "format": "date-time",
+        "title": "Effective From",
+        "type": "string"
+      },
+      "age_limit_hours": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Age Limit Hours"
+      },
+      "fill_threshold_pct": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0,
+            "maximum": 100,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Fill Threshold Pct"
+      },
+      "category_applicability": {
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 10,
+        "title": "Category Applicability",
+        "type": "array"
+      },
+      "temperature_max_c": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Temperature Max C"
+      },
+      "pm25_max_ug_m3": {
+        "anyOf": [
+          {
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Pm25 Max Ug M3"
+      },
+      "co2_max_ppm": {
+        "anyOf": [
+          {
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Co2 Max Ppm"
+      },
+      "humidity_min_pct": {
+        "anyOf": [
+          {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Humidity Min Pct"
+      },
+      "humidity_max_pct": {
+        "anyOf": [
+          {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Humidity Max Pct"
+      }
+    },
+    "required": [
+      "source",
+      "jurisdiction",
+      "effective_from"
+    ],
+    "title": "Policy",
+    "type": "object"
+  },
+  "tariff_versions": {
+    "additionalProperties": false,
+    "properties": {
+      "value": {
+        "minimum": 0,
+        "title": "Value",
+        "type": "number"
+      },
+      "unit": {
+        "enum": [
+          "INR/kWh",
+          "kgCO2e/kWh"
+        ],
+        "title": "Unit",
+        "type": "string"
+      },
+      "source": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Source",
+        "type": "string"
+      },
+      "geography": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Geography",
+        "type": "string"
+      },
+      "year": {
+        "maximum": 2100,
+        "minimum": 2000,
+        "title": "Year",
+        "type": "integer"
+      },
+      "effective_from": {
+        "format": "date-time",
+        "title": "Effective From",
+        "type": "string"
+      },
+      "assumption": {
+        "default": true,
+        "title": "Assumption",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "value",
+      "unit",
+      "source",
+      "geography",
+      "year",
+      "effective_from"
+    ],
+    "title": "Accounting",
+    "type": "object"
+  },
+  "emission_factor_versions": {
+    "additionalProperties": false,
+    "properties": {
+      "value": {
+        "minimum": 0,
+        "title": "Value",
+        "type": "number"
+      },
+      "unit": {
+        "enum": [
+          "INR/kWh",
+          "kgCO2e/kWh"
+        ],
+        "title": "Unit",
+        "type": "string"
+      },
+      "source": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Source",
+        "type": "string"
+      },
+      "geography": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Geography",
+        "type": "string"
+      },
+      "year": {
+        "maximum": 2100,
+        "minimum": 2000,
+        "title": "Year",
+        "type": "integer"
+      },
+      "effective_from": {
+        "format": "date-time",
+        "title": "Effective From",
+        "type": "string"
+      },
+      "assumption": {
+        "default": true,
+        "title": "Assumption",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "value",
+      "unit",
+      "source",
+      "geography",
+      "year",
+      "effective_from"
+    ],
+    "title": "Accounting",
+    "type": "object"
+  },
+  "documents": {
+    "additionalProperties": false,
+    "properties": {
+      "body": {
+        "maxLength": 100000,
+        "minLength": 1,
+        "title": "Body",
+        "type": "string"
+      },
+      "source": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Source",
+        "type": "string"
+      },
+      "policy_version": {
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Policy Version",
+        "type": "string"
+      }
+    },
+    "required": [
+      "body",
+      "source",
+      "policy_version"
+    ],
+    "title": "Document",
+    "type": "object"
+  },
+  "agent_policies": {
+    "additionalProperties": false,
+    "properties": {
+      "monitor_enabled": {
+        "default": false,
+        "title": "Monitor Enabled",
+        "type": "boolean"
+      },
+      "autonomous_task_creation": {
+        "default": false,
+        "title": "Autonomous Task Creation",
+        "type": "boolean"
+      },
+      "categories": {
+        "items": {
+          "enum": [
+            "maintenance",
+            "waste",
+            "water",
+            "energy",
+            "environment",
+            "parking",
+            "safety",
+            "sustainability"
+          ],
+          "type": "string"
+        },
+        "title": "Categories",
+        "type": "array"
+      },
+      "severities": {
+        "items": {
+          "enum": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "type": "string"
+        },
+        "title": "Severities",
+        "type": "array"
+      },
+      "owner_pool": {
+        "items": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "maxItems": 20,
+        "title": "Owner Pool",
+        "type": "array"
+      },
+      "max_tasks_per_day": {
+        "default": 2,
+        "maximum": 10,
+        "minimum": 0,
+        "title": "Max Tasks Per Day",
+        "type": "integer"
+      },
+      "cooldown_hours": {
+        "default": 6,
+        "maximum": 168,
+        "minimum": 1,
+        "title": "Cooldown Hours",
+        "type": "number"
+      },
+      "daily_brief": {
+        "default": false,
+        "title": "Daily Brief",
+        "type": "boolean"
+      }
+    },
+    "title": "AgentPolicy",
+    "type": "object"
+  }
+}

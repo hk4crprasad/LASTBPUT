@@ -1,0 +1,241 @@
+{
+  "facility_id": "DEMO_HOSPITAL",
+  "facility_type": "hospital",
+  "source_type": "synthetic",
+  "seed": 42,
+  "days": 180,
+  "stress": false,
+  "bed_capacity": 168,
+  "interval_semantics": "Resource usage is for the hourly interval ending at observed_at",
+  "tank_usable_l": 30000,
+  "essential_water_lph": 3000,
+  "battery_deliverable_kwh": 120,
+  "essential_load_kw": 60,
+  "events": [
+    {
+      "event_id": "base-42-ICU-0",
+      "zone_id": "ICU",
+      "kind": "water_excess",
+      "start": "2025-01-13T09:00:00+00:00",
+      "end_exclusive": "2025-01-14T03:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-1",
+      "zone_id": "ICU",
+      "kind": "energy_excess",
+      "start": "2025-02-03T06:00:00+00:00",
+      "end_exclusive": "2025-02-03T18:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-2",
+      "zone_id": "ICU",
+      "kind": "water_excess",
+      "start": "2025-02-24T04:00:00+00:00",
+      "end_exclusive": "2025-02-24T14:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-3",
+      "zone_id": "ICU",
+      "kind": "energy_excess",
+      "start": "2025-03-17T05:00:00+00:00",
+      "end_exclusive": "2025-03-17T18:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-4",
+      "zone_id": "ICU",
+      "kind": "water_excess",
+      "start": "2025-04-07T08:00:00+00:00",
+      "end_exclusive": "2025-04-07T17:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-5",
+      "zone_id": "ICU",
+      "kind": "energy_excess",
+      "start": "2025-04-28T02:00:00+00:00",
+      "end_exclusive": "2025-04-28T18:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-6",
+      "zone_id": "ICU",
+      "kind": "water_excess",
+      "start": "2025-05-19T04:00:00+00:00",
+      "end_exclusive": "2025-05-19T22:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-ICU-7",
+      "zone_id": "ICU",
+      "kind": "energy_excess",
+      "start": "2025-06-09T05:00:00+00:00",
+      "end_exclusive": "2025-06-09T21:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-0",
+      "zone_id": "WARD_A",
+      "kind": "water_excess",
+      "start": "2025-01-14T07:00:00+00:00",
+      "end_exclusive": "2025-01-14T15:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-1",
+      "zone_id": "WARD_A",
+      "kind": "energy_excess",
+      "start": "2025-02-04T02:00:00+00:00",
+      "end_exclusive": "2025-02-04T15:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-2",
+      "zone_id": "WARD_A",
+      "kind": "water_excess",
+      "start": "2025-02-25T04:00:00+00:00",
+      "end_exclusive": "2025-02-25T16:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-3",
+      "zone_id": "WARD_A",
+      "kind": "energy_excess",
+      "start": "2025-03-18T11:00:00+00:00",
+      "end_exclusive": "2025-03-18T20:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-4",
+      "zone_id": "WARD_A",
+      "kind": "water_excess",
+      "start": "2025-04-08T04:00:00+00:00",
+      "end_exclusive": "2025-04-08T17:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-5",
+      "zone_id": "WARD_A",
+      "kind": "energy_excess",
+      "start": "2025-04-29T05:00:00+00:00",
+      "end_exclusive": "2025-04-29T16:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-6",
+      "zone_id": "WARD_A",
+      "kind": "water_excess",
+      "start": "2025-05-20T00:00:00+00:00",
+      "end_exclusive": "2025-05-20T14:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_A-7",
+      "zone_id": "WARD_A",
+      "kind": "energy_excess",
+      "start": "2025-06-10T00:00:00+00:00",
+      "end_exclusive": "2025-06-10T18:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-0",
+      "zone_id": "WARD_B",
+      "kind": "water_excess",
+      "start": "2025-01-15T03:00:00+00:00",
+      "end_exclusive": "2025-01-15T16:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-1",
+      "zone_id": "WARD_B",
+      "kind": "energy_excess",
+      "start": "2025-02-05T10:00:00+00:00",
+      "end_exclusive": "2025-02-06T00:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-2",
+      "zone_id": "WARD_B",
+      "kind": "water_excess",
+      "start": "2025-02-26T09:00:00+00:00",
+      "end_exclusive": "2025-02-27T03:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-3",
+      "zone_id": "WARD_B",
+      "kind": "energy_excess",
+      "start": "2025-03-19T04:00:00+00:00",
+      "end_exclusive": "2025-03-19T12:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-4",
+      "zone_id": "WARD_B",
+      "kind": "water_excess",
+      "start": "2025-04-09T02:00:00+00:00",
+      "end_exclusive": "2025-04-09T16:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-5",
+      "zone_id": "WARD_B",
+      "kind": "energy_excess",
+      "start": "2025-04-30T09:00:00+00:00",
+      "end_exclusive": "2025-04-30T20:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-6",
+      "zone_id": "WARD_B",
+      "kind": "water_excess",
+      "start": "2025-05-21T01:00:00+00:00",
+      "end_exclusive": "2025-05-21T11:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-WARD_B-7",
+      "zone_id": "WARD_B",
+      "kind": "energy_excess",
+      "start": "2025-06-11T00:00:00+00:00",
+      "end_exclusive": "2025-06-11T13:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-0",
+      "zone_id": "OPD",
+      "kind": "water_excess",
+      "start": "2025-01-16T01:00:00+00:00",
+      "end_exclusive": "2025-01-16T18:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-1",
+      "zone_id": "OPD",
+      "kind": "energy_excess",
+      "start": "2025-02-06T07:00:00+00:00",
+      "end_exclusive": "2025-02-06T23:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-2",
+      "zone_id": "OPD",
+      "kind": "water_excess",
+      "start": "2025-02-27T10:00:00+00:00",
+      "end_exclusive": "2025-02-28T01:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-3",
+      "zone_id": "OPD",
+      "kind": "energy_excess",
+      "start": "2025-03-20T02:00:00+00:00",
+      "end_exclusive": "2025-03-20T12:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-4",
+      "zone_id": "OPD",
+      "kind": "water_excess",
+      "start": "2025-04-10T00:00:00+00:00",
+      "end_exclusive": "2025-04-10T13:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-5",
+      "zone_id": "OPD",
+      "kind": "energy_excess",
+      "start": "2025-05-01T06:00:00+00:00",
+      "end_exclusive": "2025-05-01T22:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-6",
+      "zone_id": "OPD",
+      "kind": "water_excess",
+      "start": "2025-05-22T01:00:00+00:00",
+      "end_exclusive": "2025-05-22T11:00:00+00:00"
+    },
+    {
+      "event_id": "base-42-OPD-7",
+      "zone_id": "OPD",
+      "kind": "energy_excess",
+      "start": "2025-06-12T04:00:00+00:00",
+      "end_exclusive": "2025-06-12T13:00:00+00:00"
+    }
+  ],
+  "waste_note": "Aggregate simulated biomedical stream only; category/batch ledger is specified in the full plan"
+}

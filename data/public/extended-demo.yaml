@@ -1,0 +1,7 @@
+world: extended_v1
+seed: 1082026
+days: 180
+facility_count: 1
+zones: 6
+start: '2025-01-01T00:00:00Z'
+version: extended-generator-v1

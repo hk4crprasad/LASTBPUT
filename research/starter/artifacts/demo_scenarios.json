@@ -1,0 +1,51 @@
+{
+  "source_type": "synthetic",
+  "water_normal": {
+    "usable_reserve_l": 30000,
+    "net_drain_lph": 3000,
+    "hours_to_depletion": 10.0,
+    "depleting": true,
+    "assumptions": "Constant flow, no quality inference, segregated usable reserve"
+  },
+  "water_with_possible_excess": {
+    "usable_reserve_l": 30000,
+    "net_drain_lph": 3500,
+    "hours_to_depletion": 8.571428571428571,
+    "depleting": true,
+    "assumptions": "Constant flow, no quality inference, segregated usable reserve"
+  },
+  "water_after_assumed_repair": {
+    "usable_reserve_l": 30000,
+    "net_drain_lph": 3000,
+    "hours_to_depletion": 10.0,
+    "depleting": true,
+    "assumptions": "Constant flow, no quality inference, segregated usable reserve"
+  },
+  "battery": {
+    "deliverable_energy_kwh": 120,
+    "essential_load_kw": 60,
+    "runtime_hours": 2,
+    "note": "Deliverable capacity already includes losses; no second efficiency multiplier"
+  },
+  "waste_fill_priority": {
+    "hours_to_fill_threshold": 1.875,
+    "hours_to_configured_age_limit": 19,
+    "service_within_hours": 1.875,
+    "age_status": "known",
+    "policy_note": "Demo age limit is configurable internal SOP; no legal compliance certification"
+  },
+  "waste_age_priority": {
+    "hours_to_fill_threshold": 27.5,
+    "hours_to_configured_age_limit": 1,
+    "service_within_hours": 1,
+    "age_status": "known",
+    "policy_note": "Demo age limit is configurable internal SOP; no legal compliance certification"
+  },
+  "waste_age_unknown": {
+    "hours_to_fill_threshold": 27.5,
+    "hours_to_configured_age_limit": null,
+    "service_within_hours": 27.5,
+    "age_status": "unknown",
+    "policy_note": "Demo age limit is configurable internal SOP; no legal compliance certification"
+  }
+}

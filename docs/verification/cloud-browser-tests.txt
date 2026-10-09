@@ -1,0 +1,8 @@
+Actual browser verification, 8 October 2026.
+
+Seven distinct tests passed across the following runs:
+- cloud-browser-before-interruption.txt: seven-role sign-in/switching, mobile picker, world isolation/all domain pages, persisted waste/maintenance CRUD, and two simulations/comparison/actual CSV/HTML/PDF downloads (five passing tests before services stopped).
+- cloud-browser-initial-remaining.txt: duplicate import and independent action closure passed; chat failed because the Next.js upstream proxy closed the long snapshot request.
+- cloud-chat-tests.txt: the affected real-provider chat flow passed after extending the upstream proxy timeout to 180 seconds. No mocked response was substituted.
+
+Frontend production build and TypeScript checks passed after the proxy/error-response changes. The native page capture separately checks every loaded route, refresh response, available record dialog, chart/model/domain data, console exceptions and mobile overflow.

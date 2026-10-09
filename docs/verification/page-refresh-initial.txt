@@ -1,0 +1,19 @@
+PASS overview
+PASS facility
+PASS energy
+PASS water
+PASS waste
+PASS environment
+PASS assets
+PASS parking
+PASS safety
+FAIL simulations Timeout 30000ms exceeded while waiting for event "response"
+PASS sustainability
+FAIL actions Timeout 30000ms exceeded while waiting for event "response"
+PASS reports
+FAIL chat Timeout 30000ms exceeded while waiting for event "response"
+FAIL agent Page.goto: Timeout 30000ms exceeded.
+PASS imports
+PASS models
+PASS settings
+Page verification failed: simulations, actions, chat, agent

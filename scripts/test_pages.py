@@ -64,12 +64,13 @@ def main():
     args = parser.parse_args()
     output = Path(args.output); output.mkdir(parents=True, exist_ok=True)
     results = []; failures = []
-    expect.set_options(timeout=30000)
+    expect.set_options(timeout=60000)
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         context = browser.new_context(viewport={'width': 1440, 'height': 960}, device_scale_factor=1)
         page = context.new_page()
-        page.set_default_timeout(30000)
+        page.set_default_timeout(60000)
+        page.set_default_navigation_timeout(60000)
         errors = []; responses = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         def console_error(message):
@@ -124,7 +125,9 @@ def main():
                     with page.expect_response(lambda r: urlparse(r.url).path == '/api/v1' + refresh_path) as refreshed:
                         page.get_by_role('button', name='Refresh', exact=True).click()
                     assert refreshed.value.status == 200, 'Refresh API did not return HTTP 200'
-                    refreshed.value.finished()
+                    # Reading the JSON body waits for the complete response without
+                    # creating the SDK's unresolved target-close watcher.
+                    assert isinstance(refreshed.value.json(), dict), 'Refresh did not return a domain JSON object'
                     page.wait_for_load_state('networkidle')
                     expect(page.locator('.loading:visible')).to_have_count(0)
                     expect(page.locator('.notice.error:visible')).to_have_count(0)

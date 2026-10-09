@@ -4,6 +4,8 @@ These diagrams follow the implemented permission checks and database policies. R
 
 ## Technology stack
 
+[Editable Mermaid](diagrams/technology-stack.mmd) · [SVG](diagrams/technology-stack.svg) · [PNG](diagrams/technology-stack.png)
+
 ```mermaid
 flowchart TB
     User["Hospital operations and sustainability users"]
@@ -102,6 +104,8 @@ flowchart TB
 The offline private-truth branch has no runtime connection. An agent can use only authorized tools; it cannot query SQL, read the filesystem, run shell commands or operate hospital equipment. The runtime has no arbitrary model-upload execution path. Reports, risk rules and simulations work without the LLM.
 
 ## Separate user scopes
+
+[Editable Mermaid](diagrams/user-scopes.mmd) · [SVG](diagrams/user-scopes.svg) · [PNG](diagrams/user-scopes.png)
 
 ```mermaid
 flowchart LR

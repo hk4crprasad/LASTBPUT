@@ -41,6 +41,18 @@ All operating data is synthetic. AI reads permission-scoped evidence; action wri
 
 [Detailed technology stack, separate user scopes and permission matrix](docs/techstack-and-scopes.md)
 
+<details><summary>Complete technology stack</summary>
+
+[![Technology stack](docs/diagrams/technology-stack.png)](docs/diagrams/technology-stack.svg)
+
+</details>
+
+<details><summary>Separate scopes for all seven user roles</summary>
+
+[![User scopes](docs/diagrams/user-scopes.png)](docs/diagrams/user-scopes.svg)
+
+</details>
+
 ## Start
 
 This workspace is initialized and running at localhost:3000. Restart the existing installation with `./scripts/compose.sh up -d`; generated login credentials are in `.local/demo-credentials.json`. The commands below initialize a fresh installation.

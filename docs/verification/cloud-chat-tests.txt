@@ -1,0 +1,10 @@
+
+> hospital-greenops-web@1.0.0 test:e2e
+> playwright test --grep chat live --timeout=300000
+
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › e2e/product.spec.ts:11:5 › chat live run and cancellation control (1.5m)
+
+  1 passed (1.5m)

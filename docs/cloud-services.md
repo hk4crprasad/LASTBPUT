@@ -2,6 +2,8 @@
 
 The cloud adapters keep the app local: web/API ports bind to loopback. No public deployment is required. Provider and storage keys live only in ignored `.env` (mode 600); application containers receive only their required secrets. Do not copy another application's entire environment into GreenOps.
 
+The Next.js same-origin proxy allows up to 180 seconds for upstream requests and SSE connections. Cloud snapshot capture performs multiple permission-scoped SQL reads and can exceed the proxy's ordinary short timeout. Unexpected non-JSON upstream errors are shown as explicit API errors. The agent's own execution, retry and cancellation budgets remain separate. These settings do not claim local-equivalent cloud latency.
+
 ## PostgreSQL
 
 Use a dedicated Supabase project with an empty `public` schema. GreenOps migrations own their tables and apply FORCE RLS and explicit grants. Supabase's administrator connection must never be the API/worker runtime connection.
